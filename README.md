@@ -1,9 +1,11 @@
-# ZWANG
+# ZWANG!!!
 
 ##Team: ZWANG!!!
 
 ##Name: Color Switch
-###Description: We are going to make a Color Switch clone with new features and options that will make it unique!
+
+###Description:
+We are going to make a Color Switch clone with new features and options that will make it unique!
 
 ##Log
 
@@ -20,5 +22,5 @@
 2. High score board
 3. Sound effects/music
 
-##Link: https://github.com/alvinzhu33/ZWANGDemo
+###Link: https://github.com/alvinzhu33/ZWANGDemo
 Please open terminal and type in: git clone https://github.com/alvinzhu33/ZWANGDemo.git
