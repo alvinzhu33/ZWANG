@@ -8,7 +8,7 @@
 We are going to make a Color Switch clone with new features and options that will make it unique!
 
 ##Log
-5/12: Worked on README.MD file and planned out exactly what we are going to do
+5/12: Worked on README.MD file and planned out exactly what we are going to do for this final project (aka brainstorming).
 
 ##Outline
 ###Essentials:
@@ -25,5 +25,5 @@ We are going to make a Color Switch clone with new features and options that wil
 3. Sound effects/music
 
 
-###Link: https://github.com/alvinzhu33/ZWANGDemo
+##Link: https://github.com/alvinzhu33/ZWANGDemo
 Please open terminal and type in: git clone https://github.com/alvinzhu33/ZWANGDemo.git
