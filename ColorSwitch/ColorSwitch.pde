@@ -1,14 +1,17 @@
-Ball b1 = new Ball();
+Ball b1;
+CircleObstacle c1 = new CircleObstacle();
 
 boolean play = true;
 
 public void setup() {
   size(400, 600);
+  b1 = new Ball();
 }
 
 public void draw() {
   if (play==true) {
     background(0);
+    c1.display();
     b1.move();
     b1.display();
     end();
@@ -18,7 +21,12 @@ public void draw() {
 }
 
 public void mousePressed() {
-  b1.toggleFalling(false);
+  if(play==true){
+    b1.toggleFalling(false);
+  }else{
+    play=true;
+    setup();
+  }
 }
 
 public void end() {
