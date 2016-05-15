@@ -9,6 +9,7 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 
 ##Log
 5/12: Worked on README.MD file and planned out exactly what we are going to do for this final project (aka brainstorming).
+5/14: Created new Setup file that sets up the basic main screen and a Ball file that you will be able to control later on.
 
 ##Outline
 ###Essentials:
