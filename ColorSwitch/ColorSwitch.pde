@@ -1,19 +1,23 @@
 Ball b1;
-CircleObstacle c1 = new CircleObstacle();
+CircleObstacle cO1 = new CircleObstacle();
+ColorChanger cC1;
 
 boolean play = true;
 
 public void setup() {
   size(400, 600);
   b1 = new Ball();
+  cC1 = new ColorChanger(300);
 }
 
 public void draw() {
   if (play==true) {
     background(0);
-    c1.spin();
+    cO1.spin();
+    cC1.display();
     b1.move();
     b1.display();
+    changeColor();
     end();
   }else{
     background(100);
@@ -32,5 +36,12 @@ public void mousePressed() {
 public void end() {
   if (b1.getBottom()>600) {
     play=false;
+  }
+}
+
+public void changeColor(){
+  if(cC1.status() && b1.getY() - cC1.getY() < b1.getDiameter()/2){
+    b1.setColor();
+    cC1.destroy();
   }
 }

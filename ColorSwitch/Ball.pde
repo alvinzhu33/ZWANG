@@ -1,5 +1,6 @@
 public class Ball {
   private int r, g, b;
+  private int colorValue;
   private float diameter;
 
   private float y;
@@ -50,34 +51,44 @@ public class Ball {
     ellipse(200, y, diameter, diameter);
   }
 
+  public float getY(){
+    return y;
+  }
+
   public double getBottom() {
     return y + diameter/2;
   }
   
+  public float getDiameter(){
+    return diameter;
+  }
+  
   public void setColor(){
     int x = (int)(Math.random()*4);
-    if (x == 0){
+    if (x == 0 && colorValue!=0){
       r = 140;
       g = 19;
       b = 251;
-    }else if (x == 1){
+      colorValue = 0;
+    }else if (x == 1 && colorValue!=1){
       r = 255; 
       g = 0; 
       b = 128;
-    }else if (x == 2){
+      colorValue = 1;
+    }else if (x == 2 && colorValue!=2){
       r = 53;
       g = 226;
       b = 242;
-    }else{
+      colorValue = 2;
+    }else if(x == 3 && colorValue!=3){
       r = 246;
       g = 223;
       b = 14;
+      colorValue = 3;
+    }else{
+      setColor();
     }
   }
       
-      
-      
-      
-     
-  
+
 }
