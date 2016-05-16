@@ -11,7 +11,7 @@ public void setup() {
 public void draw() {
   if (play==true) {
     background(0);
-    c1.display();
+    c1.spin();
     b1.move();
     b1.display();
     end();
