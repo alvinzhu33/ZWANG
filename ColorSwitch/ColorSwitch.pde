@@ -33,6 +33,12 @@ public void mousePressed() {
   }
 }
 
+public void keyPressed(){
+  if(key == ' '){
+    mousePressed();
+  }
+}
+
 public void end() {
   if (b1.getBottom()>600) {
     play=false;

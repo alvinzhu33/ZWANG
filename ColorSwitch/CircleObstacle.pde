@@ -22,6 +22,7 @@ public class CircleObstacle {
 
   void display() {
     strokeWeight(15);
+    strokeCap(SQUARE);
     noFill();
     
     stroke(140, 19, 251);
