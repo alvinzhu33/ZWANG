@@ -1,6 +1,6 @@
 public class Ball {
-  private int r, g, b;
-  private int colorValue;
+  //private int r, g, b;
+  private color colorValue;
   private float diameter;
 
   private float y;
@@ -8,6 +8,11 @@ public class Ball {
   private boolean isFalling;
   private double gravity = 1.75;
   private double upCount = 0;
+
+  color a = color(140,19,251);
+  color b = color(255,0,128);
+  color c = color(53,226,242);
+  color d = color(246,223,14);
 
   public Ball() {
     setColor();
@@ -47,10 +52,13 @@ public class Ball {
 
   void display() {
     noStroke();
-    fill(r, g, b);
+    fill(colorValue);
     ellipse(200, y, diameter, diameter);
   }
 
+
+
+  
   public float getY(){
     return y;
   }
@@ -63,28 +71,18 @@ public class Ball {
     return diameter;
   }
   
+  
+  
   public void setColor(){
     int x = (int)(Math.random()*4);
     if (x == 0 && colorValue!=0){
-      r = 140;
-      g = 19;
-      b = 251;
-      colorValue = 0;
+      colorValue = a;
     }else if (x == 1 && colorValue!=1){
-      r = 255; 
-      g = 0; 
-      b = 128;
-      colorValue = 1;
+      colorValue = b;
     }else if (x == 2 && colorValue!=2){
-      r = 53;
-      g = 226;
-      b = 242;
-      colorValue = 2;
+      colorValue = c;
     }else if(x == 3 && colorValue!=3){
-      r = 246;
-      g = 223;
-      b = 14;
-      colorValue = 3;
+      colorValue = d;
     }else{
       setColor();
     }

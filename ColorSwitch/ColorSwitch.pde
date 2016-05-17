@@ -19,6 +19,7 @@ public void draw() {
     b1.display();
     changeColor();
     end();
+    
   }else{
     background(100);
   }
@@ -43,7 +44,15 @@ public void end() {
   if (b1.getBottom()>600) {
     play=false;
   }
-}
+  if (abs(b1.getY()-(cO1.y+75))<5 && get(200,int(cO1.y+75))!=(b1.colorValue) 
+     // b1.getY()==cO1.y-75 && get(200,int(cO1.y-75))!=(b1.colorValue) 
+      ){
+  
+     play=false;
+  }
+  }
+
+
 
 public void changeColor(){
   if(cC1.status() && b1.getY() - cC1.getY() < b1.getDiameter()/2){
