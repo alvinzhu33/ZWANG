@@ -3,10 +3,10 @@ public class CircleObstacle {
   private float x, y;
   private float angle = 0;
   private float speed;
-  color a = color(140,19,251);
-  color b = color(255,0,128);
-  color c = color(53,226,242);
-  color d = color(246,223,14);
+  color purple= color(140,19,251);
+  color magenta = color(255,0,128);
+  color cyan = color(53,226,242);
+  color yellow = color(246,223,14);
 
   public CircleObstacle() {
     diameter=150;
@@ -29,16 +29,16 @@ public class CircleObstacle {
     strokeCap(SQUARE);
     noFill();
     
-    stroke(a);
+    stroke(purple);
     arc(0, 0, diameter, diameter, 0, HALF_PI);
 
-    stroke(b);
+    stroke(magenta);
     arc(0, 0, diameter, diameter, HALF_PI, PI);
 
-    stroke(c);
+    stroke(cyan);
     arc(0, 0, diameter, diameter, PI, 3*HALF_PI);
 
-    stroke(d);
+    stroke(yellow);
     arc(0, 0, diameter, diameter, 3*HALF_PI, 2*PI);
   }
 

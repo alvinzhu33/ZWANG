@@ -8,10 +8,10 @@ public class Ball {
   private double gravity = 1.75;
   private double upCount = 0;
 
-  color a = color(140,19,251);
-  color b = color(255,0,128);
-  color c = color(53,226,242);
-  color d = color(246,223,14);
+  color purple = color(140,19,251);
+  color magenta = color(255,0,128);
+  color cyan = color(53,226,242);
+  color yellow = color(246,223,14);
 
   public Ball() {
     setColor();
@@ -71,14 +71,14 @@ public class Ball {
   
   public void setColor(){
     int x = (int)(Math.random()*4);
-    if (x == 0 && colorValue!=a){
-      colorValue = a;
-    }else if (x == 1 && colorValue!=b){
-      colorValue = b;
-    }else if (x == 2 && colorValue!=c){
-      colorValue = c;
-    }else if(x == 3 && colorValue!=d){
-      colorValue = d;
+    if (x == 0 && colorValue!=purple){
+      colorValue = purple;
+    }else if (x == 1 && colorValue!=magenta){
+      colorValue = magenta;
+    }else if (x == 2 && colorValue!=cyan){
+      colorValue = cyan;
+    }else if(x == 3 && colorValue!=yellow){
+      colorValue = yellow;
     }else{
       setColor();
     }

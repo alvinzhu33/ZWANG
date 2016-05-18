@@ -12,6 +12,7 @@ public void setup() {
   size(400, 600);
   main = new Ball();
   cC1 = new ColorChanger(300);
+  printColor(main.colorValue);
 }
 
 public void draw() {
@@ -25,7 +26,8 @@ public void draw() {
     main.display();
     
     changeColor();
-    
+    //stroke(255);
+    //line(0,0,50,200);
     
     end();
   } else {
@@ -36,6 +38,8 @@ public void draw() {
 public void storeColor() {
   //bottom = get(200, int(main.getY()+main.getDiameter()/2));
   top = get(200, int(main.getY()-main.getDiameter()/2));
+  fill(top);
+  ellipse(20,20,40,40);
   //left = get(int(200-main.getDiameter()/2), int(main.getY()));
   //right = get(int(200+main.getDiameter()/2), int(main.getY()));
 }
@@ -55,23 +59,37 @@ public void keyPressed() {
   }
 }
 
+public boolean doesCollide(color c){
+  color myColor = main.colorValue;
+  for (int i=0; i<4; i++){
+    
+  }
+  
+  return true;
+}
+
+
 public void end() {
   if (main.getBottom()>600) {
     play=false;
   }
   color myColor = main.colorValue;
-  System.out.println(myColor);
-  if ((top!=myColor && top!=color(0) && top!=color(255))// || 
+ // System.out.println(myColor);
+  if ((top!=myColor && top!=color(0,0,0)  && top!=color(255,255,255))// || 
       //(bottom!=myColor && bottom!=color(0) && bottom!=color(255)) //|| 
       //(left!=myColor && left!=color(0) && left!=color(255)) //|| 
       //(right!=myColor && right!=color(0) && right!=color(255)) 
-      ) {
-
-    play=false;
+      )  {
+        System.out.println("COLLIDED W");
+        printColor(top);
+    //play=false;
   }
 }
 
 
+public void printColor(color c){
+    System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
+}
 
 public void changeColor() {
   if (cC1.status() && main.getY() - cC1.getY() < main.getDiameter()/2) {
