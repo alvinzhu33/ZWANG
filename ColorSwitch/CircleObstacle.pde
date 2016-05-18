@@ -13,7 +13,7 @@ public class CircleObstacle {
 
     x = 200;
     y = 150;
-    speed = 0.03;
+    speed = 0.02;
   }
 
   public CircleObstacle(float dia, float x, float y, float speed) {
