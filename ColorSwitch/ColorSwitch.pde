@@ -1,6 +1,8 @@
 Ball main;
 CircleObstacle cO1 = new CircleObstacle();
 ColorChanger cC1;
+
+color myColor;
 color bottom;
 color top;
 color left;
@@ -20,18 +22,19 @@ public void draw() {
     background(0);
     cO1.spin();
     cC1.display();
-    
+
     main.move();
     storeColor();
     main.display();
-    
+
     changeColor();
+    myColor = main.getColor();
     //stroke(255);
     //line(0,0,50,200);
-    
+
     end();
   } else {
-    background(100);
+    endScreen();
   }
 }
 
@@ -39,7 +42,7 @@ public void storeColor() {
   //bottom = get(200, int(main.getY()+main.getDiameter()/2));
   top = get(200, int(main.getY()-main.getDiameter()/2));
   fill(top);
-  ellipse(20,20,40,40);
+  ellipse(20, 20, 40, 40);
   //left = get(int(200-main.getDiameter()/2), int(main.getY()));
   //right = get(int(200+main.getDiameter()/2), int(main.getY()));
 }
@@ -59,12 +62,11 @@ public void keyPressed() {
   }
 }
 
-public boolean doesCollide(color c){
-  color myColor = main.colorValue;
-  for (int i=0; i<4; i++){
-    
+public boolean doesCollide(color c) {
+  myColor = main.colorValue;
+  for (int i=0; i<4; i++) {
   }
-  
+
   return true;
 }
 
@@ -73,22 +75,21 @@ public void end() {
   if (main.getBottom()>600) {
     play=false;
   }
-  color myColor = main.colorValue;
- // System.out.println(myColor);
-  if ((top!=myColor && top!=color(0,0,0)  && top!=color(255,255,255))// || 
-      //(bottom!=myColor && bottom!=color(0) && bottom!=color(255)) //|| 
-      //(left!=myColor && left!=color(0) && left!=color(255)) //|| 
-      //(right!=myColor && right!=color(0) && right!=color(255)) 
-      )  {
-        System.out.println("COLLIDED W");
-        printColor(top);
+  myColor = main.colorValue;
+  // System.out.println(myColor);
+  if ((top!=myColor && top!=color(0, 0, 0)  && top!=color(255, 255, 255))// || 
+    //(bottom!=myColor && bottom!=color(0) && bottom!=color(255)) //|| 
+    //(left!=myColor && left!=color(0) && left!=color(255)) //|| 
+    //(right!=myColor && right!=color(0) && right!=color(255)) 
+    ) {
+    System.out.println("COLLIDED W");
+    printColor(top);
     //play=false;
   }
 }
 
-
-public void printColor(color c){
-    System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
+public void printColor(color c) {
+  System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
 }
 
 public void changeColor() {
@@ -96,4 +97,12 @@ public void changeColor() {
     main.setColor();
     cC1.destroy();
   }
+}
+
+public void endScreen() {
+  textSize(80);
+  fill(255);
+  textAlign(CENTER);
+  text("GAME", 200, 250);
+  text("OVER", 200, 350);
 }

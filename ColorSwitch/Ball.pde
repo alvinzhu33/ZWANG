@@ -67,8 +67,6 @@ public class Ball {
     return diameter;
   }
   
-  
-  
   public void setColor(){
     int x = (int)(Math.random()*4);
     if (x == 0 && colorValue!=purple){
@@ -84,5 +82,7 @@ public class Ball {
     }
   }
       
-
+  public color getColor(){
+    return colorValue;
+  }
 }
