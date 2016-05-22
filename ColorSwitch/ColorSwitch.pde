@@ -1,7 +1,10 @@
+import java.util.*;
+
 Ball main;
 CircleObstacle cO1 = new CircleObstacle();
-ColorChanger cC1;
+//ColorChanger cC1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
+
 
 color myColor;
 color bottom;
@@ -14,22 +17,25 @@ boolean play = true;
 public void setup() {
   size(400, 600);
   main = new Ball();
-  cC1 = new ColorChanger(300);
+ // cC1 = new ColorChanger(300);
   printColor(main.colorValue);
+  thingsThatBlock.add(cO1);
 }
 
 public void draw() {
   if (play==true) {
     background(0);
     cO1.spin();
-    cC1.display();
+  //  cC1.display();
 
     main.move();
     storeColor();
+    
     obstacleShift();
+  
     main.display();
 
-    changeColor();
+  //  changeColor();
     myColor = main.getColor();
     //stroke(255);
     //line(0,0,50,200);
@@ -72,12 +78,20 @@ public void keyPressed() {
   }
 }
 
-public boolean doesCollide(color c) {
+public boolean doesCollide() {
   myColor = main.colorValue;
+  color[] colors = new color[4];
   for (int i=0; i<4; i++) {
+    colors[i] = (get(200, int(main.getY()-main.getDiameter()/2) - i));
+    //printColor(colors[i]);
   }
-
-  return true;
+  if ( (colors[1]!=myColor && colors[1]!=color(0,0,0) &&
+        colors[2]!=myColor && colors[2]!=color(0,0,0) ) ){
+          System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
+          return true;    
+        }
+  
+  return false;
 }
 
 
@@ -95,6 +109,9 @@ public void end() {
     System.out.println("COLLIDED W");
     printColor(top);
     //play=false;
+    if (doesCollide()){
+      play = false;
+    }
   }
 }
 
@@ -102,12 +119,12 @@ public void printColor(color c) {
   System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
 }
 
-public void changeColor() {
-  if (cC1.status() && main.getY() - cC1.getY() < main.getDiameter()/2) {
-    main.setColor();
-    cC1.destroy();
-  }
-}
+//public void changeColor() {
+//  if (cC1.status() && main.getY() - cC1.getY() < main.getDiameter()/2) {
+//    main.setColor();
+//    cC1.destroy();
+//  }
+//}
 
 public void endScreen() {
   textSize(80);

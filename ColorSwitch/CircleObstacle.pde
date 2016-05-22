@@ -55,7 +55,7 @@ public class CircleObstacle implements Blockable{
     popMatrix();
    }
    
-      public void move(){
-     y+=1;
+   public void move(){
+     y+=1   ;
    }
 }
