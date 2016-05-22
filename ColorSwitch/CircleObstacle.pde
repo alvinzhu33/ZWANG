@@ -56,6 +56,6 @@ public class CircleObstacle implements Blockable{
    }
    
    public void move(){
-     y+=1   ;
+     y+=.75;
    }
 }

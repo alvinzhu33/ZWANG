@@ -47,7 +47,7 @@ public void draw() {
 }
 
 public void obstacleShift() {
-  if (main.getY()<200) {
+  if (main.getY()<250) {
     for ( Blockable b : thingsThatBlock ) {
       b.move();
     }
