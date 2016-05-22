@@ -1,6 +1,7 @@
 Ball main;
 CircleObstacle cO1 = new CircleObstacle();
 ColorChanger cC1;
+ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 
 color myColor;
 color bottom;
@@ -25,6 +26,7 @@ public void draw() {
 
     main.move();
     storeColor();
+    obstacleShift();
     main.display();
 
     changeColor();
@@ -36,6 +38,14 @@ public void draw() {
   } else {
     endScreen();
   }
+}
+
+public void obstacleShift(){
+  if (main.getY()<200){
+      for ( Blockable b : thingsThatBlock ){
+        b.move();
+      }
+    }
 }
 
 public void storeColor() {
