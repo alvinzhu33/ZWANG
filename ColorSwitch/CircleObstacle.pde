@@ -1,4 +1,4 @@
-public class CircleObstacle {
+public class CircleObstacle implements Blockable{
   private float diameter;
   private float x, y;
   private float angle = 0;
@@ -53,5 +53,9 @@ public class CircleObstacle {
     endShape();
     
     popMatrix();
+   }
+   
+      public void move(){
+     y+=1;
    }
 }
