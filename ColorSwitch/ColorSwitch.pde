@@ -3,6 +3,7 @@ import java.util.*;
 Ball main;
 CircleObstacle cO1 = new CircleObstacle();
 ColorChanger cC1;
+Star s1 = new Star(0);
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 
 
@@ -20,6 +21,8 @@ public void setup() {
   cC1 = new ColorChanger(300);
   printColor(main.colorValue);
   thingsThatBlock.add(cO1);
+  thingsThatBlock.add(cC1);
+  thingsThatBlock.add(s1);
 }
 
 public void draw() {
@@ -30,6 +33,7 @@ public void draw() {
     main.move();
     cC1.display();
     changeColor();
+    s1.display();
     
     storeColor();
 

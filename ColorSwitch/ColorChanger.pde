@@ -1,4 +1,4 @@
-public class ColorChanger {
+public class ColorChanger implements Blockable{
   float y;
   
   boolean exist;
@@ -44,4 +44,8 @@ public class ColorChanger {
       ellipse(200, y, 20, 20);
     }
   }
+  
+  public void move(){
+     y+=.75;
+   }
 }
