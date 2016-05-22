@@ -1,5 +1,6 @@
 public class ColorChanger {
   float y;
+  
   boolean exist;
   color a = color(140, 19, 251);
   color b = color(255, 0, 128);
@@ -25,9 +26,7 @@ public class ColorChanger {
 
       fill(140, 19, 251);
       arc(200, y, 20, 20, HALF_PI*3, 2*PI);
-    } else {
-      fill(0);
-    }
+    } 
   }
 
   public float getY() {
@@ -41,6 +40,8 @@ public class ColorChanger {
   public void destroy() {
     if (exist) {
       exist=false;
+      fill(0);
+      ellipse(200, y, 20, 20);
     }
   }
 }

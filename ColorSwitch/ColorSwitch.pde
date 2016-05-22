@@ -2,7 +2,7 @@ import java.util.*;
 
 Ball main;
 CircleObstacle cO1 = new CircleObstacle();
-//ColorChanger cC1;
+ColorChanger cC1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 
 
@@ -17,7 +17,7 @@ boolean play = true;
 public void setup() {
   size(400, 600);
   main = new Ball();
-  // cC1 = new ColorChanger(300);
+  cC1 = new ColorChanger(300);
   printColor(main.colorValue);
   thingsThatBlock.add(cO1);
 }
@@ -26,19 +26,16 @@ public void draw() {
   if (play==true) {
     background(0);
     cO1.spin();
-    //  cC1.display();
 
     main.move();
+    cC1.display();
+    changeColor();
+    
     storeColor();
 
     obstacleShift();
-
     main.display();
-
-    //  changeColor();
     myColor = main.getColor();
-    //stroke(255);
-    //line(0,0,50,200);
 
     end();
   } else {
@@ -125,7 +122,7 @@ public void end() {
   if (main.getBottom()>600) {
     play=false;
   }
-  myColor = main.colorValue;
+  //myColor = main.colorValue;
   // System.out.println(myColor);
   if (top!=myColor && top!=color(0)) {
     System.out.println("COLLIDED W");
@@ -159,12 +156,12 @@ public void printColor(color c) {
   System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
 }
 
-//public void changeColor() {
-//  if (cC1.status() && main.getY() - cC1.getY() < main.getDiameter()/2) {
-//    main.setColor();
-//    cC1.destroy();
-//  }
-//}
+public void changeColor() {
+  if (cC1.status() && ((cC1.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cC1.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+    main.setColor();
+    cC1.destroy();
+  }
+}
 
 public void endScreen() {
   textSize(80);
