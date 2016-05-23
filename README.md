@@ -14,7 +14,7 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 5/17: Tried to implement ball/color collision detector. Implemented method to shift obstacles downwards.
 5/18: Made obstacle rotate slower to better test. Made color-switching cirle more accurate.
 5/19: Made file-wide color variable (not limited to methods). New endscreen that's much easier to test. Testing!
-5/22: Implemented ball/color collision detector.
+5/22: Implemented ball/color collision detector, created stars and point system
 
 ##Outline
 ###Essentials:
