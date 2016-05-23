@@ -1,8 +1,10 @@
 import java.util.*;
 
 Ball main;
-CircleObstacle cO1 = new CircleObstacle();
+CircleObstacle cO1 = new CircleObstacle(150,200,150,0.02);
+CircleObstacle cO2 = new CircleObstacle(150,200,-150,0.02);
 ColorChanger cC1;
+int score;
 Star s1 = new Star(0);
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 
@@ -21,6 +23,7 @@ public void setup() {
   cC1 = new ColorChanger(300);
   printColor(main.colorValue);
   thingsThatBlock.add(cO1);
+  thingsThatBlock.add(cO2);
   thingsThatBlock.add(cC1);
   thingsThatBlock.add(s1);
 }
@@ -29,6 +32,7 @@ public void draw() {
   if (play==true) {
     background(0);
     cO1.spin();
+    cO2.spin();
 
     main.move();
     cC1.display();
@@ -40,6 +44,10 @@ public void draw() {
     obstacleShift();
     main.display();
     myColor = main.getColor();
+    
+    fill(255);
+    text(score,20,50);
+    textSize(26);
 
     end();
   } else {
@@ -48,7 +56,7 @@ public void draw() {
 }
 
 public void obstacleShift() {
-  if (main.getY()<250) {
+  if (main.getY()<300) {
     for ( Blockable b : thingsThatBlock ) {
       b.move();
     }
@@ -111,10 +119,10 @@ public boolean doesCollide(int which) {
     }
   }
 
-  if ( colors[0]!=myColor && colors[1]!=color(0) &&
-       colors[1]!=myColor && colors[1]!=color(0) &&
-       colors[2]!=myColor && colors[2]!=color(0) && 
-       colors[3]!=myColor && colors[3]!=color(0) ) {
+  if ( colors[0]!=myColor && colors[0]!=color(0) && colors[0]!=color(255) &&
+       colors[1]!=myColor && colors[1]!=color(0) && colors[1]!=color(255) &&
+       colors[2]!=myColor && colors[2]!=color(0) && colors[2]!=color(255) &&
+       colors[3]!=myColor && colors[3]!=color(0) && colors[0]!=color(255)) {
     System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
     return true;
   }
@@ -164,6 +172,10 @@ public void changeColor() {
   if (cC1.status() && ((cC1.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cC1.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
     main.setColor();
     cC1.destroy();
+  }
+  if (s1.status() && ((s1.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((s1.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+    score++;
+    s1.destroy();
   }
 }
 
