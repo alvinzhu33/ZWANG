@@ -1,11 +1,11 @@
 import java.util.*;
 
 Ball main;
-CircleObstacle cO1 = new CircleObstacle(150,200,150,0.02);
-CircleObstacle cO2 = new CircleObstacle(150,200,-150,0.02);
+CircleObstacle cO1;
+CircleObstacle cO2;
 ColorChanger cC1;
 int score;
-Star s1 = new Star(0);
+Star s1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 
 
@@ -21,7 +21,9 @@ public void setup() {
   size(400, 600);
   main = new Ball();
   cC1 = new ColorChanger(300);
-  printColor(main.colorValue);
+  cO1 = new CircleObstacle(150,200,150,0.02, true);
+  cO2 = new CircleObstacle(150,200,-150,0.02, false);
+  s1 = new Star(0);
   thingsThatBlock.add(cO1);
   thingsThatBlock.add(cO2);
   thingsThatBlock.add(cC1);
@@ -180,6 +182,7 @@ public void changeColor() {
 }
 
 public void endScreen() {
+  score=0;
   textSize(80);
   fill(255);
   textAlign(CENTER);
