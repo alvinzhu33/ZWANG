@@ -40,8 +40,8 @@ public void setup() {
   thingsThatBlock.add(new CircleObstacle(rad, 200, 0-rad, randomSpeed(), true));
   rad = randomRadii();
   thingsThatBlock.add(new CircleObstacle(rad, 200, 0-rad, randomSpeed(), false));
-  thingsThatBlock.add(new Star(0));
-  thingsThatBlock.add(new ColorChanger(0));
+  thingsThatBlock.add(new Star(-20));
+  thingsThatBlock.add(new ColorChanger(-20));
 
   showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
   showing[1] = new Star(100);
@@ -56,7 +56,7 @@ public void generateNewStuff() {
   int n;
   for(int i=0; i<3; i++){
     n = (int)(Math.random() * thingsThatBlock.size());
-    if(showing[i].getY()>400){
+    if(showing[i].getY()>600 || !showing[i].status()){
       showing[i]=thingsThatBlock.get(n);
     }
   }
@@ -89,6 +89,9 @@ public void draw() {
 
     for(int i=0; i<3; i++){
       //showing[i].move();
+      if(main.getY()<300){
+        showing[i].move();
+      }
       showing[i].display();
       showing[i].spin();
     }
@@ -104,7 +107,7 @@ public void draw() {
     generateNewStuff();
     storeColor();
 
-    obstacleShift();
+    //obstacleShift();
     main.display();
     myColor = main.getColor();
 
