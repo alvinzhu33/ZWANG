@@ -5,5 +5,6 @@ public interface Blockable{
   public float getY();
   public void spin();
   public void display();
+  public void destroy();
   
 }

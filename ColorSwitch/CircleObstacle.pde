@@ -31,7 +31,7 @@ public class CircleObstacle implements Blockable{
     exist=true;
   }
 
-  void display() {
+  public void display() {
     strokeWeight(15);
     strokeCap(SQUARE);
     noFill();
@@ -74,8 +74,11 @@ public class CircleObstacle implements Blockable{
      return y;
    }
    
-   
    public boolean status(){
      return exist;
+   }
+   
+   public void destroy(){
+     exist=false;
    }
 }

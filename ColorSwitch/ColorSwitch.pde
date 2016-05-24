@@ -2,12 +2,13 @@ import java.util.*;
 
 Ball main;
 Blockable b1, b2, b3;
-CircleObstacle cO1 = new CircleObstacle();
-CircleObstacle cO2;
-ColorChanger cC1;
+//CircleObstacle cO1 = new CircleObstacle();
+//CircleObstacle cO2;
+//ColorChanger cC1;
 int score;
-Star s1;
+//Star s1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
+Blockable[] showing = new Blockable[3];
 
 
 color myColor;
@@ -22,6 +23,10 @@ public float randomRadii() {
   return (float)(Math.random() * 150 + 150);
 }
 
+public float randomSpeed(){
+  return (float)(Math.random() * 3 / 100) + 0.005;
+}
+
 public void setup() {
   size(400, 600);
   main = new Ball();
@@ -31,15 +36,16 @@ public void setup() {
   //s1 = new Star(0);
 
 
-
-  thingsThatBlock.add(new CircleObstacle(randomRadii(), 200, 0, 0.02, true));
-  thingsThatBlock.add(new CircleObstacle(randomRadii(), 200, 0, 0.02, false));
+  float rad = randomRadii();
+  thingsThatBlock.add(new CircleObstacle(rad, 200, 0-rad, randomSpeed(), true));
+  rad = randomRadii();
+  thingsThatBlock.add(new CircleObstacle(rad, 200, 0-rad, randomSpeed(), false));
   thingsThatBlock.add(new Star(0));
-  thingsThatBlock.add(new ColorChanger(300));
-  
-  b1 = thingsThatBlock.get(3);
-  b2 = thingsThatBlock.get(1);
-  b3 = thingsThatBlock.get(2);
+  thingsThatBlock.add(new ColorChanger(0));
+
+  showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
+  showing[1] = new Star(100);
+  showing[2] = new ColorChanger(0);
   //  thingsThatBlock.add(cO1);
   //thingsThatBlock.add(cO2);
   //thingsThatBlock.add(cC1);
@@ -48,18 +54,24 @@ public void setup() {
 
 public void generateNewStuff() {
   int n;
-  if (b1.getY()>400) {
+  for(int i=0; i<3; i++){
     n = (int)(Math.random() * thingsThatBlock.size());
-    b1 = thingsThatBlock.get(n);
+    if(showing[i].getY()>400){
+      showing[i]=thingsThatBlock.get(n);
+    }
+  }
+  /*if (b1.getY()>400) {
+    n = (int)(Math.random() * thingsThatBlock.size());
+    showing[0]=thingsThatBlock.get(n);
   }
   if (b2.getY()>400) {
     n = (int)(Math.random() * thingsThatBlock.size());
-    b2 = thingsThatBlock.get(n);
+    showing[1]=thingsThatBlock.get(n);
   }
   if (b3.getY()>400) {
     n = (int)(Math.random() * thingsThatBlock.size());
     b3 = thingsThatBlock.get(n);
-  }
+  }*/
 }
 
 public void draw() {
@@ -70,18 +82,25 @@ public void draw() {
 
     main.move();
     //cC1.display();
-    changeColor();
+    for (int i=0; i<3; i++) {
+      change(showing[i]);
+    }
     //s1.display();
 
-    b1.display();
+    for(int i=0; i<3; i++){
+      //showing[i].move();
+      showing[i].display();
+      showing[i].spin();
+    }
+    /*b1.display();
     b1.spin();
-    
+
     b2.display();
     b2.spin();
-    
+
     b3.display();
-    b3.spin();
-    
+    b3.spin();*/
+
     generateNewStuff();
     storeColor();
 
@@ -101,7 +120,7 @@ public void draw() {
 
 public void obstacleShift() {
   if (main.getY()<300) {
-    for ( Blockable b : thingsThatBlock ) {
+    for ( Blockable b : showing ) {
       b.move();
     }
   }
@@ -212,14 +231,18 @@ public void printColor(color c) {
   System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
 }
 
-public void changeColor() {
-  if (cC1.status() && ((cC1.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cC1.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
-    main.setColor();
-    cC1.destroy();
+public void change(Blockable cc) {
+  if (cc instanceof ColorChanger) {
+    if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+      main.setColor();
+      cc.destroy();
+    }
   }
-  if (s1.status() && ((s1.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((s1.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
-    score++;
-    s1.destroy();
+  if (cc instanceof Star) {
+    if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+      score++;
+      cc.destroy();
+    }
   }
 }
 
