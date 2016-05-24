@@ -37,6 +37,10 @@ public class ColorChanger implements Blockable{
     return exist;
   }
 
+  public void spin(){
+    display();
+  }
+  
   public void destroy() {
     if (exist) {
       exist=false;
