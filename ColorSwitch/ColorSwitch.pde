@@ -1,12 +1,14 @@
 import java.util.*;
 
 Ball main;
-CircleObstacle cO1;
-CircleObstacle cO2;
-ColorChanger cC1;
+Blockable b1, b2, b3;
+//CircleObstacle cO1 = new CircleObstacle();
+//CircleObstacle cO2;
+//ColorChanger cC1;
 int score;
-Star s1;
+//Star s1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
+Blockable[] showing = new Blockable[5];
 
 
 color myColor;
@@ -17,38 +19,113 @@ color right;
 
 boolean play = true;
 
+public float randomRadii() {
+  return (float)(Math.random() * 75 + 125);
+}
+
+public float randomSpeed() {
+  return (float)(Math.random() * 4 / 100) + 0.05;
+}
+
 public void setup() {
   size(400, 600);
   main = new Ball();
-  cC1 = new ColorChanger(300);
-  cO1 = new CircleObstacle(150,200,150,0.02, true);
-  cO2 = new CircleObstacle(150,200,-150,0.02, false);
-  s1 = new Star(0);
-  thingsThatBlock.add(cO1);
-  thingsThatBlock.add(cO2);
-  thingsThatBlock.add(cC1);
-  thingsThatBlock.add(s1);
+  //cC1 = new ColorChanger(300);
+  //cO1 = new CircleObstacle(randomRadii(),200,150,0.02, true);
+  //cO2 = new CircleObstacle(randomRadii(),200,-150,0.02, false);
+  //s1 = new Star(0);
+
+  showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
+  showing[1] = new Star(200);
+  showing[2] = new ColorChanger(-100);
+  showing[3] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
+  showing[4] = new CircleObstacle(randomRadii(), 200, -300, randomSpeed(), true);
+  
+  //  thingsThatBlock.add(cO1);
+  //thingsThatBlock.add(cO2);
+  //thingsThatBlock.add(cC1);
+  //thingsThatBlock.add(s1);
+}
+
+public void generateNewStuff() {
+  int n;
+  for (int i=0; i<3; i++) {
+    if (showing[i].getY()>600 && !showing[i].status()) {
+      n = (int)(Math.random() * 4);
+      float rad = randomRadii();
+      if (n == 0) {
+        showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), true);
+        if (showing[3].getY()>600){
+          showing[3] = new Star(0-rad);
+        }
+      }
+      if (n==1) {
+        showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), false);
+         if (showing[4].getY()>600){
+          showing[4] = new ColorChanger(0-rad);
+        }
+      }
+      if(n ==2){
+        showing[i] = new Star(-20);
+      }
+      if(n == 3){
+        showing[i] = new ColorChanger(-20);
+      }
+    }
+  }
+  /*if (b1.getY()>400) {
+   n = (int)(Math.random() * thingsThatBlock.size());
+   showing[0]=thingsThatBlock.get(n);
+   }
+   if (b2.getY()>400) {
+   n = (int)(Math.random() * thingsThatBlock.size());
+   showing[1]=thingsThatBlock.get(n);
+   }
+   if (b3.getY()>400) {
+   n = (int)(Math.random() * thingsThatBlock.size());
+   b3 = thingsThatBlock.get(n);
+   }*/
 }
 
 public void draw() {
   if (play==true) {
     background(0);
-    cO1.spin();
-    cO2.spin();
+    //cO1.spin();
+    //cO2.spin();
 
     main.move();
-    cC1.display();
-    changeColor();
-    s1.display();
+    //cC1.display();
+    for (int i=0; i<5; i++) {
+      change(showing[i]);
+    }
+    //s1.display();
+
+    for (int i=0; i<5; i++) {
+      //showing[i].move();
+      if (main.getY()<300) {
+        showing[i].move();
+      }
+      //showing[i].display();
+      showing[i].spin();
+    }
+    /*b1.display();
+     b1.spin();
+     
+     b2.display();
+     b2.spin();
+     
+     b3.display();
+     b3.spin();*/
     
     storeColor();
+    generateNewStuff();
 
-    obstacleShift();
+    //obstacleShift();
     main.display();
     myColor = main.getColor();
-    
+
     fill(255);
-    text(score,20,50);
+    text(score, 20, 50);
     textSize(26);
 
     end();
@@ -59,7 +136,7 @@ public void draw() {
 
 public void obstacleShift() {
   if (main.getY()<300) {
-    for ( Blockable b : thingsThatBlock ) {
+    for ( Blockable b : showing ) {
       b.move();
     }
   }
@@ -122,9 +199,9 @@ public boolean doesCollide(int which) {
   }
 
   if ( colors[0]!=myColor && colors[0]!=color(0) && colors[0]!=color(255) &&
-       colors[1]!=myColor && colors[1]!=color(0) && colors[1]!=color(255) &&
-       colors[2]!=myColor && colors[2]!=color(0) && colors[2]!=color(255) &&
-       colors[3]!=myColor && colors[3]!=color(0) && colors[0]!=color(255)) {
+    colors[1]!=myColor && colors[1]!=color(0) && colors[1]!=color(255) &&
+    colors[2]!=myColor && colors[2]!=color(0) && colors[2]!=color(255) &&
+    colors[3]!=myColor && colors[3]!=color(0) && colors[0]!=color(255)) {
     System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
     return true;
   }
@@ -153,31 +230,35 @@ public void end() {
     }
   }
   /*if (left!=myColor && left!=color(0)) {
-    if (doesCollide(2)) {
-      play = false;
-      System.out.println("Left prob");
-    }
-  }
-  if (right!=myColor && right!=color(0)) {
-    if (doesCollide(3)) {
-      play = false;
-      System.out.println("Right prob");
-    }
-  }*/
+   if (doesCollide(2)) {
+   play = false;
+   System.out.println("Left prob");
+   }
+   }
+   if (right!=myColor && right!=color(0)) {
+   if (doesCollide(3)) {
+   play = false;
+   System.out.println("Right prob");
+   }
+   }*/
 }
 
 public void printColor(color c) {
   System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
 }
 
-public void changeColor() {
-  if (cC1.status() && ((cC1.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cC1.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
-    main.setColor();
-    cC1.destroy();
+public void change(Blockable cc) {
+  if (cc instanceof ColorChanger) {
+    if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+      main.setColor();
+      cc.destroy();
+    }
   }
-  if (s1.status() && ((s1.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((s1.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
-    score++;
-    s1.destroy();
+  if (cc instanceof Star) {
+    if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+      score++;
+      cc.destroy();
+    }
   }
 }
 
