@@ -42,6 +42,10 @@ public class Star implements Blockable{
     }
   }
   
+  public void spin(){
+    display();
+  }
+  
   public void move(){
      y+=.75;
    }
