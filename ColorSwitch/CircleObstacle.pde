@@ -4,6 +4,7 @@ public class CircleObstacle implements Blockable{
   private float angle = 0;
   private float speed;
   private boolean clockwise;
+  private boolean exist;
   
   color purple= color(140,19,251);
   color magenta = color(255,0,128);
@@ -17,6 +18,7 @@ public class CircleObstacle implements Blockable{
     y = 150;
     speed = 0.02;
     clockwise=true;
+    exist=true;
   }
 
   public CircleObstacle(float dia, float x, float y, float speed, boolean clockwise) {
@@ -26,9 +28,10 @@ public class CircleObstacle implements Blockable{
     this.y = y;
     this.speed = speed;
     this.clockwise = clockwise;
+    exist=true;
   }
 
-  void display() {
+  public void display() {
     strokeWeight(15);
     strokeCap(SQUARE);
     noFill();
@@ -65,5 +68,17 @@ public class CircleObstacle implements Blockable{
    
    public void move(){
      y+=.75;
+   }
+   
+   public float getY(){
+     return y;
+   }
+   
+   public boolean status(){
+     return exist;
+   }
+   
+   public void destroy(){
+     exist=false;
    }
 }
