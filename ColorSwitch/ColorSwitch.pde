@@ -8,7 +8,7 @@ Blockable b1, b2, b3;
 int score;
 //Star s1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
-Blockable[] showing = new Blockable[3];
+Blockable[] showing = new Blockable[5];
 
 
 color myColor;
@@ -20,11 +20,11 @@ color right;
 boolean play = true;
 
 public float randomRadii() {
-  return (float)(Math.random() * 150 + 150);
+  return (float)(Math.random() * 75 + 125);
 }
 
 public float randomSpeed() {
-  return (float)(Math.random() * 3 / 100) + 0.005;
+  return (float)(Math.random() * 4 / 100) + 0.05;
 }
 
 public void setup() {
@@ -36,8 +36,11 @@ public void setup() {
   //s1 = new Star(0);
 
   showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
-  showing[1] = new Star(100);
-  showing[2] = new ColorChanger(0);
+  showing[1] = new Star(200);
+  showing[2] = new ColorChanger(-100);
+  showing[3] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
+  showing[4] = new CircleObstacle(randomRadii(), 200, -300, randomSpeed(), true);
+  
   //  thingsThatBlock.add(cO1);
   //thingsThatBlock.add(cO2);
   //thingsThatBlock.add(cC1);
@@ -47,14 +50,20 @@ public void setup() {
 public void generateNewStuff() {
   int n;
   for (int i=0; i<3; i++) {
-    if (showing[i].getY()>600 || !showing[i].status()) {
+    if (showing[i].getY()>600 && !showing[i].status()) {
       n = (int)(Math.random() * 4);
       float rad = randomRadii();
       if (n == 0) {
         showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), true);
+        if (showing[3].getY()>600){
+          showing[3] = new Star(0-rad);
+        }
       }
       if (n==1) {
         showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), false);
+         if (showing[4].getY()>600){
+          showing[4] = new ColorChanger(0-rad);
+        }
       }
       if(n ==2){
         showing[i] = new Star(-20);
@@ -86,12 +95,12 @@ public void draw() {
 
     main.move();
     //cC1.display();
-    for (int i=0; i<3; i++) {
+    for (int i=0; i<5; i++) {
       change(showing[i]);
     }
     //s1.display();
 
-    for (int i=0; i<3; i++) {
+    for (int i=0; i<5; i++) {
       //showing[i].move();
       if (main.getY()<300) {
         showing[i].move();
