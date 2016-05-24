@@ -38,6 +38,7 @@ public class ColorChanger implements Blockable{
   }
 
   public void spin(){
+    display();
   }
   
   public void destroy() {

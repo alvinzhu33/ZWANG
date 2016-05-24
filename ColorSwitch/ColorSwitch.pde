@@ -23,7 +23,7 @@ public float randomRadii() {
   return (float)(Math.random() * 150 + 150);
 }
 
-public float randomSpeed(){
+public float randomSpeed() {
   return (float)(Math.random() * 3 / 100) + 0.005;
 }
 
@@ -34,14 +34,6 @@ public void setup() {
   //cO1 = new CircleObstacle(randomRadii(),200,150,0.02, true);
   //cO2 = new CircleObstacle(randomRadii(),200,-150,0.02, false);
   //s1 = new Star(0);
-
-
-  float rad = randomRadii();
-  thingsThatBlock.add(new CircleObstacle(rad, 200, 0-rad, randomSpeed(), true));
-  rad = randomRadii();
-  thingsThatBlock.add(new CircleObstacle(rad, 200, 0-rad, randomSpeed(), false));
-  thingsThatBlock.add(new Star(-20));
-  thingsThatBlock.add(new ColorChanger(-20));
 
   showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
   showing[1] = new Star(100);
@@ -54,24 +46,36 @@ public void setup() {
 
 public void generateNewStuff() {
   int n;
-  for(int i=0; i<3; i++){
-    n = (int)(Math.random() * thingsThatBlock.size());
-    if(showing[i].getY()>600 || !showing[i].status()){
-      showing[i]=thingsThatBlock.get(n);
+  for (int i=0; i<3; i++) {
+    if (showing[i].getY()>600 || !showing[i].status()) {
+      n = (int)(Math.random() * 4);
+      float rad = randomRadii();
+      if (n == 0) {
+        showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), true);
+      }
+      if (n==1) {
+        showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), false);
+      }
+      if(n ==2){
+        showing[i] = new Star(-20);
+      }
+      if(n == 3){
+        showing[i] = new ColorChanger(-20);
+      }
     }
   }
   /*if (b1.getY()>400) {
-    n = (int)(Math.random() * thingsThatBlock.size());
-    showing[0]=thingsThatBlock.get(n);
-  }
-  if (b2.getY()>400) {
-    n = (int)(Math.random() * thingsThatBlock.size());
-    showing[1]=thingsThatBlock.get(n);
-  }
-  if (b3.getY()>400) {
-    n = (int)(Math.random() * thingsThatBlock.size());
-    b3 = thingsThatBlock.get(n);
-  }*/
+   n = (int)(Math.random() * thingsThatBlock.size());
+   showing[0]=thingsThatBlock.get(n);
+   }
+   if (b2.getY()>400) {
+   n = (int)(Math.random() * thingsThatBlock.size());
+   showing[1]=thingsThatBlock.get(n);
+   }
+   if (b3.getY()>400) {
+   n = (int)(Math.random() * thingsThatBlock.size());
+   b3 = thingsThatBlock.get(n);
+   }*/
 }
 
 public void draw() {
@@ -87,25 +91,25 @@ public void draw() {
     }
     //s1.display();
 
-    for(int i=0; i<3; i++){
+    for (int i=0; i<3; i++) {
       //showing[i].move();
-      if(main.getY()<300){
+      if (main.getY()<300) {
         showing[i].move();
       }
-      showing[i].display();
+      //showing[i].display();
       showing[i].spin();
     }
     /*b1.display();
-    b1.spin();
-
-    b2.display();
-    b2.spin();
-
-    b3.display();
-    b3.spin();*/
-
-    generateNewStuff();
+     b1.spin();
+     
+     b2.display();
+     b2.spin();
+     
+     b3.display();
+     b3.spin();*/
+    
     storeColor();
+    generateNewStuff();
 
     //obstacleShift();
     main.display();
