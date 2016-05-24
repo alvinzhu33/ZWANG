@@ -1,6 +1,10 @@
 public interface Blockable{
   
   public void move();
-  //public void spin();
+  public boolean status();
+  public float getY();
+  public void spin();
+  public void display();
+  public void destroy();
   
 }
