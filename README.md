@@ -26,6 +26,8 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 
 5/24: Fixed all our issues with merge. Changed randomSpeed generator so it wouldn't go insanely fast.
 
+5/25: Added 2 new obstacles (the square shaped obstacle and plus shaped obstacle). Got them to display in our random level generator.
+
 ##Outline
 ###Essentials:
 1. Moving ball (ball moves up when clicked, down when left alone)
