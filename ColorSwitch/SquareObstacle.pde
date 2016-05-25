@@ -4,7 +4,7 @@ public class SquareObstacle implements Blockable {
   private float angle = 0;
   private float speed;
   private boolean clockwise;
-  private boolean exist;
+  private boolean exist=true;
 
   color purple= color(140, 19, 251);
   color magenta = color(255, 0, 128);
@@ -17,7 +17,6 @@ public class SquareObstacle implements Blockable {
     y = 150;
     speed = 0.02;
     clockwise=true;
-    exist=true;
   }
 
   public SquareObstacle(float dia, float x, float y, float speed, boolean clockwise) {
@@ -31,6 +30,7 @@ public class SquareObstacle implements Blockable {
   public void display() {
     strokeWeight(16);
     strokeCap(SQUARE);
+    noFill();
 
     stroke(purple);
     line(-diameter/2., -diameter/2., diameter/2.+8, -diameter/2.);
