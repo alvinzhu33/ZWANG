@@ -49,7 +49,7 @@ public void setup() {
 
 public void generateNewStuff() {
   int n;
-  for (int i=0; i<3; i++) {
+  for (int i=0; i<5; i++) {
     if (showing[i].getY()>600 && !showing[i].status()) {
       n = (int)(Math.random() * 4);
       float rad = randomRadii();
