@@ -8,7 +8,11 @@ Blockable b1, b2, b3;
 int score;
 //Star s1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
+<<<<<<< HEAD
 Blockable[] showing = new Blockable[5];
+=======
+Blockable[] showing = new Blockable[3];
+>>>>>>> CarolDev
 
 
 color myColor;
@@ -20,11 +24,19 @@ color right;
 boolean play = true;
 
 public float randomRadii() {
+<<<<<<< HEAD
   return (float)(Math.random() * 75 + 125);
 }
 
 public float randomSpeed() {
   return (float)(Math.random() * 4 / 100) + 0.05;
+=======
+  return (float)(Math.random() * 150 + 150);
+}
+
+public float randomSpeed() {
+  return (float)(Math.random() * 3 / 100) + 0.005;
+>>>>>>> CarolDev
 }
 
 public void setup() {
@@ -36,11 +48,16 @@ public void setup() {
   //s1 = new Star(0);
 
   showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
+<<<<<<< HEAD
   showing[1] = new Star(200);
   showing[2] = new ColorChanger(-100);
   showing[3] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
   showing[4] = new CircleObstacle(randomRadii(), 200, -300, randomSpeed(), true);
   
+=======
+  showing[1] = new Star(100);
+  showing[2] = new ColorChanger(0);
+>>>>>>> CarolDev
   //  thingsThatBlock.add(cO1);
   //thingsThatBlock.add(cO2);
   //thingsThatBlock.add(cC1);
@@ -50,11 +67,16 @@ public void setup() {
 public void generateNewStuff() {
   int n;
   for (int i=0; i<3; i++) {
+<<<<<<< HEAD
     if (showing[i].getY()>600 && !showing[i].status()) {
+=======
+    if (showing[i].getY()>600 || !showing[i].status()) {
+>>>>>>> CarolDev
       n = (int)(Math.random() * 4);
       float rad = randomRadii();
       if (n == 0) {
         showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), true);
+<<<<<<< HEAD
         if (showing[3].getY()>600){
           showing[3] = new Star(0-rad);
         }
@@ -64,6 +86,11 @@ public void generateNewStuff() {
          if (showing[4].getY()>600){
           showing[4] = new ColorChanger(0-rad);
         }
+=======
+      }
+      if (n==1) {
+        showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), false);
+>>>>>>> CarolDev
       }
       if(n ==2){
         showing[i] = new Star(-20);
@@ -95,12 +122,20 @@ public void draw() {
 
     main.move();
     //cC1.display();
+<<<<<<< HEAD
     for (int i=0; i<5; i++) {
+=======
+    for (int i=0; i<3; i++) {
+>>>>>>> CarolDev
       change(showing[i]);
     }
     //s1.display();
 
+<<<<<<< HEAD
     for (int i=0; i<5; i++) {
+=======
+    for (int i=0; i<3; i++) {
+>>>>>>> CarolDev
       //showing[i].move();
       if (main.getY()<300) {
         showing[i].move();
@@ -219,6 +254,7 @@ public void end() {
     System.out.println("COLLIDED W");
     printColor(top);
     if (doesCollide(0)) {
+<<<<<<< HEAD
       play = false;
       System.out.println("Top prob");
     }
@@ -229,6 +265,18 @@ public void end() {
       System.out.println("Bot prob");
     }
   }
+=======
+      play = false;
+      System.out.println("Top prob");
+    }
+  }
+  if (bottom!=myColor && bottom!=color(0)) {
+    if (doesCollide(1)) {
+      play = false;
+      System.out.println("Bot prob");
+    }
+  }
+>>>>>>> CarolDev
   /*if (left!=myColor && left!=color(0)) {
    if (doesCollide(2)) {
    play = false;

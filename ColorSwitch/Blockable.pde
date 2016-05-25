@@ -7,4 +7,8 @@ public interface Blockable{
   public void display();
   public void destroy();
   
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> CarolDev

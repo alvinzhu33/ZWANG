@@ -49,4 +49,8 @@ public class Star implements Blockable{
   public void move(){
      y+=.75;
    }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> CarolDev

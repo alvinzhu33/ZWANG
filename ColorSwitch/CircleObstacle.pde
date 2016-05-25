@@ -68,6 +68,21 @@ public class CircleObstacle implements Blockable{
    
    public void move(){
      y+=.75;
+<<<<<<< HEAD
+=======
+   }
+   
+   public float getY(){
+     return y;
+   }
+   
+   public boolean status(){
+     return exist;
+   }
+   
+   public void destroy(){
+     exist=false;
+>>>>>>> CarolDev
    }
    
    public float getY(){
