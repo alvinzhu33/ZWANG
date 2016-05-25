@@ -5,6 +5,8 @@ Blockable b1, b2, b3;
 //CircleObstacle cO1 = new CircleObstacle();
 //CircleObstacle cO2;
 //ColorChanger cC1;
+//SquareObstacle s1 = new SquareObstacle();
+PlusObstacle p1 = new PlusObstacle();
 int score;
 //Star s1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
@@ -56,7 +58,7 @@ public void generateNewStuff() {
   int n;
   for (int i=0; i<5; i++) {
     if (showing[i].getY()>600 || !showing[i].status()) {
-      n = (int)(Math.random() * 3);
+      n = (int)(Math.random() * 5);
       float rad = randomRadii();
       if (n == 0) {
         showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
@@ -73,10 +75,13 @@ public void generateNewStuff() {
       if (n == 1) {
         showing[i] = new SquareObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
       }
-      if (n == 2) {
+      if (n == 2){
+        showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
+      }
+      if (n == 3) {
         showing[i] = new Star(-20);
       }
-      /*if(n == 3){
+      /*if(n == 4){
        showing[i] = new ColorChanger(-20);
        }*/
     }
@@ -101,6 +106,7 @@ public void draw() {
     //cO1.spin();
     //cO2.spin();
     //s1.spin();
+    //p1.spin();
 
     main.move();
     //cC1.display();
