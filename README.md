@@ -24,6 +24,8 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 
 5/23: Started making a randomized game. Fixed resetting issues (< all on CarolDev).
 
+5/24: Fixed all our issues with merge. Changed randomSpeed generator so it wouldn't go insanely fast.
+
 ##Outline
 ###Essentials:
 1. Moving ball (ball moves up when clicked, down when left alone)
