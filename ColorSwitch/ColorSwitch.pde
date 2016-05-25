@@ -92,7 +92,7 @@ public void draw() {
     background(0);
     //cO1.spin();
     //cO2.spin();
-
+    s1.spin();
     main.move();
     //cC1.display();
     for (int i=0; i<5; i++) {
