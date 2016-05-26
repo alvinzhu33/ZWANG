@@ -34,6 +34,9 @@ public class ColorChanger implements Blockable{
   }
 
   public boolean status() {
+    if (y>600){
+       exist=false;
+     }
     return exist;
   }
 
@@ -49,7 +52,7 @@ public class ColorChanger implements Blockable{
     }
   }
   
-  public void move(){
-     y+=.75;
+  public void move(float more){
+     y+=.75 + more;
    }
 }

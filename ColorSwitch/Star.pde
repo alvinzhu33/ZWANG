@@ -31,6 +31,9 @@ public class Star implements Blockable{
   }
 
   public boolean status() {
+    if (y>600){
+       exist=false;
+     }
     return exist;
   }
 
@@ -46,7 +49,7 @@ public class Star implements Blockable{
     display();
   }
   
-  public void move(){
-     y+=.75;
+  public void move(float more){
+     y+=.75 + more;
    }
 }

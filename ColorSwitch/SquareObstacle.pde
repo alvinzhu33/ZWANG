@@ -62,8 +62,8 @@ public class SquareObstacle implements Blockable {
     popMatrix();
   }
 
-  public void move() {
-    y+=.75;
+  public void move(float more) {
+     y+=.75 + more;
   }
 
   public float getY() {
@@ -71,6 +71,9 @@ public class SquareObstacle implements Blockable {
   }
 
   public boolean status() {
+    if (y>600){
+       exist=false;
+     }
     return exist;
   }
 

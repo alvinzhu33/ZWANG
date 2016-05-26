@@ -2,15 +2,11 @@ import java.util.*;
 
 Ball main;
 Blockable b1, b2, b3;
-//CircleObstacle cO1 = new CircleObstacle();
-//CircleObstacle cO2;
-//ColorChanger cC1;
-//SquareObstacle s1 = new SquareObstacle();
+
 PlusObstacle p1 = new PlusObstacle();
 int score;
-//Star s1;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
-Blockable[] showing = new Blockable[5];
+Blockable[] showing = new Blockable[4];
 
 
 color myColor;
@@ -24,21 +20,15 @@ boolean play = true;
 public void setup() {
   size(400, 600);
   main = new Ball();
-  //cC1 = new ColorChanger(300);
-  //cO1 = new CircleObstacle(randomRadii(),200,150,0.02, true);
-  //cO2 = new CircleObstacle(randomRadii(),200,-150,0.02, false);
-  //s1 = new Star(0);
+
 
   showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
   showing[1] = new Star(200);
   showing[2] = new ColorChanger(-100);
   showing[3] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
-  showing[4] = new SquareObstacle(randomRadii(), 200, -300, randomSpeed(), true);
 
-  //  thingsThatBlock.add(cO1);
-  //thingsThatBlock.add(cO2);
-  //thingsThatBlock.add(cC1);
-  //thingsThatBlock.add(s1);
+
+  
 }
 
 public float randomRadii() {
@@ -54,10 +44,12 @@ public boolean randomOri() {
   return n == 0;
 }
 
+
+
 public void generateNewStuff() {
   int n;
-  for (int i=0; i<5; i++) {
-    if (showing[i].getY()>600 || !showing[i].status()) {
+  for (int i=0; i<4; i++) {
+    if (showing[i].getY()>600 && !showing[i].status()) {
       n = (int)(Math.random() * 5);
       float rad = randomRadii();
       if (n == 0) {
@@ -78,9 +70,9 @@ public void generateNewStuff() {
       if (n == 2){
         showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
       }
-      if (n == 3) {
-        showing[i] = new Star(-20);
-      }
+      //if (n == 3) {
+      //  showing[i] = new Star(-20);
+      //}
       /*if(n == 4){
        showing[i] = new ColorChanger(-20);
        }*/
@@ -103,39 +95,29 @@ public void generateNewStuff() {
 public void draw() {
   if (play==true) {
     background(0);
-    //cO1.spin();
-    //cO2.spin();
-    //s1.spin();
-    //p1.spin();
+    
 
     main.move();
-    //cC1.display();
-    for (int i=0; i<5; i++) {
+    
+    for (int i=0; i<4; i++) {
       change(showing[i]);
     }
-    //s1.display();
+    
 
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<4; i++) {
       //showing[i].move();
-      if (main.getY()<300) {
-        showing[i].move();
-      }
+      //if (main.getY()<300) {
+      //  showing[i].move();
+      //}
       //showing[i].display();
       showing[i].spin();
     }
-    /*b1.display();
-     b1.spin();
-     
-     b2.display();
-     b2.spin();
-     
-     b3.display();
-     b3.spin();*/
+
 
     storeColor();
     generateNewStuff();
 
-    //obstacleShift();
+    obstacleShift();
     main.display();
     myColor = main.getColor();
 
@@ -152,7 +134,7 @@ public void draw() {
 public void obstacleShift() {
   if (main.getY()<300) {
     for ( Blockable b : showing ) {
-      b.move();
+      b.move((300-main.y)/100);
     }
   }
 }
