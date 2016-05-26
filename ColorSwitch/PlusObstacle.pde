@@ -1,5 +1,5 @@
-public class PlusObstacle implements Blockable {
-  private float diameter;
+public class PlusObstacle extends Blockable {
+  /*private float diameter;
   private float x, y;
   private float angle = 0;
   private float speed;
@@ -9,7 +9,7 @@ public class PlusObstacle implements Blockable {
   color purple= color(140, 19, 251);
   color magenta = color(255, 0, 128);
   color cyan = color(53, 226, 242);
-  color yellow = color(246, 223, 14);
+  color yellow = color(246, 223, 14);*/
 
   public PlusObstacle() {
     diameter=200;
@@ -69,7 +69,7 @@ public class PlusObstacle implements Blockable {
     popMatrix();
   }
 
-  public void move(float more) {
+  /*public void move(float more) {
      y+=.75 + more;
   }
 
@@ -86,5 +86,5 @@ public class PlusObstacle implements Blockable {
 
   public void destroy() {
     exist=false;
-  }
+  }*/
 }

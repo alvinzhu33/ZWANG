@@ -1,15 +1,16 @@
-public class ColorChanger implements Blockable{
-  float y;
+public class ColorChanger extends Blockable{
+  /*float y;
   
   boolean exist;
   color a = color(140, 19, 251);
   color b = color(255, 0, 128);
   color c = color(53, 226, 242);
-  color d = color(246, 223, 14);
+  color d = color(246, 223, 14);*/
 
   public ColorChanger(float y) {
-    this.y = y;
-    exist = true;
+    /*this.y = y;
+    exist = true;*/
+    super(y);
   }
 
   public void display() {
@@ -28,8 +29,11 @@ public class ColorChanger implements Blockable{
       arc(200, y, 20, 20, HALF_PI*3, 2*PI);
     } 
   }
+  public void spin(){
+    display();
+  }
 
-  public float getY() {
+  /*public float getY() {
     return y;
   }
 
@@ -38,10 +42,6 @@ public class ColorChanger implements Blockable{
        exist=false;
      }
     return exist;
-  }
-
-  public void spin(){
-    display();
   }
   
   public void destroy() {
@@ -54,5 +54,5 @@ public class ColorChanger implements Blockable{
   
   public void move(float more){
      y+=.75 + more;
-   }
+   }*/
 }

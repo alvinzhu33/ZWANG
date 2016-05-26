@@ -1,10 +1,11 @@
-public class Star implements Blockable{
-  float y;
-  boolean exist;
+public class Star extends Blockable {
+  /*float y;
+   boolean exist;*/
 
   public Star(float y) {
-    this.y = y;
-    exist = true;
+    /*this.y = y;
+     exist = true;*/
+    super(y);
   }
 
   public void display() {
@@ -25,31 +26,30 @@ public class Star implements Blockable{
       }
     }
   }
-
-  public float getY() {
-    return y;
-  }
-
-  public boolean status() {
-    if (y>600){
-       exist=false;
-     }
-    return exist;
-  }
-
-  public void destroy() {
-    if (exist) {
-      exist=false;
-      fill(0);
-      ellipse(200, y, 20, 20);
-    }
-  }
-  
-  public void spin(){
+  public void spin() {
     display();
   }
-  
-  public void move(float more){
-     y+=.75 + more;
+
+  /*public float getY() {
+   return y;
    }
+   
+   public boolean status() {
+   if (y>600){
+   exist=false;
+   }
+   return exist;
+   }
+   
+   public void destroy() {
+   if (exist) {
+   exist=false;
+   fill(0);
+   ellipse(200, y, 20, 20);
+   }
+   }
+   
+   public void move(float more){
+   y+=.75 + more;
+   }*/
 }

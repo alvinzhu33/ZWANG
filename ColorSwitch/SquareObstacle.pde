@@ -1,30 +1,27 @@
-public class SquareObstacle implements Blockable {
-  private float diameter;
+public class SquareObstacle extends Blockable {
+  /*private float diameter;
   private float x, y;
   private float angle = 0;
   private float speed;
   private boolean clockwise;
-  private boolean exist=true;
-
-  color purple= color(140, 19, 251);
-  color magenta = color(255, 0, 128);
-  color cyan = color(53, 226, 242);
-  color yellow = color(246, 223, 14);
+  private boolean exist=true;*/
 
   public SquareObstacle() {
-    diameter=150;
+    /*diameter=150;
     x = 200;
     y = 150;
     speed = 0.02;
-    clockwise=true;
+    clockwise=true;*/
+    super();
   }
 
   public SquareObstacle(float dia, float x, float y, float speed, boolean clockwise) {
-    diameter = dia;
+    /*diameter = dia;
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.clockwise=clockwise;
+    this.clockwise=clockwise;*/
+    super(dia, x, y, speed, clockwise);
   }
 
   public void display() {
@@ -62,7 +59,7 @@ public class SquareObstacle implements Blockable {
     popMatrix();
   }
 
-  public void move(float more) {
+  /*public void move(float more) {
      y+=.75 + more;
   }
 
@@ -79,5 +76,5 @@ public class SquareObstacle implements Blockable {
 
   public void destroy() {
     exist=false;
-  }
+  }*/
 }
