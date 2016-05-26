@@ -42,7 +42,7 @@ public class Ball {
     } else {
       y-=gravity*3;
       upCount+=gravity*3;
-      if (upCount>50) {
+      if (upCount>43) {
         toggleFalling(true);
         upCount=0;
       }

@@ -1,8 +1,8 @@
 import java.util.*;
 
 Ball main;
-Blockable b1, b2, b3;
 
+boolean specialPres = false;
 PlusObstacle p1 = new PlusObstacle();
 int score;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
@@ -20,16 +20,27 @@ boolean play = true;
 public void setup() {
   size(400, 600);
   main = new Ball();
-
+  //hint(ENABLE_OPENGL_4X_SMOOTH);
 
   showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
-  showing[1] = new Star(200);
-  showing[2] = new ColorChanger(-100);
-  showing[3] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
-
-
-  
+  showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
+  showing[2] = new SquareObstacle(randomRadii(), 200, -350, randomSpeed(), false);
+  showing[3] = new Star(200);
 }
+
+public void generateMore(float ycor) {
+  int n = (int)(Math.random()*2 );
+  if (!specialPres) {
+    if (n==0) {
+      showing[3] = new Star(0-ycor);
+      specialPres = true;
+    } else {
+      showing[3] = new ColorChanger(0-ycor);
+      specialPres = true;
+    }
+  }
+}
+
 
 public float randomRadii() {
   return (float)(Math.random() * 75 + 125);
@@ -45,64 +56,39 @@ public boolean randomOri() {
 }
 
 
-
 public void generateNewStuff() {
   int n;
-  for (int i=0; i<4; i++) {
-    if (showing[i].getY()>600 && !showing[i].status()) {
-      n = (int)(Math.random() * 5);
+  for (int i=0; i<3; i++) {
+    if (showing[i].getY()>600) {
+      n = (int)(Math.random() * 3);
       float rad = randomRadii();
       if (n == 0) {
         showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
-        /*if (showing[3].getY()>600){
-         showing[3] = new Star(0-rad);
-         }*/
+        generateMore(rad);
       }
-      /*if (n==1) {
-       showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), false);
-       if (showing[4].getY()>600){
-       showing[4] = new ColorChanger(0-rad);
-       }
-       }*/
       if (n == 1) {
         showing[i] = new SquareObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
+        generateMore(rad);
       }
-      if (n == 2){
+      if (n == 2) {
         showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
+        generateMore(rad);
       }
-      //if (n == 3) {
-      //  showing[i] = new Star(-20);
-      //}
-      /*if(n == 4){
-       showing[i] = new ColorChanger(-20);
-       }*/
     }
   }
-  /*if (b1.getY()>400) {
-   n = (int)(Math.random() * thingsThatBlock.size());
-   showing[0]=thingsThatBlock.get(n);
-   }
-   if (b2.getY()>400) {
-   n = (int)(Math.random() * thingsThatBlock.size());
-   showing[1]=thingsThatBlock.get(n);
-   }
-   if (b3.getY()>400) {
-   n = (int)(Math.random() * thingsThatBlock.size());
-   b3 = thingsThatBlock.get(n);
-   }*/
 }
 
 public void draw() {
   if (play==true) {
     background(0);
-    
+
 
     main.move();
-    
+
     for (int i=0; i<4; i++) {
       change(showing[i]);
     }
-    
+
 
     for (int i=0; i<4; i++) {
       //showing[i].move();
@@ -125,7 +111,7 @@ public void draw() {
     text(score, 20, 50);
     textSize(26);
 
-    end();
+    //end();
   } else {
     endScreen();
   }
@@ -251,12 +237,14 @@ public void change(Blockable cc) {
     if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
       main.setColor();
       cc.destroy();
+      specialPres=false;
     }
   }
   if (cc instanceof Star) {
     if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
       score++;
       cc.destroy();
+      specialPres=false;
     }
   }
 }

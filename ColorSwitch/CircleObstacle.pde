@@ -30,7 +30,7 @@ public class CircleObstacle implements Blockable{
   }
 
   public void display() {
-    strokeWeight(15);
+    strokeWeight(16);
     strokeCap(SQUARE);
     noFill();
     
