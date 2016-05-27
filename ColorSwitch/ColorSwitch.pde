@@ -3,7 +3,8 @@ import java.util.*;
 Ball main;
 
 boolean specialPres = false;
-PlusObstacle p1 = new PlusObstacle();
+//PlusObstacle p1 = new PlusObstacle();
+//TriangleObstacle t1 = new TriangleObstacle();
 int score;
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 Blockable[] showing = new Blockable[4];
@@ -60,7 +61,7 @@ public void generateNewStuff() {
   int n;
   for (int i=0; i<3; i++) {
     if (showing[i].getY()>600) {
-      n = (int)(Math.random() * 3);
+      n = (int)(Math.random() * 4);
       float rad = randomRadii();
       if (n == 0) {
         showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
@@ -74,6 +75,9 @@ public void generateNewStuff() {
         showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
         generateMore(rad);
       }
+      if(n == 3){
+        showing[i] = new TriangleObstacle(rad, 200, -rad, randomSpeed(), randomOri());
+      }
     }
   }
 }
@@ -84,6 +88,7 @@ public void draw() {
 
 
     main.move();
+    //t1.spin();
 
     for (int i=0; i<4; i++) {
       change(showing[i]);

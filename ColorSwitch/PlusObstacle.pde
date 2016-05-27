@@ -12,19 +12,21 @@ public class PlusObstacle extends Blockable {
   color yellow = color(246, 223, 14);*/
 
   public PlusObstacle() {
-    diameter=200;
+    /*diameter=200;
     x = 100;
     y = 150;
     speed = 0.02;
-    clockwise=true;
+    clockwise=true;*/
+    super(200, 100, 150, 0.02, true);
   }
 
   public PlusObstacle(float dia, float x, float y, float speed, boolean clockwise) {
-    diameter = dia;
+    /*diameter = dia;
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.clockwise=clockwise;
+    this.clockwise=clockwise;*/
+    super(dia, x, y, speed, clockwise);
   }
 
   public void display() {
