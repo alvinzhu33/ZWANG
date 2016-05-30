@@ -3,8 +3,6 @@ import java.util.Scanner; //<>//
 Ball main;
 
 boolean specialPres = false;
-//PlusObstacle p1 = new PlusObstacle();
-//TriangleObstacle t1 = new TriangleObstacle();
 int score;
 int highest;
 PrintWriter output;
@@ -12,11 +10,6 @@ String[] starsString;
 int[] stars = new int[1];
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 Blockable[] showing = new Blockable[4];
-Blockable[] obstacles = {null, new CircleObstacle()};
-Blockable[] powerups = {null, new ColorChanger(), new Star()};
-
-Scanner s;
-int numObs;
 
 
 color myColor;
@@ -25,7 +18,8 @@ color top;
 color left;
 color right;
 
-boolean play = true;
+String mode = "start";
+String modeSave;
 
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
@@ -82,11 +76,9 @@ boolean play = true;
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
 
-
 public void setup() {
   size(400, 600);
   main = new Ball();
-  //hint(ENABLE_OPENGL_4X_SMOOTH);
 
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
@@ -151,9 +143,13 @@ public void generateNewStuff() {
 }
 
 public void draw() {
-  if (play==true) {
+  if (mode == "start") {
     background(0);
-
+    startScreen();
+  }
+  if (mode =="random") {
+    background(0);
+    pauseButton();
 
     main.move();
     //t1.spin();
@@ -164,7 +160,11 @@ public void draw() {
 
 
     for (int i=0; i<4; i++) {
-      
+      //showing[i].move();
+      //if (main.getY()<300) {
+      //  showing[i].move();
+      //}
+      //showing[i].display();
       showing[i].spin();
     }
 
@@ -182,14 +182,22 @@ public void draw() {
     textSize(26);
 
     end();
-  } else {
+  }
+  if (mode == "pause") {
+    pauseScreen();
+  }
+  if (mode == "end") {
+    endScreen();
     highest += score;
     String high = "" + highest + "";
-  
+    System.out.println(highest);
+    //output = createWriter("highscore.txt");
+    //output.println(highest);
+    //output.close();
+    System.out.println("PREV HIGHEST SCORE:" + starsString[0]);
     starsString[0] = high;
-   
+    System.out.println("HIGHEST SCORE:" + starsString[0]);
     saveStrings("highscore.txt", starsString);
-    endScreen();
   }
 }
 
@@ -219,17 +227,43 @@ public void storeColor() {
 }
 
 public void mousePressed() {
-  if (play==true) {
-    main.toggleFalling(false);
-  } else {
-    play=true;
+  if (mode=="random") {
+    if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
+      modeSave = mode;
+      mode = "pause";
+    } else {
+      main.toggleFalling(false);
+    }
+  } else if (mode == "pause") {
+    if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
+      mode = modeSave;
+    }
+  } else if (mode == "start") {
+    mode = "random";
+    modeSave = "random";
+  } else if (mode == "end") {
     setup();
+    mode = modeSave;
   }
 }
 
 public void keyPressed() {
   if (key == ' ') {
-    mousePressed();
+    if (mode == "start") {
+      mode = "random";
+      modeSave = "random";
+    } else if (mode == "random") {
+      main.toggleFalling(false);
+    } else if (mode == "pause") {
+      mode = modeSave;
+    } else if(mode == "end"){
+      setup();
+      mode = modeSave;
+    }
+  }
+  if (key == 'x' && mode == "random") {
+    modeSave = mode;
+    mode = "pause";
   }
 }
 
@@ -238,22 +272,18 @@ public boolean doesCollide(int which) {
   if (which==0) {
     for (int i=0; i<4; i++) {
       colors[i] = (get(200, int(main.getY()-main.getDiameter()/2) - i));
-      //printColor(colors[i]);
     }
   } else if (which==1) {
     for (int i=0; i<4; i++) {
       colors[i] = (get(200, int(main.getY()+main.getDiameter()/2) + i));
-      //printColor(colors[i]);
     }
   } else if (which==2) {
     for (int i=0; i<4; i++) {
       colors[i] = (get(int(200 - main.getDiameter()/2) - i, int(main.getY())));
-      //printColor(colors[i]);
     }
   } else if (which==3) {
     for (int i=0; i<4; i++) {
       colors[i] = (get(int(200 + main.getDiameter()/2) + i, int(main.getY())));
-      //printColor(colors[i]);
     }
   }
 
@@ -270,22 +300,20 @@ public boolean doesCollide(int which) {
 
 public void end() {
   if (main.getBottom()>600) {
-    play=false;
+    mode="end";
   }
-  //myColor = main.colorValue;
-  // System.out.println(myColor);
   if (top!=myColor && top!=color(0)) {
     System.out.println("COLLIDED W");
     printColor(top);
     if (doesCollide(0)) {
 
-      play = false;
+      mode="end";
       System.out.println("Top prob");
     }
   }
   if (bottom!=myColor && bottom!=color(0)) {
     if (doesCollide(1)) {
-      play = false;
+      mode="end";
       System.out.println("Bot prob");
     }
   }
@@ -310,6 +338,43 @@ public void change(Blockable cc) {
       specialPres=false;
     }
   }
+}
+
+public void startScreen() {
+  textSize(20);
+  fill(255);
+  textAlign(CENTER);
+  text("ZWANG!!! presents", 200, 200);
+  textSize(50);
+  text("COLOR SWITCH", 200, 270);
+
+  fill(86, 199, 162);
+  rect(150, 325, 100, 50, 10);
+  textSize(30);
+  fill(0);
+  text("PLAY", 200, 360);
+}
+
+public void pauseButton() {
+  fill(150);
+  textSize(20);
+  rect(185, 20, 30, 30, 10);
+  fill(0);
+  text("||", 200, 40);
+}
+
+public void pauseScreen() {
+  fill(255, 0, 0);
+  textSize(20);
+  rect(185, 20, 30, 30, 10);
+  fill(0);
+  text("X", 200, 40);
+
+  textSize(80);
+  fill(255);
+  textAlign(CENTER);
+  text("GAME", 200, 250);
+  text("PAUSED", 200, 350);
 }
 
 public void endScreen() {
