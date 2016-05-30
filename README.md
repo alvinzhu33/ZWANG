@@ -28,6 +28,8 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 
 5/25: Added 2 new obstacles (the square shaped obstacle and plus shaped obstacle). Got them to display in our random level generator.
 
+5/30: Added a start screen, pause screen, and end screen. Added more controls for the spacebar and click 'x' to pause.
+
 ##Outline
 ###Essentials:
 1. Moving ball (ball moves up when clicked, down when left alone)
