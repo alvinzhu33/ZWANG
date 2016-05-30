@@ -19,6 +19,7 @@ color left;
 color right;
 
 String mode = "start";
+String modeSave;
 
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
@@ -106,7 +107,7 @@ public void draw() {
   }
   if (mode =="random") {
     background(0);
-
+    pauseButton();
 
     main.move();
     //t1.spin();
@@ -139,6 +140,9 @@ public void draw() {
     textSize(26);
 
     end();
+  }
+  if (mode == "pause") {
+    pauseScreen();
   }
   if (mode == "end") {
     endScreen();
@@ -182,20 +186,42 @@ public void storeColor() {
 
 public void mousePressed() {
   if (mode=="random") {
-    main.toggleFalling(false);
-  }
-  if (mode == "start") {
+    if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
+      modeSave = mode;
+      mode = "pause";
+    } else {
+      main.toggleFalling(false);
+    }
+  } else if (mode == "pause") {
+    if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
+      mode = modeSave;
+    }
+  } else if (mode == "start") {
     mode = "random";
-  }
-  if(mode == "end"){
+    modeSave = "random";
+  } else if (mode == "end") {
     setup();
-    mode = "start";
+    mode = modeSave;
   }
 }
 
 public void keyPressed() {
   if (key == ' ') {
-    mousePressed();
+    if (mode == "start") {
+      mode = "random";
+      modeSave = "random";
+    } else if (mode == "random") {
+      main.toggleFalling(false);
+    } else if (mode == "pause") {
+      mode = modeSave;
+    } else if(mode == "end"){
+      setup();
+      mode = modeSave;
+    }
+  }
+  if (key == 'x' && mode == "random") {
+    modeSave = mode;
+    mode = "pause";
   }
 }
 
@@ -279,12 +305,34 @@ public void startScreen() {
   text("ZWANG!!! presents", 200, 200);
   textSize(50);
   text("COLOR SWITCH", 200, 270);
-  
+
   fill(86, 199, 162);
   rect(150, 325, 100, 50, 10);
   textSize(30);
   fill(0);
   text("PLAY", 200, 360);
+}
+
+public void pauseButton() {
+  fill(150);
+  textSize(20);
+  rect(185, 20, 30, 30, 10);
+  fill(0);
+  text("||", 200, 40);
+}
+
+public void pauseScreen() {
+  fill(255, 0, 0);
+  textSize(20);
+  rect(185, 20, 30, 30, 10);
+  fill(0);
+  text("X", 200, 40);
+
+  textSize(80);
+  fill(255);
+  textAlign(CENTER);
+  text("GAME", 200, 250);
+  text("PAUSED", 200, 350);
 }
 
 public void endScreen() {
