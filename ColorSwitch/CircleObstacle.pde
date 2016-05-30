@@ -1,38 +1,34 @@
-public class CircleObstacle implements Blockable{
-  private float diameter;
+public class CircleObstacle extends Blockable {
+  /*private float diameter;
   private float x, y;
   private float angle = 0;
   private float speed;
   private boolean clockwise;
-  private boolean exist;
+  private boolean exist=true;*/
   
-  color purple= color(140,19,251);
-  color magenta = color(255,0,128);
-  color cyan = color(53,226,242);
-  color yellow = color(246,223,14);
 
   public CircleObstacle() {
-    diameter=150;
+    /*diameter=150;
 
     x = 200;
     y = 150;
     speed = 0.02;
-    clockwise=true;
-    exist=true;
+    clockwise=true;*/
+    super();
   }
 
   public CircleObstacle(float dia, float x, float y, float speed, boolean clockwise) {
-    diameter=dia;
+    /*diameter=dia;
 
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.clockwise = clockwise;
-    exist=true;
+    this.clockwise = clockwise;*/
+    super(dia, x, y, speed, clockwise);
   }
 
   public void display() {
-    strokeWeight(15);
+    strokeWeight(16);
     strokeCap(SQUARE);
     noFill();
     
@@ -64,21 +60,5 @@ public class CircleObstacle implements Blockable{
     endShape();
     
     popMatrix();
-   }
-   
-   public void move(){
-     y+=.75;
-   }
-   
-   public float getY(){
-     return y;
-   }
-   
-   public boolean status(){
-     return exist;
-   }
-   
-   public void destroy(){
-     exist=false;
    }
 }
