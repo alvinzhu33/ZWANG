@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.Scanner;
 
 Ball main;
 
@@ -6,6 +6,10 @@ boolean specialPres = false;
 //PlusObstacle p1 = new PlusObstacle();
 //TriangleObstacle t1 = new TriangleObstacle();
 int score;
+int highest;
+PrintWriter output;
+String[] starsString;
+int[] stars = new int[1];
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 Blockable[] showing = new Blockable[4];
 
@@ -18,10 +22,26 @@ color right;
 
 boolean play = true;
 
+
+// ----------------------------LEVEL BUILDER CODE----------------------------------
+
+
+
+
+
+
+
+
+// ----------------------END OF LEVEL BUILDER CODE---------------------------------
+
+
 public void setup() {
   size(400, 600);
   main = new Ball();
   //hint(ENABLE_OPENGL_4X_SMOOTH);
+  
+  starsString = loadStrings("highscore.txt");
+  highest = int(starsString[0]);
 
   showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
   showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
@@ -114,10 +134,21 @@ public void draw() {
 
     fill(255);
     text(score, 20, 50);
+    text(highest, 380, 50);
     textSize(26);
 
-    //end();
+    end();
   } else {
+    highest += score;
+    String high = "" + highest + ""; //<>//
+    System.out.println(highest);
+    //output = createWriter("highscore.txt");
+    //output.println(highest);
+    //output.close();
+    System.out.println("PREV HIGHEST SCORE:" + starsString[0]);
+    starsString[0] = high;
+    System.out.println("HIGHEST SCORE:" + starsString[0]);
+    saveStrings("highscore.txt", starsString);
     endScreen();
   }
 }
@@ -219,18 +250,6 @@ public void end() {
     }
   }
 
-  /*if (left!=myColor && left!=color(0)) {
-   if (doesCollide(2)) {
-   play = false;
-   System.out.println("Left prob");
-   }
-   }
-   if (right!=myColor && right!=color(0)) {
-   if (doesCollide(3)) {
-   play = false;
-   System.out.println("Right prob");
-   }
-   }*/
 }
 
 public void printColor(color c) {
