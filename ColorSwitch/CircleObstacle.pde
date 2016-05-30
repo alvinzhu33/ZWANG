@@ -7,14 +7,22 @@ public class CircleObstacle extends Blockable {
   private boolean exist=true;*/
   
 
-  public CircleObstacle() {
-    /*diameter=150;
+  //public CircleObstacle() {
+  //  /*diameter=150;
 
-    x = 200;
-    y = 150;
-    speed = 0.02;
-    clockwise=true;*/
-    super();
+  //  x = 200;
+  //  y = 150;
+  //  speed = 0.02;
+  //  clockwise=true;*/
+  //  super();
+  //}
+  
+  public CircleObstacle(){
+    this.x= 200;
+    this.y = 150;
+    diameter = randomRadii();
+    speed = randomSpeed();
+    clockwise = randomOri();
   }
 
   public CircleObstacle(float dia, float x, float y, float speed, boolean clockwise) {
@@ -26,6 +34,8 @@ public class CircleObstacle extends Blockable {
     this.clockwise = clockwise;*/
     super(dia, x, y, speed, clockwise);
   }
+  
+  
 
   public void display() {
     strokeWeight(16);

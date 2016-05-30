@@ -1,11 +1,9 @@
 public class ColorChanger extends Blockable{
-  /*float y;
+ 
   
-  boolean exist;
-  color a = color(140, 19, 251);
-  color b = color(255, 0, 128);
-  color c = color(53, 226, 242);
-  color d = color(246, 223, 14);*/
+  public ColorChanger(){
+    super();
+  }
 
   public ColorChanger(float y) {
     /*this.y = y;

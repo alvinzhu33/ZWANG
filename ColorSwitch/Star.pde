@@ -2,6 +2,11 @@ public class Star extends Blockable {
   /*float y;
    boolean exist;*/
 
+
+  public Star(){
+    super();  
+  }
+  
   public Star(float y) {
     /*this.y = y;
      exist = true;*/

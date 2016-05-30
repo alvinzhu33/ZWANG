@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.Scanner; //<>//
 
 Ball main;
 
@@ -12,6 +12,11 @@ String[] starsString;
 int[] stars = new int[1];
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 Blockable[] showing = new Blockable[4];
+Blockable[] obstacles = {null, new CircleObstacle()};
+Blockable[] powerups = {null, new ColorChanger(), new Star()};
+
+Scanner s;
+int numObs;
 
 
 color myColor;
@@ -24,6 +29,49 @@ boolean play = true;
 
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
+
+//try {
+// File inFile = new File("level01");
+// s = new Scanner(inFile);
+//}
+//catch(FileNotFoundException e) {
+// System.out.println("Level not created yet");
+//}{
+//  numObs = sc.next();
+//  numSets = sc.next();
+  
+//  Blockable[] obs = new Blockable[numObs];
+  
+//  int obsCount = 0;
+//  for (int set = 0; set < numSets; set++){
+    
+//    int xcor = sc.next();
+//    int ycor = sc.next();
+    
+//    int first = sc.next();
+//    if (first != 0){
+//      Blockable b1 = obstacles[first];
+//      first.y = ycor;
+//      obs[obsCount] = b1;
+//      obsCount++;
+//    }
+    
+//    int second = sc.next();
+//    if (second != 0){
+//      Blockable b2 = powerups[second];
+//      second.y = ycor;
+//      obs[obsCount] = b2;
+//      obsCount++;
+//    }
+      
+    
+//  }
+  
+  
+// }
+
+
+
 
 
 
@@ -39,7 +87,7 @@ public void setup() {
   size(400, 600);
   main = new Ball();
   //hint(ENABLE_OPENGL_4X_SMOOTH);
-  
+
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
 
@@ -95,7 +143,7 @@ public void generateNewStuff() {
         showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
         generateMore(rad);
       }
-      if(n == 3){
+      if (n == 3) {
         showing[i] = new TriangleObstacle(rad, 200, -rad, randomSpeed(), randomOri());
       }
     }
@@ -116,11 +164,7 @@ public void draw() {
 
 
     for (int i=0; i<4; i++) {
-      //showing[i].move();
-      //if (main.getY()<300) {
-      //  showing[i].move();
-      //}
-      //showing[i].display();
+      
       showing[i].spin();
     }
 
@@ -140,14 +184,10 @@ public void draw() {
     end();
   } else {
     highest += score;
-    String high = "" + highest + ""; //<>//
-    System.out.println(highest);
-    //output = createWriter("highscore.txt");
-    //output.println(highest);
-    //output.close();
-    System.out.println("PREV HIGHEST SCORE:" + starsString[0]);
+    String high = "" + highest + "";
+  
     starsString[0] = high;
-    System.out.println("HIGHEST SCORE:" + starsString[0]);
+   
     saveStrings("highscore.txt", starsString);
     endScreen();
   }
@@ -249,7 +289,6 @@ public void end() {
       System.out.println("Bot prob");
     }
   }
-
 }
 
 public void printColor(color c) {
