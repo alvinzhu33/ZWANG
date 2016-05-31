@@ -22,8 +22,9 @@ color top;
 color left;
 color right;
 
-String mode = "start";
-String modeSave;
+String status = "start";
+String mode = "random";
+String statusSave;
 
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
@@ -78,6 +79,7 @@ public void setup() {
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
 
+  
   showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
   showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
   showing[2] = new SquareObstacle(randomRadii(), 200, -350, randomSpeed(), false);
@@ -138,11 +140,11 @@ public void generateNewStuff() {
 }
 
 public void draw() {
-  if (mode == "start") {
+  if (status == "start") {
     background(0);
     startScreen();
   }
-  if (mode =="random") {
+  if (status =="play") {
     background(0);
     pauseButton();
 
@@ -178,10 +180,10 @@ public void draw() {
 
     end();
   }
-  if (mode == "pause") {
+  if (status == "pause") {
     pauseScreen();
   }
-  if (mode == "end") {
+  if (status == "end") {
     endScreen();
     highest += score;
     String high = "" + highest + "";
@@ -222,43 +224,45 @@ public void storeColor() {
 }
 
 public void mousePressed() {
-  if (mode=="random") {
+  if (status=="play") {
     if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
-      modeSave = mode;
-      mode = "pause";
+      statusSave = status;
+      status = "pause";
     } else {
       main.toggleFalling(false);
     }
-  } else if (mode == "pause") {
+  } else if (status == "pause") {
     if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
-      mode = modeSave;
+      status = statusSave;
+    } else{
+      status=statusSave;
     }
-  } else if (mode == "start") {
-    mode = "random";
-    modeSave = "random";
-  } else if (mode == "end") {
+  } else if (status == "start") {
+    status = "play";
+    statusSave = "play";
+  } else if (status == "end") {
     setup();
-    mode = modeSave;
+    status = statusSave;
   }
 }
 
 public void keyPressed() {
   if (key == ' ') {
-    if (mode == "start") {
-      mode = "random";
-      modeSave = "random";
-    } else if (mode == "random") {
+    if (status == "start") {
+      status = "play";
+      statusSave = "play";
+    } else if (status == "play") {
       main.toggleFalling(false);
-    } else if (mode == "pause") {
-      mode = modeSave;
-    } else if(mode == "end"){
+    } else if (status == "pause") {
+      status = statusSave;
+    } else if(status == "end"){
       setup();
-      mode = modeSave;
+      status = statusSave;
     }
   }
-  if (key == 'x' && mode == "random") {
-    modeSave = mode;
-    mode = "pause";
+  if (key == 'x' && status == "play") {
+    statusSave = status;
+    status = "pause";
   }
 }
 
@@ -295,20 +299,20 @@ public boolean doesCollide(int which) {
 
 public void end() {
   if (main.getBottom()>600) {
-    mode="end";
+    status="end";
   }
   if (top!=myColor && top!=color(0)) {
     System.out.println("COLLIDED W");
     printColor(top);
     if (doesCollide(0)) {
 
-      mode="end";
+      status="end";
       System.out.println("Top prob");
     }
   }
   if (bottom!=myColor && bottom!=color(0)) {
     if (doesCollide(1)) {
-      mode="end";
+      status="end";
       System.out.println("Bot prob");
     }
   }
