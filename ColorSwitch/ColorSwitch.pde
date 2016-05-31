@@ -1,4 +1,5 @@
 import java.util.Scanner; //<>//
+import java.io.*;
 
 Ball main;
 
@@ -16,6 +17,7 @@ Blockable[] obstacles = {null, new CircleObstacle()};
 Blockable[] powerups = {null, new ColorChanger(), new Star()};
 Scanner s;
 int numObs;
+int numSets;
 
 color myColor;
 color bottom;
@@ -30,42 +32,44 @@ String statusSave;
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
 
-//try {
-// File inFile = new File("level01");
-// s = new Scanner(inFile);
-//}
-//catch(FileNotFoundException e) {
-// System.out.println("Level not created yet");
-//}{
-//  numObs = sc.next();
-//  numSets = sc.next();
+public void levelBuilder() {
+  try {
+    File inFile = new File("level01");
+    s = new Scanner(inFile);
 
-//  Blockable[] obs = new Blockable[numObs];
+    numObs = s.nextInt();
+    numSets = s.nextInt();
 
-//  int obsCount = 0;
-//  for (int set = 0; set < numSets; set++){
+    Blockable[] obs = new Blockable[numObs];
 
-//    int xcor = sc.next();
-//    int ycor = sc.next();
+    int obsCount = 0;
+    for (int set = 0; set < numSets; set++) {
 
-//    int first = sc.next();
-//    if (first != 0){
-//      Blockable b1 = obstacles[first];
-//      first.y = ycor;
-//      obs[obsCount] = b1;
-//      obsCount++;
-//    }
+      int xcor = s.nextInt();
+      int ycor = s.nextInt();
 
-//    int second = sc.next();
-//    if (second != 0){
-//      Blockable b2 = powerups[second];
-//      second.y = ycor;
-//      obs[obsCount] = b2;
+      int first = s.nextInt();
+      if (first != 0) {
+        Blockable b1 = obstacles[first];
+        b1.y = ycor;
+        obs[obsCount] = b1;
+        obsCount++;
+      }
 
-//      obsCount++;
-//    }
-//  }
-// }
+      int second = s.nextInt();
+      if (second != 0) {
+        Blockable b2 = powerups[second];
+        b2.y = ycor;
+        obs[obsCount] = b2;
+
+        obsCount++;
+      }
+    }
+  }
+  catch(FileNotFoundException e) {
+    System.out.println("Level not created yet");
+  }
+}
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
 
@@ -75,13 +79,6 @@ public void setup() {
 
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
-
-  //if (mode=="random") {
-    showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
-    showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
-    showing[2] = new SquareObstacle(randomRadii(), 200, -350, randomSpeed(), false);
-    showing[3] = new Star(200);
- // }
 }
 
 public void generateMore(float ycor) {
@@ -139,30 +136,38 @@ public void generateNewStuff() {
   }
 }
 
+public void start() {
+  if (mode=="random") {
+    showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
+    showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
+    showing[2] = new SquareObstacle(randomRadii(), 200, -350, randomSpeed(), false);
+    showing[3] = new Star(200);
+  }
+}
+
 public void draw() {
   if (status == "start") {
     background(0);
     startScreen();
   }
   if (status =="play") {
-    
+
     background(0);
     pauseButton();
 
     main.move();
- 
-    if (mode=="random"){
+
+    if (mode=="random") {
       for (int i=0; i<4; i++) {
         change(showing[i]);
       }
-  
+
       for (int i=0; i<4; i++) {
         showing[i].spin();
       }
-         
     }
-    if (mode=="challenge"){
-      for (Blockable b : obs){
+    if (mode=="challenge") {
+      for (Blockable b : obs) {
         change(b);
         b.spin();
       }
@@ -226,23 +231,24 @@ public void storeColor() {
 public void mousePressed() {
   if (status=="play") {
     if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
-      statusSave = status;
       status = "pause";
     } else {
       main.toggleFalling(false);
     }
   } else if (status == "pause") {
     if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
-      status = statusSave;
+      status = "play";
     } else {
-      status=statusSave;
+      status = "play";
     }
   } else if (status == "start") {
     status = "play";
-    statusSave = "play";
+    mode = "random";
+    start();
   } else if (status == "end") {
     setup();
-    status = statusSave;
+    status = "play";
+    start();
   }
 }
 
@@ -250,137 +256,142 @@ public void keyPressed() {
   if (key == ' ') {
     if (status == "start") {
       status = "play";
-      statusSave = "play";
+      mode = "random";
+      start();
     } else if (status == "play") {
       main.toggleFalling(false);
     } else if (status == "pause") {
-      status = statusSave;
+      status = "play";
     } else if (status == "end") {
       setup();
-      status = statusSave;
+      status = "play";
+      start();
     }
   }
-  if (key == 'x' && status == "play") {
-    statusSave = status;
-    status = "pause";
+  if (key == 'x') {
+    if (status == "play") {
+      status = "pause";
+    } else if(status == "pause"){
+      status = "play";
+    }
   }
 }
 
-public boolean doesCollide(int which) {
-  color[] colors = new color[4];
-  if (which==0) {
-    for (int i=0; i<4; i++) {
-      colors[i] = (get(200, int(main.getY()-main.getDiameter()/2) - i));
+  public boolean doesCollide(int which) {
+    color[] colors = new color[4];
+    if (which==0) {
+      for (int i=0; i<4; i++) {
+        colors[i] = (get(200, int(main.getY()-main.getDiameter()/2) - i));
+      }
+    } else if (which==1) {
+      for (int i=0; i<4; i++) {
+        colors[i] = (get(200, int(main.getY()+main.getDiameter()/2) + i));
+      }
+    } else if (which==2) {
+      for (int i=0; i<4; i++) {
+        colors[i] = (get(int(200 - main.getDiameter()/2) - i, int(main.getY())));
+      }
+    } else if (which==3) {
+      for (int i=0; i<4; i++) {
+        colors[i] = (get(int(200 + main.getDiameter()/2) + i, int(main.getY())));
+      }
     }
-  } else if (which==1) {
-    for (int i=0; i<4; i++) {
-      colors[i] = (get(200, int(main.getY()+main.getDiameter()/2) + i));
+
+    if ( colors[0]!=myColor && colors[0]!=color(0) && colors[0]!=color(255) &&
+      colors[1]!=myColor && colors[1]!=color(0) && colors[1]!=color(255) &&
+      colors[2]!=myColor && colors[2]!=color(0) && colors[2]!=color(255) &&
+      colors[3]!=myColor && colors[3]!=color(0) && colors[0]!=color(255)) {
+      System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
+      return true;
     }
-  } else if (which==2) {
-    for (int i=0; i<4; i++) {
-      colors[i] = (get(int(200 - main.getDiameter()/2) - i, int(main.getY())));
-    }
-  } else if (which==3) {
-    for (int i=0; i<4; i++) {
-      colors[i] = (get(int(200 + main.getDiameter()/2) + i, int(main.getY())));
-    }
+    return false;
   }
 
-  if ( colors[0]!=myColor && colors[0]!=color(0) && colors[0]!=color(255) &&
-    colors[1]!=myColor && colors[1]!=color(0) && colors[1]!=color(255) &&
-    colors[2]!=myColor && colors[2]!=color(0) && colors[2]!=color(255) &&
-    colors[3]!=myColor && colors[3]!=color(0) && colors[0]!=color(255)) {
-    System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
-    return true;
-  }
-  return false;
-}
 
-
-public void end() {
-  if (main.getBottom()>600) {
-    status="end";
-  }
-  if (top!=myColor && top!=color(0)) {
-    System.out.println("COLLIDED W");
-    printColor(top);
-    if (doesCollide(0)) {
-
+  public void end() {
+    if (main.getBottom()>600) {
       status="end";
-      System.out.println("Top prob");
+    }
+    if (top!=myColor && top!=color(0)) {
+      System.out.println("COLLIDED W");
+      printColor(top);
+      if (doesCollide(0)) {
+
+        status="end";
+        System.out.println("Top prob");
+      }
+    }
+    if (bottom!=myColor && bottom!=color(0)) {
+      if (doesCollide(1)) {
+        status="end";
+        System.out.println("Bot prob");
+      }
     }
   }
-  if (bottom!=myColor && bottom!=color(0)) {
-    if (doesCollide(1)) {
-      status="end";
-      System.out.println("Bot prob");
+
+  public void printColor(color c) {
+    System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
+  }
+
+  public void change(Blockable cc) {
+    if (cc instanceof ColorChanger) {
+      if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+        main.setColor();
+        cc.destroy();
+        specialPres=false;
+      }
+    }
+    if (cc instanceof Star) {
+      if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+        score++;
+        cc.destroy();
+        specialPres=false;
+      }
     }
   }
-}
 
-public void printColor(color c) {
-  System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
-}
+  public void startScreen() {
+    textSize(20);
+    fill(255);
+    textAlign(CENTER);
+    text("ZWANG!!! presents", 200, 200);
+    textSize(50);
+    text("COLOR SWITCH", 200, 270);
 
-public void change(Blockable cc) {
-  if (cc instanceof ColorChanger) {
-    if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
-      main.setColor();
-      cc.destroy();
-      specialPres=false;
-    }
+    fill(86, 199, 162);
+    rect(150, 325, 100, 50, 10);
+    textSize(30);
+    fill(0);
+    text("PLAY", 200, 360);
   }
-  if (cc instanceof Star) {
-    if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
-      score++;
-      cc.destroy();
-      specialPres=false;
-    }
+
+  public void pauseButton() {
+    fill(150);
+    textSize(20);
+    rect(185, 20, 30, 30, 10);
+    fill(0);
+    text("||", 200, 40);
   }
-}
 
-public void startScreen() {
-  textSize(20);
-  fill(255);
-  textAlign(CENTER);
-  text("ZWANG!!! presents", 200, 200);
-  textSize(50);
-  text("COLOR SWITCH", 200, 270);
+  public void pauseScreen() {
+    fill(255, 0, 0);
+    textSize(20);
+    rect(185, 20, 30, 30, 10);
+    fill(0);
+    text("X", 200, 40);
 
-  fill(86, 199, 162);
-  rect(150, 325, 100, 50, 10);
-  textSize(30);
-  fill(0);
-  text("PLAY", 200, 360);
-}
+    textSize(80);
+    fill(255);
+    textAlign(CENTER);
+    text("GAME", 200, 250);
+    text("PAUSED", 200, 350);
+  }
 
-public void pauseButton() {
-  fill(150);
-  textSize(20);
-  rect(185, 20, 30, 30, 10);
-  fill(0);
-  text("||", 200, 40);
-}
-
-public void pauseScreen() {
-  fill(255, 0, 0);
-  textSize(20);
-  rect(185, 20, 30, 30, 10);
-  fill(0);
-  text("X", 200, 40);
-
-  textSize(80);
-  fill(255);
-  textAlign(CENTER);
-  text("GAME", 200, 250);
-  text("PAUSED", 200, 350);
-}
-
-public void endScreen() {
-  score=0;
-  textSize(80);
-  fill(255);
-  textAlign(CENTER);
-  text("GAME", 200, 250);
-  text("OVER", 200, 350);
-}
+  public void endScreen() {
+    score=0;
+    textSize(80);
+    fill(255);
+    textAlign(CENTER);
+    text("GAME", 200, 250);
+    text("OVER", 200, 350);
+  }
