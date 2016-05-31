@@ -11,6 +11,7 @@ int[] stars = new int[1];
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 Blockable[] showing = new Blockable[4];
 
+Blockable[] obs;
 Blockable[] obstacles = {null, new CircleObstacle()};
 Blockable[] powerups = {null, new ColorChanger(), new Star()};
 Scanner s;
@@ -38,15 +39,15 @@ String statusSave;
 //}{
 //  numObs = sc.next();
 //  numSets = sc.next();
-  
+
 //  Blockable[] obs = new Blockable[numObs];
-  
+
 //  int obsCount = 0;
 //  for (int set = 0; set < numSets; set++){
-    
+
 //    int xcor = sc.next();
 //    int ycor = sc.next();
-    
+
 //    int first = sc.next();
 //    if (first != 0){
 //      Blockable b1 = obstacles[first];
@@ -54,7 +55,7 @@ String statusSave;
 //      obs[obsCount] = b1;
 //      obsCount++;
 //    }
-    
+
 //    int second = sc.next();
 //    if (second != 0){
 //      Blockable b2 = powerups[second];
@@ -63,11 +64,7 @@ String statusSave;
 
 //      obsCount++;
 //    }
-      
-    
 //  }
-  
-  
 // }
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
@@ -79,11 +76,12 @@ public void setup() {
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
 
-  
-  showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
-  showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
-  showing[2] = new SquareObstacle(randomRadii(), 200, -350, randomSpeed(), false);
-  showing[3] = new Star(200);
+  //if (mode=="random") {
+    showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
+    showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
+    showing[2] = new SquareObstacle(randomRadii(), 200, -350, randomSpeed(), false);
+    showing[3] = new Star(200);
+ // }
 }
 
 public void generateMore(float ycor) {
@@ -99,21 +97,23 @@ public void generateMore(float ycor) {
   }
 }
 
-
+// generates a random diameter
 public float randomRadii() {
   return (float)(Math.random() * 75 + 125);
 }
 
+// generates a random speed
 public float randomSpeed() {
   return (float)(Math.random() * 4 / 100) + 0.01;
 }
 
+// generates a random orientation
 public boolean randomOri() {
   int n = (int)(Math.random()*2);
   return n == 0;
 }
 
-
+// generates new obstacles
 public void generateNewStuff() {
   int n;
   for (int i=0; i<3; i++) {
@@ -145,26 +145,28 @@ public void draw() {
     startScreen();
   }
   if (status =="play") {
+    
     background(0);
     pauseButton();
 
     main.move();
-    //t1.spin();
-
-    for (int i=0; i<4; i++) {
-      change(showing[i]);
+ 
+    if (mode=="random"){
+      for (int i=0; i<4; i++) {
+        change(showing[i]);
+      }
+  
+      for (int i=0; i<4; i++) {
+        showing[i].spin();
+      }
+         
     }
-
-
-    for (int i=0; i<4; i++) {
-      //showing[i].move();
-      //if (main.getY()<300) {
-      //  showing[i].move();
-      //}
-      //showing[i].display();
-      showing[i].spin();
+    if (mode=="challenge"){
+      for (Blockable b : obs){
+        change(b);
+        b.spin();
+      }
     }
-
 
     storeColor();
     generateNewStuff();
@@ -188,9 +190,7 @@ public void draw() {
     highest += score;
     String high = "" + highest + "";
     System.out.println(highest);
-    //output = createWriter("highscore.txt");
-    //output.println(highest);
-    //output.close();
+
     System.out.println("PREV HIGHEST SCORE:" + starsString[0]);
     starsString[0] = high;
     System.out.println("HIGHEST SCORE:" + starsString[0]);
@@ -234,7 +234,7 @@ public void mousePressed() {
   } else if (status == "pause") {
     if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
       status = statusSave;
-    } else{
+    } else {
       status=statusSave;
     }
   } else if (status == "start") {
@@ -255,7 +255,7 @@ public void keyPressed() {
       main.toggleFalling(false);
     } else if (status == "pause") {
       status = statusSave;
-    } else if(status == "end"){
+    } else if (status == "end") {
       setup();
       status = statusSave;
     }
