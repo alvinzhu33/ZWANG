@@ -28,7 +28,11 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 
 5/25: Added 2 new obstacles (the square shaped obstacle and plus shaped obstacle). Got them to display in our random level generator.
 
+5/29: Started code on making new play modes (the one we were working on all along is now 'random' mode).
+
 5/30: Added a start screen, pause screen, and end screen. Added more controls for the spacebar and click 'x' to pause.
+
+5/31: Fine tuned new spacebar and 'x' controls. Added replaced mode variable with status and created a new mode for the mode of the same (status is now what screen it is (ex: 'start', 'end', 'pause'), mode is what playing status it's add (ex: 'random')).
 
 ##Outline
 ###Essentials:
