@@ -151,9 +151,7 @@ public void draw() {
     startScreen();
   }
   if (status =="play") {
-
     background(0);
-    pauseButton();
 
     main.move();
 
@@ -180,9 +178,12 @@ public void draw() {
     main.display();
     myColor = main.getColor();
 
+    pauseButton();
     fill(255);
-    text(score, 20, 50);
-    text(highest, 380, 50);
+    textSize(50);
+    text(score, 200, 50);
+    textSize(32);
+    text(highest, 380, 43);
     textSize(26);
 
     end();
@@ -366,19 +367,19 @@ public void keyPressed() {
   }
 
   public void pauseButton() {
-    fill(150);
+    fill(150,150,150,200);
     textSize(20);
-    rect(185, 20, 30, 30, 10);
+    rect(25, 17, 30, 30, 10);
     fill(0);
-    text("||", 200, 40);
+    text("||", 40, 40);
   }
 
   public void pauseScreen() {
     fill(255, 0, 0);
     textSize(20);
-    rect(185, 20, 30, 30, 10);
+    rect(25, 17, 30, 30, 10);
     fill(0);
-    text("X", 200, 40);
+    text("X", 40, 40);
 
     textSize(80);
     fill(255);
