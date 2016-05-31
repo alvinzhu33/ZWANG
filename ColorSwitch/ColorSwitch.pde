@@ -183,7 +183,7 @@ public void draw() {
     textSize(50);
     text(score, 200, 50);
     textSize(32);
-    text(highest, 380, 43);
+    text(highest, 380, 45);
     textSize(26);
 
     end();
@@ -386,6 +386,13 @@ public void keyPressed() {
     textAlign(CENTER);
     text("GAME", 200, 250);
     text("PAUSED", 200, 350);
+    
+    textSize(20);
+    text("Score:",150,40);
+    text("Score to Beat:",300,40);
+    
+    textAlign(CENTER);
+    text("HINT: click 'x' to pause and unpause",200,400);
   }
 
   public void endScreen() {
