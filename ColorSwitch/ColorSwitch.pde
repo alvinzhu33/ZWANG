@@ -11,6 +11,10 @@ int[] stars = new int[1];
 ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
 Blockable[] showing = new Blockable[4];
 
+Blockable[] obstacles = {null, new CircleObstacle()};
+Blockable[] powerups = {null, new ColorChanger(), new Star()};
+Scanner s;
+int numObs;
 
 color myColor;
 color bottom;
@@ -55,6 +59,7 @@ String modeSave;
 //      Blockable b2 = powerups[second];
 //      second.y = ycor;
 //      obs[obsCount] = b2;
+
 //      obsCount++;
 //    }
       
@@ -63,16 +68,6 @@ String modeSave;
   
   
 // }
-
-
-
-
-
-
-
-
-
-
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
 
