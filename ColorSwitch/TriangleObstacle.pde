@@ -8,31 +8,33 @@ public class TriangleObstacle extends Blockable {
   color[] choice = new color[]{purple, magenta, cyan, yellow};
   color[] picker = new color[3];
 
-  public TriangleObstacle() {
+  public TriangleObstacle(color need) {
     /*diameter=150;
     x = 200;
     y = 150;
     speed = 0.02;
     clockwise=true;*/
     super();
-    colorPick();
+    colorPick(need);
+    picker[0]=need;
   }
 
-  public TriangleObstacle(float dia, float x, float y, float speed, boolean clockwise) {
+  public TriangleObstacle(color need, float dia, float x, float y, float speed, boolean clockwise) {
     /*diameter = dia;
     this.x = x;
     this.y = y;
     this.speed = speed;
     this.clockwise=clockwise;*/
     super(dia, x, y, speed, clockwise);
-    colorPick();
+    colorPick(need);
+    picker[0]=need;
   }
   
-  private void colorPick(){
-    int counter=0;
+  private void colorPick(color need){
+    int counter=1;
     while(counter<3){
       int n = (int)(Math.random()*4);
-      if(choice[n]!=0){
+      if(choice[n]!=0 && choice[n]!=need){
         picker[counter]=choice[n];
         counter++;
         choice[n]=0;

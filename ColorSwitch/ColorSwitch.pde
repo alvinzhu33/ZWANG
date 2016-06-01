@@ -115,22 +115,28 @@ public void generateNewStuff() {
   int n;
   for (int i=0; i<3; i++) {
     if (showing[i].getY()>600) {
-      n = (int)(Math.random() * 4);
+      //n = (int)(Math.random() * 4);
+      n=2;
       float rad = randomRadii();
       if (n == 0) {
-        showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
+        //showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
+        showing[i] = new CircleObstacle();
         generateMore(rad);
       }
       if (n == 1) {
-        showing[i] = new SquareObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
+        //showing[i] = new SquareObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
+        showing[i] = new SquareObstacle();
         generateMore(rad);
       }
       if (n == 2) {
-        showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
+        //showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
+        showing[i] = new PlusObstacle();
         generateMore(rad);
       }
       if (n == 3) {
-        showing[i] = new TriangleObstacle(rad, 200, -rad, randomSpeed(), randomOri());
+        //showing[i] = new TriangleObstacle(rad, 200, -rad, randomSpeed(), randomOri());
+        showing[i] = new TriangleObstacle(myColor);
+        generateMore(rad);
       }
     }
   }
@@ -186,7 +192,7 @@ public void draw() {
     text(highest, 380, 45);
     textSize(26);
 
-    end();
+    //end();
   }
   if (status == "pause") {
     pauseScreen();
@@ -272,134 +278,134 @@ public void keyPressed() {
   if (key == 'x') {
     if (status == "play") {
       status = "pause";
-    } else if(status == "pause"){
+    } else if (status == "pause") {
       status = "play";
     }
   }
 }
 
-  public boolean doesCollide(int which) {
-    color[] colors = new color[4];
-    if (which==0) {
-      for (int i=0; i<4; i++) {
-        colors[i] = (get(200, int(main.getY()-main.getDiameter()/2) - i));
-      }
-    } else if (which==1) {
-      for (int i=0; i<4; i++) {
-        colors[i] = (get(200, int(main.getY()+main.getDiameter()/2) + i));
-      }
-    } else if (which==2) {
-      for (int i=0; i<4; i++) {
-        colors[i] = (get(int(200 - main.getDiameter()/2) - i, int(main.getY())));
-      }
-    } else if (which==3) {
-      for (int i=0; i<4; i++) {
-        colors[i] = (get(int(200 + main.getDiameter()/2) + i, int(main.getY())));
-      }
+public boolean doesCollide(int which) {
+  color[] colors = new color[4];
+  if (which==0) {
+    for (int i=0; i<4; i++) {
+      colors[i] = (get(200, int(main.getY()-main.getDiameter()/2) - i));
     }
-
-    if ( colors[0]!=myColor && colors[0]!=color(0) && colors[0]!=color(255) &&
-      colors[1]!=myColor && colors[1]!=color(0) && colors[1]!=color(255) &&
-      colors[2]!=myColor && colors[2]!=color(0) && colors[2]!=color(255) &&
-      colors[3]!=myColor && colors[3]!=color(0) && colors[0]!=color(255)) {
-      System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
-      return true;
+  } else if (which==1) {
+    for (int i=0; i<4; i++) {
+      colors[i] = (get(200, int(main.getY()+main.getDiameter()/2) + i));
     }
-    return false;
+  } else if (which==2) {
+    for (int i=0; i<4; i++) {
+      colors[i] = (get(int(200 - main.getDiameter()/2) - i, int(main.getY())));
+    }
+  } else if (which==3) {
+    for (int i=0; i<4; i++) {
+      colors[i] = (get(int(200 + main.getDiameter()/2) + i, int(main.getY())));
+    }
   }
 
+  if ( colors[0]!=myColor && colors[0]!=color(0) && colors[0]!=color(255) &&
+    colors[1]!=myColor && colors[1]!=color(0) && colors[1]!=color(255) &&
+    colors[2]!=myColor && colors[2]!=color(0) && colors[2]!=color(255) &&
+    colors[3]!=myColor && colors[3]!=color(0) && colors[0]!=color(255)) {
+    System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
+    return true;
+  }
+  return false;
+}
 
-  public void end() {
-    if (main.getBottom()>600) {
+
+public void end() {
+  if (main.getBottom()>600) {
+    status="end";
+  }
+  if (top!=myColor && top!=color(0)) {
+    System.out.println("COLLIDED W");
+    printColor(top);
+    if (doesCollide(0)) {
+
       status="end";
-    }
-    if (top!=myColor && top!=color(0)) {
-      System.out.println("COLLIDED W");
-      printColor(top);
-      if (doesCollide(0)) {
-
-        status="end";
-        System.out.println("Top prob");
-      }
-    }
-    if (bottom!=myColor && bottom!=color(0)) {
-      if (doesCollide(1)) {
-        status="end";
-        System.out.println("Bot prob");
-      }
+      System.out.println("Top prob");
     }
   }
-
-  public void printColor(color c) {
-    System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
-  }
-
-  public void change(Blockable cc) {
-    if (cc instanceof ColorChanger) {
-      if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
-        main.setColor();
-        cc.destroy();
-        specialPres=false;
-      }
-    }
-    if (cc instanceof Star) {
-      if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
-        score++;
-        cc.destroy();
-        specialPres=false;
-      }
+  if (bottom!=myColor && bottom!=color(0)) {
+    if (doesCollide(1)) {
+      status="end";
+      System.out.println("Bot prob");
     }
   }
+}
 
-  public void startScreen() {
-    textSize(20);
-    fill(255);
-    textAlign(CENTER);
-    text("ZWANG!!! presents", 200, 200);
-    textSize(50);
-    text("COLOR SWITCH", 200, 270);
+public void printColor(color c) {
+  System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
+}
 
-    fill(86, 199, 162);
-    rect(150, 325, 100, 50, 10);
-    textSize(30);
-    fill(0);
-    text("PLAY", 200, 360);
+public void change(Blockable cc) {
+  if (cc instanceof ColorChanger) {
+    if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+      main.setColor();
+      cc.destroy();
+      specialPres=false;
+    }
   }
-
-  public void pauseButton() {
-    fill(150,150,150,200);
-    textSize(20);
-    rect(25, 17, 30, 30, 10);
-    fill(0);
-    text("||", 40, 40);
+  if (cc instanceof Star) {
+    if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
+      score++;
+      cc.destroy();
+      specialPres=false;
+    }
   }
+}
 
-  public void pauseScreen() {
-    fill(255, 0, 0);
-    textSize(20);
-    rect(25, 17, 30, 30, 10);
-    fill(0);
-    text("X", 40, 40);
+public void startScreen() {
+  textSize(20);
+  fill(255);
+  textAlign(CENTER);
+  text("ZWANG!!! presents", 200, 200);
+  textSize(50);
+  text("COLOR SWITCH", 200, 270);
 
-    textSize(80);
-    fill(255);
-    textAlign(CENTER);
-    text("GAME", 200, 250);
-    text("PAUSED", 200, 350);
-    
-    textSize(20);
-    text("Score:",150,40);
-    text("Score to Beat:",300,40);
-    
-    textAlign(CENTER);
-    text("HINT: click 'x' to pause and unpause",200,400);
-  }
+  fill(86, 199, 162);
+  rect(150, 325, 100, 50, 10);
+  textSize(30);
+  fill(0);
+  text("PLAY", 200, 360);
+}
 
-  public void endScreen() {
-    score=0;
-    textSize(80);
-    fill(255);
-    textAlign(CENTER);
-    text("GAME", 200, 250);
-    text("OVER", 200, 350);
-  }
+public void pauseButton() {
+  fill(150, 150, 150, 200);
+  textSize(20);
+  rect(25, 17, 30, 30, 10);
+  fill(0);
+  text("||", 40, 40);
+}
+
+public void pauseScreen() {
+  fill(255, 0, 0);
+  textSize(20);
+  rect(25, 17, 30, 30, 10);
+  fill(0);
+  text("X", 40, 40);
+
+  textSize(80);
+  fill(255);
+  textAlign(CENTER);
+  text("GAME", 200, 250);
+  text("PAUSED", 200, 350);
+
+  textSize(20);
+  text("Score:", 150, 40);
+  text("Score to Beat:", 300, 40);
+
+  textAlign(CENTER);
+  text("HINT: click 'x' to pause and unpause", 200, 400);
+}
+
+public void endScreen() {
+  score=0;
+  textSize(80);
+  fill(255);
+  textAlign(CENTER);
+  text("GAME", 200, 250);
+  text("OVER", 200, 350);
+}

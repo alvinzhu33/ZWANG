@@ -18,11 +18,12 @@ public class CircleObstacle extends Blockable {
   //}
   
   public CircleObstacle(){
-    this.x= 200;
-    this.y = 150;
+    /*this.x= 200;
+    this.y = -diameter;
     diameter = randomRadii();
     speed = randomSpeed();
-    clockwise = randomOri();
+    clockwise = randomOri();*/
+    super();
   }
 
   public CircleObstacle(float dia, float x, float y, float speed, boolean clockwise) {

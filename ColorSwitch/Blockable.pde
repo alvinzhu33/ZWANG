@@ -16,11 +16,11 @@ private abstract class Blockable {
 
   public Blockable() {
     diameter=150;
-
-    x = 200;
-    y = 150;
-    speed = 0.02;
-    clockwise=true;
+    x= 200;
+    y = -diameter;
+    diameter = randomRadii();
+    speed = randomSpeed();
+    clockwise = randomOri();
   }
   public Blockable(float y) {
     this.y=y;
