@@ -34,6 +34,8 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 
 5/31: Fine tuned new spacebar and 'x' controls. Added replaced mode variable with status and created a new mode for the mode of the same (status is now what screen it is (ex: 'start', 'end', 'pause'), mode is what playing status it's add (ex: 'random')).
 
+6/1: New obstacle (the bar).
+
 ##Outline
 ###Essentials:
 1. Moving ball (ball moves up when clicked, down when left alone)
