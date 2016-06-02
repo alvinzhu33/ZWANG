@@ -103,6 +103,8 @@ public void draw() {
     play();
     playInterface();
     //end();
+    
+    text(yMin, 100,100);
   }
   
   // paused game
@@ -175,10 +177,10 @@ public void generateMore(float ycor) {
   int n = (int)(Math.random()*2 );
   if (!isPUPres) {
     if (n==0) {
-      showing[3] = new Star(0-ycor);
+      showing[3] = new Star(ycor);
       isPUPres = true;
     } else {
-      showing[3] = new ColorChanger(0-ycor);
+      showing[3] = new ColorChanger(ycor);
       isPUPres = true;
     }
   }
@@ -204,39 +206,45 @@ public boolean randomOri() {
 public void generateNewStuff() {
   for (int i=0; i<3; i++) {
     if (showing[i].getY()>600) {
-      float n = (int)(Math.random() * 4);
+      float n = (int)(Math.random() * 5);
       //n=4;
       float rad = randomRadii();
+      if(yMin > 0 ){
+        yMin = -rad;
+      }
       if (n == 0) {
         //showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
-        yMin = yMin - rad;
+        //yMin = yMin - rad;
         showing[i] = new CircleObstacle(yMin);
-        generateMore(rad);
-        yMin -= 50;
+        generateMore(yMin);
+        yMin += -25 - rad;
       }
       if (n == 1) {
         //showing[i] = new SquareObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
-        yMin = yMin - rad;
+        //yMin = yMin - rad;
         showing[i] = new SquareObstacle(yMin);
-        generateMore(rad);
-        yMin -= 50;
+        generateMore(yMin);
+        yMin += -25 - rad;
       }
       if (n == 2) {
         //showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
+        //yMin-=rad;
         showing[i] = new PlusObstacle(yMin);
-        generateMore(rad);
-        yMin = yMin - rad - 50;
+        generateMore(yMin);
+        yMin += -25 - rad;
       }
       if (n == 3) {
         //showing[i] = new TriangleObstacle(rad, 200, -rad, randomSpeed(), randomOri());
+        //yMin -= rad;
         showing[i] = new TriangleObstacle(myColor, yMin);
-        generateMore(rad);
-        yMin = yMin - rad - 50;
+        generateMore(yMin);
+        yMin += -25 -rad;
       }
       if (n == 4) {
+        //yMin -= rad;
         showing[i] = new BarObstacle(yMin);
-        generateMore(i);
-        yMin = yMin - 16 - 50;
+        generateMore(yMin-20);
+        yMin += -25 - rad;
       }
     }
   }

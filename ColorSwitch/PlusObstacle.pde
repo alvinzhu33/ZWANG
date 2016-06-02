@@ -29,7 +29,7 @@ public class PlusObstacle extends Blockable {
   
   public PlusObstacle(float y) {
     diameter = (int)(Math.random()*100)+150;
-    this.y = -diameter-y;
+    this.y = -diameter+y;
     speed = randomSpeed();
     clockwise= randomOri();
 

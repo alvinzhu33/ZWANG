@@ -24,7 +24,8 @@ private abstract class Blockable {
   }
   public Blockable(float y) {
     this();
-    this.y-=y;
+    this.y+=y;
+    System.out.println(y);
   }
   public Blockable(float dia, float x, float y, float speed, boolean clockwise) {
     diameter=dia;

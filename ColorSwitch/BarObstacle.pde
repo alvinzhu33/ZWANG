@@ -8,7 +8,7 @@ public class BarObstacle extends Blockable {
   
   public BarObstacle(float y) {
     diameter = 16;
-    this.y = y;
+    this.y = y-diameter;
     speed = randomSpeed();
     clockwise= randomOri();
   }

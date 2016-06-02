@@ -1,47 +1,14 @@
 public class CircleObstacle extends Blockable {
-  /*private float diameter;
-  private float x, y;
-  private float angle = 0;
-  private float speed;
-  private boolean clockwise;
-  private boolean exist=true;*/
-  
-
-  //public CircleObstacle() {
-  //  /*diameter=150;
-
-  //  x = 200;
-  //  y = 150;
-  //  speed = 0.02;
-  //  clockwise=true;*/
-  //  super();
-  //}
   
   public CircleObstacle(){
-    /*this.x= 200;
-    this.y = -diameter;
-    diameter = randomRadii();
-    speed = randomSpeed();
-    clockwise = randomOri();*/
     super();
   }
   
   public CircleObstacle(float y){
-    /*this.x= 200;
-    this.y = -diameter;
-    diameter = randomRadii();
-    speed = randomSpeed();
-    clockwise = randomOri();*/
     super(y);
   }
 
   public CircleObstacle(float dia, float x, float y, float speed, boolean clockwise) {
-    /*diameter=dia;
-
-    this.x = x;
-    this.y = y;
-    this.speed = speed;
-    this.clockwise = clockwise;*/
     super(dia, x, y, speed, clockwise);
   }
   
