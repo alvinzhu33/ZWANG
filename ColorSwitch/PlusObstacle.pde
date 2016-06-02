@@ -26,6 +26,19 @@ public class PlusObstacle extends Blockable {
       x = 200 - (int)(Math.random() * (diameter/2-40)) - 40;
     }
   }
+  
+  public PlusObstacle(float y) {
+    diameter = (int)(Math.random()*100)+150;
+    this.y = -diameter-y;
+    speed = randomSpeed();
+    clockwise= randomOri();
+
+    if (clockwise==true) {
+      x = 200 + (int)(Math.random() * (diameter/2-40)) + 40;
+    } else {
+      x = 200 - (int)(Math.random() * (diameter/2-40)) - 40;
+    }
+  }
 
   public PlusObstacle(float dia, float x, float y, float speed, boolean clockwise) {
     super(dia, x, y, speed, clockwise);

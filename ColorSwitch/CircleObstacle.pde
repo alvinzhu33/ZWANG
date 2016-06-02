@@ -25,6 +25,15 @@ public class CircleObstacle extends Blockable {
     clockwise = randomOri();*/
     super();
   }
+  
+  public CircleObstacle(float y){
+    /*this.x= 200;
+    this.y = -diameter;
+    diameter = randomRadii();
+    speed = randomSpeed();
+    clockwise = randomOri();*/
+    super(y);
+  }
 
   public CircleObstacle(float dia, float x, float y, float speed, boolean clockwise) {
     /*diameter=dia;

@@ -18,6 +18,17 @@ public class TriangleObstacle extends Blockable {
     colorPick(need);
     picker[0]=need;
   }
+  
+  public TriangleObstacle(color need, float y) {
+    /*diameter=150;
+    x = 200;
+    y = 150;
+    speed = 0.02;
+    clockwise=true;*/
+    super(y);
+    colorPick(need);
+    picker[0]=need;
+  }
 
   public TriangleObstacle(color need, float dia, float x, float y, float speed, boolean clockwise) {
     /*diameter = dia;

@@ -1,33 +1,42 @@
 import java.util.Scanner; //<>//
 import java.io.*;
 
+// ----game vars---------
 Ball main;
+color myColor;
+color bottom;
+color top;
+String status = "start";
+String mode = "random";
+String statusSave;
+float yMin;
+// ----------------------
 
-boolean specialPres = false;
+
+// ---- score vars-------
 int score;
 int highest;
-PrintWriter output;
 String[] starsString;
-int[] stars = new int[1];
-ArrayList<Blockable> thingsThatBlock = new ArrayList<Blockable>();
-Blockable[] showing = new Blockable[4];
+// ----------------------
 
+
+// random mode vars------
+boolean isPUPres = false;
+Blockable[] showing = new Blockable[4];
+// ----------------------
+
+
+// challenge mode vars---
 Blockable[] obs;
 Blockable[] obstacles = {null, new CircleObstacle()};
 Blockable[] powerups = {null, new ColorChanger(), new Star()};
 Scanner s;
 int numObs;
 int numSets;
+// ----------------------
 
-color myColor;
-color bottom;
-color top;
-color left;
-color right;
 
-String status = "start";
-String mode = "random";
-String statusSave;
+
 
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
@@ -73,23 +82,104 @@ public void levelBuilder() {
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
 
+
+// sets up the world and initialized score
 public void setup() {
   size(400, 600);
   main = new Ball();
-
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
 }
 
+public void draw() {
+  // beginning of game
+  if (status == "start") {
+    background(0);
+    startScreen();
+  }
+
+  // playing game
+  if (status =="play") {
+    play();
+    playInterface();
+    //end();
+  }
+  
+  // paused game
+  if (status == "pause") {
+    pauseScreen();
+  }
+  if (status == "end") {
+    endScreen();
+    highest += score;
+    String high = "" + highest + "";
+    System.out.println(highest);
+
+    System.out.println("PREV HIGHEST SCORE:" + starsString[0]);
+    starsString[0] = high;
+    System.out.println("HIGHEST SCORE:" + starsString[0]);
+    saveStrings("highscore.txt", starsString);
+  }
+}
+
+public void playInterface() {
+  // DISPLAY PAUSE BUTTON
+  pauseButton();
+
+  // DISPLAY SCORE
+  fill(255);
+  textSize(50);
+  text(score, 200, 50);
+  textSize(32);
+  text(highest, 380, 45);
+  textSize(26);
+}
+
+public void play() {
+  background(0);
+  main.move();
+  if (mode == "random") {
+    playRandom();
+  } else {
+    playChallenge();
+  }
+  storeColor();
+  obstacleShift();
+  main.display();
+  myColor = main.getColor();
+}
+
+public void playRandom() {
+  // random mode instructions
+
+  for (int i=0; i<4; i++) {
+    change(showing[i]);
+    showing[i].spin();
+  }
+
+  generateNewStuff();
+}
+
+
+
+public void playChallenge() {
+  // challenge mode instructions
+
+  for (Blockable b : obs) {
+    change(b);
+    b.spin();
+  }
+}
+
 public void generateMore(float ycor) {
   int n = (int)(Math.random()*2 );
-  if (!specialPres) {
+  if (!isPUPres) {
     if (n==0) {
       showing[3] = new Star(0-ycor);
-      specialPres = true;
+      isPUPres = true;
     } else {
       showing[3] = new ColorChanger(0-ycor);
-      specialPres = true;
+      isPUPres = true;
     }
   }
 }
@@ -112,31 +202,41 @@ public boolean randomOri() {
 
 // generates new obstacles
 public void generateNewStuff() {
-  int n;
   for (int i=0; i<3; i++) {
     if (showing[i].getY()>600) {
-      //n = (int)(Math.random() * 4);
-      n=2;
+      float n = (int)(Math.random() * 4);
+      //n=4;
       float rad = randomRadii();
       if (n == 0) {
         //showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
-        showing[i] = new CircleObstacle();
+        yMin = yMin - rad;
+        showing[i] = new CircleObstacle(yMin);
         generateMore(rad);
+        yMin -= 50;
       }
       if (n == 1) {
         //showing[i] = new SquareObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
-        showing[i] = new SquareObstacle();
+        yMin = yMin - rad;
+        showing[i] = new SquareObstacle(yMin);
         generateMore(rad);
+        yMin -= 50;
       }
       if (n == 2) {
         //showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
-        showing[i] = new PlusObstacle();
+        showing[i] = new PlusObstacle(yMin);
         generateMore(rad);
+        yMin = yMin - rad - 50;
       }
       if (n == 3) {
         //showing[i] = new TriangleObstacle(rad, 200, -rad, randomSpeed(), randomOri());
-        showing[i] = new TriangleObstacle(myColor);
+        showing[i] = new TriangleObstacle(myColor, yMin);
         generateMore(rad);
+        yMin = yMin - rad - 50;
+      }
+      if (n == 4) {
+        showing[i] = new BarObstacle(yMin);
+        generateMore(i);
+        yMin = yMin - 16 - 50;
       }
     }
   }
@@ -146,93 +246,34 @@ public void start() {
   if (mode=="random") {
     showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
     showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
-    showing[2] = new SquareObstacle(randomRadii(), 200, -350, randomSpeed(), false);
+    float savedMin = randomRadii();
+    showing[2] = new SquareObstacle(savedMin, 200, -350, randomSpeed(), false);
     showing[3] = new Star(200);
+    yMin = -200 - savedMin - 50;
   }
 }
 
-public void draw() {
-  if (status == "start") {
-    background(0);
-    startScreen();
-  }
-  if (status =="play") {
-    background(0);
 
-    main.move();
-
-    if (mode=="random") {
-      for (int i=0; i<4; i++) {
-        change(showing[i]);
-      }
-
-      for (int i=0; i<4; i++) {
-        showing[i].spin();
-      }
-    }
-    if (mode=="challenge") {
-      for (Blockable b : obs) {
-        change(b);
-        b.spin();
-      }
-    }
-
-    storeColor();
-    generateNewStuff();
-
-    obstacleShift();
-    main.display();
-    myColor = main.getColor();
-
-    pauseButton();
-    fill(255);
-    textSize(50);
-    text(score, 200, 50);
-    textSize(32);
-    text(highest, 380, 45);
-    textSize(26);
-
-    //end();
-  }
-  if (status == "pause") {
-    pauseScreen();
-  }
-  if (status == "end") {
-    endScreen();
-    highest += score;
-    String high = "" + highest + "";
-    System.out.println(highest);
-
-    System.out.println("PREV HIGHEST SCORE:" + starsString[0]);
-    starsString[0] = high;
-    System.out.println("HIGHEST SCORE:" + starsString[0]);
-    saveStrings("highscore.txt", starsString);
-  }
-}
 
 public void obstacleShift() {
   if (main.getY()<300) {
     for ( Blockable b : showing ) {
       b.move((300-main.y)/100);
     }
+    yMin+=((300-main.y)/100);
   }
 }
 
 public void storeColor() {
   top = get(200, int(main.getY()-main.getDiameter()/2));
   bottom = get(200, int(main.getY()+main.getDiameter()/2));
-  left = get(int(200-main.getDiameter()/2), int(main.getY()));
-  right = get(int(200+main.getDiameter()/2), int(main.getY()));
+
 
   noStroke();
   fill(top);
   ellipse(40, 20, 10, 10);
   fill(bottom);
   ellipse(40, 60, 10, 10);
-  fill(left);
-  ellipse(20, 40, 10, 10);
-  fill(right);
-  ellipse(60, 40, 10, 10);
 }
 
 public void mousePressed() {
@@ -345,14 +386,14 @@ public void change(Blockable cc) {
     if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
       main.setColor();
       cc.destroy();
-      specialPres=false;
+      isPUPres=false;
     }
   }
   if (cc instanceof Star) {
     if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
       score++;
       cc.destroy();
-      specialPres=false;
+      isPUPres=false;
     }
   }
 }

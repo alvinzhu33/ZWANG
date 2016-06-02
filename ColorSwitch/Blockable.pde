@@ -23,7 +23,8 @@ private abstract class Blockable {
     clockwise = randomOri();
   }
   public Blockable(float y) {
-    this.y=y;
+    this();
+    this.y-=y;
   }
   public Blockable(float dia, float x, float y, float speed, boolean clockwise) {
     diameter=dia;
