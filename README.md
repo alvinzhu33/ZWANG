@@ -36,6 +36,8 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 
 6/1: New obstacle (the bar).
 
+6/2: Cleaned up code. Made a better randomize system so things go more smoothly.
+
 ##Outline
 ###Essentials:
 1. Moving ball (ball moves up when clicked, down when left alone)
