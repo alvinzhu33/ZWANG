@@ -103,10 +103,10 @@ public void draw() {
     play();
     playInterface();
     //end();
-    
-    text(yMin, 100,100);
+
+    text(yMin, 100, 100);
   }
-  
+
   // paused game
   if (status == "pause") {
     pauseScreen();
@@ -188,7 +188,7 @@ public void generateMore(float ycor) {
 
 // generates a random diameter
 public float randomRadii() {
-  return (float)(Math.random() * 75 + 125);
+  return (float)(Math.random() * 75) + 125;
 }
 
 // generates a random speed
@@ -207,44 +207,36 @@ public void generateNewStuff() {
   for (int i=0; i<3; i++) {
     if (showing[i].getY()>600) {
       float n = (int)(Math.random() * 5);
-      //n=4;
       float rad = randomRadii();
-      if(yMin > 0 ){
+      if (n == 4 && yMin > 0) {
+        yMin = -8;
+      }
+      if (yMin > 0 ) {
         yMin = -rad;
       }
       if (n == 0) {
-        //showing[i] = new CircleObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
-        //yMin = yMin - rad;
         showing[i] = new CircleObstacle(yMin);
         generateMore(yMin);
-        yMin += -25 - rad;
+        yMin += -25 - rad*1.5;
       }
       if (n == 1) {
-        //showing[i] = new SquareObstacle(rad, 200, 0-rad, randomSpeed(), randomOri());
-        //yMin = yMin - rad;
         showing[i] = new SquareObstacle(yMin);
         generateMore(yMin);
-        yMin += -25 - rad;
+        yMin += -25 - rad*1.5;
       }
       if (n == 2) {
-        //showing[i] = new PlusObstacle(rad, 100, 0-rad, randomSpeed(), randomOri());
-        //yMin-=rad;
         showing[i] = new PlusObstacle(yMin);
         generateMore(yMin);
-        yMin += -25 - rad;
+        yMin += -25 - rad*1.5;
       }
       if (n == 3) {
-        //showing[i] = new TriangleObstacle(rad, 200, -rad, randomSpeed(), randomOri());
-        //yMin -= rad;
         showing[i] = new TriangleObstacle(myColor, yMin);
         generateMore(yMin);
-        yMin += -25 -rad;
+        yMin += -25 -rad*1.5;
       }
       if (n == 4) {
-        //yMin -= rad;
         showing[i] = new BarObstacle(yMin);
         generateMore(yMin-20);
-        yMin += -25 - rad;
       }
     }
   }
@@ -257,7 +249,7 @@ public void start() {
     float savedMin = randomRadii();
     showing[2] = new SquareObstacle(savedMin, 200, -350, randomSpeed(), false);
     showing[3] = new Star(200);
-    yMin = -200 - savedMin - 50;
+    yMin = -350 - savedMin - 10;
   }
 }
 
@@ -268,7 +260,7 @@ public void obstacleShift() {
     for ( Blockable b : showing ) {
       b.move((300-main.y)/100);
     }
-    yMin+=((300-main.y)/100);
+    yMin+=((300-main.y)/100)+.75;
   }
 }
 
@@ -286,13 +278,13 @@ public void storeColor() {
 
 public void mousePressed() {
   if (status=="play") {
-    if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
+    if (mouseX>=25 && mouseX<=55 && mouseY>=17 && mouseY<=47) {
       status = "pause";
     } else {
       main.toggleFalling(false);
     }
   } else if (status == "pause") {
-    if (mouseX>=185 && mouseX<=215 && mouseY>=20 && mouseY<=50) {
+    if (mouseX>=25 && mouseX<=55 && mouseY>=17 && mouseY<=47) {
       status = "play";
     } else {
       status = "play";
