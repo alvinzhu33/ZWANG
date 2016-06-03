@@ -1,5 +1,6 @@
 public class ColorChanger extends Blockable{
  
+  int type = 2;
   
   public ColorChanger(){
     super();

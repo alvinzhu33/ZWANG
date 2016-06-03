@@ -1,5 +1,7 @@
 public class CircleObstacle extends Blockable {
   
+  int type = 1;
+  
   public CircleObstacle(){
     super();
   }

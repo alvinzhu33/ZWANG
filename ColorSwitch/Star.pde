@@ -2,6 +2,7 @@ public class Star extends Blockable {
   /*float y;
    boolean exist;*/
 
+  int type = 3;
 
   public Star(){
     super();  

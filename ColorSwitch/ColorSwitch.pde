@@ -85,6 +85,7 @@ public void levelBuilder() {
   int xcor;
   int ycor;
   int obsCount = 0;
+  Blockable b1, b2;
   for (int set = 1; set <= numSets; set++) {
 
     xcor = instructions[set][0];
@@ -93,7 +94,7 @@ public void levelBuilder() {
 
     int first = instructions[set][2];
     if (first != 0) {
-      Blockable b1 = obstacles[first];
+      b1 = deepClone(obstacles[first]);
       b1.y = ycor;
       println("b1 y:" + b1.y);
       obs[obsCount] = b1;
@@ -102,7 +103,7 @@ public void levelBuilder() {
 
     int second = instructions[set][3];
     if (second != 0) {
-      Blockable b2 = powerups[second];
+      b2 = deepClone(powerups[second]);
       b2.y = ycor;
       println("b2 y:" + b2.y);
       obs[obsCount] = b2;
@@ -111,15 +112,39 @@ public void levelBuilder() {
   }
 
   int count = 0;
-    for (Blockable b : obs) {
-      println(count + " " + b.toString());
-      count++;
-    }
+  for (Blockable b : obs) {
+    println(count + " " + b.toString());
+    count++;
+  }
+  println(count);
 
   //catch(FileNotFoundException e) {
   //  System.out.println("Level not created yet");
   //}
 }
+
+
+public Blockable deepClone(Blockable template) {
+  Blockable b;
+  if (template instanceof CircleObstacle){ //<>//
+    b = new CircleObstacle();
+  }
+  else if (template instanceof ColorChanger){
+    b = new ColorChanger();
+  }
+  else{
+    b = new Star();
+  }
+  b.diameter = template.diameter;
+  b.x = template.x;
+  b.y = template.y;
+  b.angle = template.angle;
+  b.speed = template.speed;
+  b.clockwise = template.clockwise;
+  b.exist = template.exist;
+  return b;
+}
+
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
 
@@ -130,7 +155,6 @@ public void setup() {
   main = new Ball();
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
-  
 }
 
 public void draw() {
@@ -138,7 +162,6 @@ public void draw() {
   if (status == "start") {
     background(0);
     startScreen();
-    
   }
 
   // playing game
@@ -186,7 +209,7 @@ public void play() {
   if (mode == "random") {
     playRandom();
   } else {
-    
+
     playChallenge();
   }
   storeColor();
@@ -307,7 +330,7 @@ public void obstacleShift() {
         b.move((300-main.y)/100);
       }
     }
-    if (mode=="challenge"){
+    if (mode=="challenge") {
       for ( Blockable b : obs) {
         b.move((300-main.y)/100);
       }

@@ -10,6 +10,7 @@ private abstract class Blockable {
   float speed;
   boolean clockwise;
   boolean exist=true;
+  int type;
 
   public abstract void display();
   public abstract void spin();
@@ -74,4 +75,6 @@ private abstract class Blockable {
   public String toString() {
   return "Blockable with ycor=" + y;
 }
+
+  
 }
