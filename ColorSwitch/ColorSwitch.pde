@@ -41,43 +41,84 @@ int numSets;
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
 
+private int[][] readConfig(String[] lines )
+{
+  int lineCount = lines.length;
+
+  int[][] configs = new int[lineCount][] ;
+
+  for ( int i = 0; i < lineCount; i++ )
+  {
+    String[] tokens = lines[i].split( " " );
+    int tokenCount = tokens.length;
+    int[] data = new int[tokenCount];
+    for ( int j = 0; j < tokenCount; j++)
+    {
+      data[j] = Integer.parseInt(tokens[j]);
+    }
+    configs[i] = data;
+    System.out.println (java.util.Arrays.toString(data));
+  }  
+  return configs;
+}  
+
 public void levelBuilder() {
-  try {
-    File inFile = new File("level01");
-    s = new Scanner(inFile);
+  //  try {
 
-    numObs = s.nextInt();
-    numSets = s.nextInt();
+  String lines[] = loadStrings("level01.txt");
 
-    Blockable[] obs = new Blockable[numObs];
+  println("there are " + lines.length + " lines");
 
-    int obsCount = 0;
-    for (int set = 0; set < numSets; set++) {
 
-      int xcor = s.nextInt();
-      int ycor = s.nextInt();
-
-      int first = s.nextInt();
-      if (first != 0) {
-        Blockable b1 = obstacles[first];
-        b1.y = ycor;
-        obs[obsCount] = b1;
-        obsCount++;
-      }
-
-      int second = s.nextInt();
-      if (second != 0) {
-        Blockable b2 = powerups[second];
-        b2.y = ycor;
-        obs[obsCount] = b2;
-
-        obsCount++;
-      }
+  int[][] instructions = readConfig(lines);
+  for (int r = 0; r < instructions.length; r++) {
+    println("");
+    for (int c = 0; c < instructions[r].length; c++) {
+      print(instructions[r][c] + " ");
     }
   }
-  catch(FileNotFoundException e) {
-    System.out.println("Level not created yet");
+
+  numObs = instructions[0][0];
+  numSets = instructions[0][1];
+
+  obs = new Blockable[numObs];
+  int xcor;
+  int ycor;
+  int obsCount = 0;
+  for (int set = 1; set <= numSets; set++) {
+
+    xcor = instructions[set][0];
+    ycor = instructions[set][1];
+    println(xcor + " " + ycor);
+
+    int first = instructions[set][2];
+    if (first != 0) {
+      Blockable b1 = obstacles[first];
+      b1.y = ycor;
+      println("b1 y:" + b1.y);
+      obs[obsCount] = b1;
+      obsCount++;
+    }
+
+    int second = instructions[set][3];
+    if (second != 0) {
+      Blockable b2 = powerups[second];
+      b2.y = ycor;
+      println("b2 y:" + b2.y);
+      obs[obsCount] = b2;
+      obsCount++;
+    }
   }
+
+  int count = 0;
+    for (Blockable b : obs) {
+      println(count + " " + b.toString());
+      count++;
+    }
+
+  //catch(FileNotFoundException e) {
+  //  System.out.println("Level not created yet");
+  //}
 }
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
@@ -89,6 +130,7 @@ public void setup() {
   main = new Ball();
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
+  
 }
 
 public void draw() {
@@ -96,6 +138,7 @@ public void draw() {
   if (status == "start") {
     background(0);
     startScreen();
+    
   }
 
   // playing game
@@ -143,6 +186,7 @@ public void play() {
   if (mode == "random") {
     playRandom();
   } else {
+    
     playChallenge();
   }
   storeColor();
@@ -168,6 +212,7 @@ public void playChallenge() {
   // challenge mode instructions
 
   for (Blockable b : obs) {
+    b.display();
     change(b);
     b.spin();
   }
@@ -257,8 +302,15 @@ public void start() {
 
 public void obstacleShift() {
   if (main.getY()<300) {
-    for ( Blockable b : showing ) {
-      b.move((300-main.y)/100);
+    if (mode=="random") {
+      for ( Blockable b : showing ) {
+        b.move((300-main.y)/100);
+      }
+    }
+    if (mode=="challenge"){
+      for ( Blockable b : obs) {
+        b.move((300-main.y)/100);
+      }
     }
     yMin+=((300-main.y)/100)+.75;
   }
@@ -291,7 +343,8 @@ public void mousePressed() {
     }
   } else if (status == "start") {
     status = "play";
-    mode = "random";
+    mode = "challenge";
+    levelBuilder();
     start();
   } else if (status == "end") {
     setup();

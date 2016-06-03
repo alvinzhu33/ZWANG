@@ -45,6 +45,11 @@ private abstract class Blockable {
     }
     return exist;
   }
+  
+  public void setY(float newY){
+    y = newY;
+  }
+  
   public float getY() {
     return y;
   }
@@ -65,4 +70,8 @@ private abstract class Blockable {
     int n = (int)(Math.random()*2);
     return n == 0;
   }
+  
+  public String toString() {
+  return "Blockable with ycor=" + y;
+}
 }
