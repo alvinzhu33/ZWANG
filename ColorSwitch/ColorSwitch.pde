@@ -1,4 +1,4 @@
-import java.util.Scanner; //<>//
+import java.util.Scanner; //<>// //<>//
 import java.io.*;
 
 // ----game vars---------
@@ -41,8 +41,7 @@ int numSets;
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
 
-private int[][] readConfig(String[] lines )
-{
+private int[][] readConfig(String[] lines ) {
   int lineCount = lines.length;
 
   int[][] configs = new int[lineCount][] ;
@@ -116,23 +115,17 @@ public void levelBuilder() {
     println(count + " " + b.toString());
     count++;
   }
-  println(count);
-
-  //catch(FileNotFoundException e) {
-  //  System.out.println("Level not created yet");
-  //}
+  println("count: " + count);
 }
 
 
 public Blockable deepClone(Blockable template) {
   Blockable b;
-  if (template instanceof CircleObstacle){ //<>//
+  if (template instanceof CircleObstacle) {
     b = new CircleObstacle();
-  }
-  else if (template instanceof ColorChanger){
+  } else if (template instanceof ColorChanger) {
     b = new ColorChanger();
-  }
-  else{
+  } else {
     b = new Star();
   }
   b.diameter = template.diameter;
@@ -209,7 +202,6 @@ public void play() {
   if (mode == "random") {
     playRandom();
   } else {
-
     playChallenge();
   }
   storeColor();
@@ -221,12 +213,13 @@ public void play() {
 public void playRandom() {
   // random mode instructions
 
-  for (int i=0; i<4; i++) {
+  for (int i=0; i<3; i++) {
     change(showing[i]);
     showing[i].spin();
+    if (showing[i].y>400) {
+      generateNewStuff(i);
+    }
   }
-
-  generateNewStuff();
 }
 
 
@@ -255,8 +248,8 @@ public void generateMore(float ycor) {
 }
 
 // generates a random diameter
-public float randomRadii() {
-  return (float)(Math.random() * 75) + 125;
+public int randomRadii() {
+  return (int)(Math.random() * 74) + 60;
 }
 
 // generates a random speed
@@ -271,53 +264,53 @@ public boolean randomOri() {
 }
 
 // generates new obstacles
-public void generateNewStuff() {
-  for (int i=0; i<3; i++) {
-    if (showing[i].getY()>600) {
-      float n = (int)(Math.random() * 5);
-      float rad = randomRadii();
-      if (n == 4 && yMin > 0) {
-        yMin = -8;
-      }
-      if (yMin > 0 ) {
-        yMin = -rad;
-      }
-      if (n == 0) {
-        showing[i] = new CircleObstacle(yMin);
-        generateMore(yMin);
-        yMin += -25 - rad*1.5;
-      }
-      if (n == 1) {
-        showing[i] = new SquareObstacle(yMin);
-        generateMore(yMin);
-        yMin += -25 - rad*1.5;
-      }
-      if (n == 2) {
-        showing[i] = new PlusObstacle(yMin);
-        generateMore(yMin);
-        yMin += -25 - rad*1.5;
-      }
-      if (n == 3) {
-        showing[i] = new TriangleObstacle(myColor, yMin);
-        generateMore(yMin);
-        yMin += -25 -rad*1.5;
-      }
-      if (n == 4) {
-        showing[i] = new BarObstacle(yMin);
-        generateMore(yMin-20);
-      }
+public void generateNewStuff(int i) {
+  if (showing[i].y > 600+showing[i].diameter/2) {
+    float n = (int)(Math.random() * 5);
+    float rad = randomRadii();
+    if (yMin > 0 ) {
+      yMin = -rad;
+    }
+    if (n == 0) {
+      yMin+= -100 - rad;
+      showing[i] = new CircleObstacle(yMin, rad);
+      generateMore(yMin);
+      yMin += - rad;
+    }
+    if (n == 1) {
+      yMin+= -150 - rad;
+      showing[i] = new SquareObstacle(yMin, rad);
+      generateMore(yMin);
+      yMin += -rad;
+    }
+    if (n == 2) {
+      yMin += -100 - rad;
+      showing[i] = new PlusObstacle(yMin, rad);
+      generateMore(yMin);
+      yMin += -rad;
+    }
+    if (n == 3) {
+      yMin += -100 - rad;
+      showing[i] = new TriangleObstacle(myColor, yMin, rad);
+      generateMore(yMin);
+      yMin += -rad;
+    }
+    if (n == 4) {
+      yMin += -104;
+      showing[i] = new BarObstacle(yMin);
+      generateMore(yMin-20);
+      yMin += -8;
     }
   }
 }
 
 public void start() {
   if (mode=="random") {
-    showing[0] = new CircleObstacle(randomRadii(), 200, 200, 0.02, true);
-    showing[1] = new CircleObstacle(randomRadii(), 200, -100, randomSpeed(), false);
-    float savedMin = randomRadii();
-    showing[2] = new SquareObstacle(savedMin, 200, -350, randomSpeed(), false);
+    showing[0] = new CircleObstacle(200, 200, 200, 0.02, true);
+    showing[2] = new SquareObstacle(200, 200, -150, randomSpeed(), false);
+    showing[1] = new CircleObstacle(200, 200, -500, randomSpeed(), false);
     showing[3] = new Star(200);
-    yMin = -350 - savedMin - 10;
+    yMin = -350 - 200;
   }
 }
 
@@ -366,7 +359,7 @@ public void mousePressed() {
     }
   } else if (status == "start") {
     status = "play";
-    mode = "challenge";
+    mode = "random";
     levelBuilder();
     start();
   } else if (status == "end") {

@@ -27,8 +27,8 @@ public class PlusObstacle extends Blockable {
     }
   }
   
-  public PlusObstacle(float y) {
-    diameter = (int)(Math.random()*100)+150;
+  public PlusObstacle(float y, float rad) {
+    diameter = rad*2;
     this.y = -diameter+y;
     speed = randomSpeed();
     clockwise= randomOri();
@@ -48,7 +48,7 @@ public class PlusObstacle extends Blockable {
     strokeWeight(16);
     strokeCap(ROUND);
     noFill();
-
+    
     stroke(purple);
     line(0, -8, 0, -diameter/2.);
     stroke(magenta);

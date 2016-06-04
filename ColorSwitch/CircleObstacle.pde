@@ -6,8 +6,9 @@ public class CircleObstacle extends Blockable {
     super();
   }
   
-  public CircleObstacle(float y){
+  public CircleObstacle(float y, float rad){
     super(y);
+    diameter = rad*2;
   }
 
   public CircleObstacle(float dia, float x, float y, float speed, boolean clockwise) {

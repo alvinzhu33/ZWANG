@@ -15,13 +15,14 @@ public class SquareObstacle extends Blockable {
     super();
   }
   
-  public SquareObstacle(float y) {
+  public SquareObstacle(float y, float rad) {
     /*diameter=150;
     x = 200;
     y = 150;
     speed = 0.02;
     clockwise=true;*/
     super(y);
+    diameter = rad*2;
   }
 
   public SquareObstacle(float dia, float x, float y, float speed, boolean clockwise) {
