@@ -1,15 +1,5 @@
 public class PlusObstacle extends Blockable {
-  /*private float diameter;
-   private float x, y;
-   private float angle = 0;
-   private float speed;
-   private boolean clockwise;
-   private boolean exist=true;
-   
-   color purple= color(140, 19, 251);
-   color magenta = color(255, 0, 128);
-   color cyan = color(53, 226, 242);
-   color yellow = color(246, 223, 14);*/
+ 
 
 
   float x;

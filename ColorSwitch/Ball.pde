@@ -1,4 +1,5 @@
 public class Ball {
+  
   private color colorValue;
   private float diameter;
 
@@ -36,6 +37,7 @@ public class Ball {
     }
   }
 
+  // movement of the call 
   public void move() {
     if (isFalling) {
       y+=gravity;
@@ -49,6 +51,8 @@ public class Ball {
     }
   }
 
+
+  // displays the ball
   void display() {
     noStroke();
     fill(colorValue);
@@ -67,6 +71,8 @@ public class Ball {
     return diameter;
   }
   
+  
+  // sets the color of the ball randomly
   public void setColor(){
     int x = (int)(Math.random()*4);
     if (x == 0 && colorValue!=purple){

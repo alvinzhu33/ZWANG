@@ -1,4 +1,5 @@
 private abstract class Blockable {
+  
   color purple= color(140, 19, 251);
   color magenta = color(255, 0, 128);
   color cyan = color(53, 226, 242);
@@ -13,6 +14,7 @@ private abstract class Blockable {
   int type;
 
   public abstract void display();
+  // how the obstacle moves
   public abstract void spin();
 
   public Blockable() {

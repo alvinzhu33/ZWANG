@@ -23,10 +23,11 @@ String[] starsString;
 // random mode vars------
 boolean isPUPres = false;
 Blockable[] showing = new Blockable[4];
+Blockable[] showingPows = new Blockable[4];
 // ----------------------
 
 
-// challenge mode vars---
+//--challenge mode vars---
 Blockable[] obs;
 Blockable[] obstacles = {null, new CircleObstacle()};
 Blockable[] powerups = {null, new ColorChanger(), new Star()};
@@ -34,9 +35,6 @@ Scanner s;
 int numObs;
 int numSets;
 // ----------------------
-
-
-
 
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
@@ -150,6 +148,8 @@ public void setup() {
   highest = int(starsString[0]);
 }
 
+
+// draws the world
 public void draw() {
   // beginning of game
   if (status == "start") {
@@ -157,7 +157,7 @@ public void draw() {
     startScreen();
   }
 
-  // playing game
+  //-----playing game------
   if (status =="play") {
     play();
     playInterface();
@@ -170,6 +170,8 @@ public void draw() {
   if (status == "pause") {
     pauseScreen();
   }
+
+  // when the game ends
   if (status == "end") {
     endScreen();
     highest += score;
@@ -183,6 +185,8 @@ public void draw() {
   }
 }
 
+
+// displays the menu/score/buttons
 public void playInterface() {
   // DISPLAY PAUSE BUTTON
   pauseButton();
@@ -196,12 +200,16 @@ public void playInterface() {
   textSize(26);
 }
 
+
+// sets the game in motion
 public void play() {
   background(0);
   main.move();
   if (mode == "random") {
+    // instructions for random mode
     playRandom();
   } else {
+    // instructions for challenge mode
     playChallenge();
   }
   storeColor();
@@ -210,12 +218,16 @@ public void play() {
   myColor = main.getColor();
 }
 
-public void playRandom() {
-  // random mode instructions
 
-  for (int i=0; i<3; i++) {
+
+// random mode instructions
+public void playRandom() {
+
+  for (int i=0; i<4; i++) {
     change(showing[i]);
+    change(showingPows[i]);
     showing[i].spin();
+    showingPows[i].spin();
     if (showing[i].y>400) {
       generateNewStuff(i);
     }
@@ -224,8 +236,8 @@ public void playRandom() {
 
 
 
+// challenge mode instructions
 public void playChallenge() {
-  // challenge mode instructions
 
   for (Blockable b : obs) {
     b.display();
@@ -234,17 +246,19 @@ public void playChallenge() {
   }
 }
 
-public void generateMore(float ycor) {
+
+// randomly generates new obstacles and powerups
+public void generateMore(float ycor, int i) {
   int n = (int)(Math.random()*2 );
-  if (!isPUPres) {
+  //if (!isPUPres) {
     if (n==0) {
-      showing[3] = new Star(ycor);
+      showingPows[i] = new Star(ycor);
       isPUPres = true;
     } else {
-      showing[3] = new ColorChanger(ycor);
+      showingPows[i] = new ColorChanger(ycor);
       isPUPres = true;
     }
-  }
+  //}
 }
 
 // generates a random diameter
@@ -266,7 +280,7 @@ public boolean randomOri() {
 // generates new obstacles
 public void generateNewStuff(int i) {
   if (showing[i].y > 600+showing[i].diameter/2) {
-    float n = (int)(Math.random() * 5);
+    float n = (int)(Math.random() * 4);
     float rad = randomRadii();
     if (yMin > 0 ) {
       yMin = -rad;
@@ -274,53 +288,60 @@ public void generateNewStuff(int i) {
     if (n == 0) {
       yMin+= -100 - rad;
       showing[i] = new CircleObstacle(yMin, rad);
-      generateMore(yMin);
+      generateMore(yMin, i);
       yMin += - rad;
     }
     if (n == 1) {
       yMin+= -150 - rad;
       showing[i] = new SquareObstacle(yMin, rad);
-      generateMore(yMin);
+      generateMore(yMin, i);
       yMin += -rad;
     }
     if (n == 2) {
       yMin += -100 - rad;
       showing[i] = new PlusObstacle(yMin, rad);
-      generateMore(yMin);
+      generateMore(yMin, i);
       yMin += -rad;
     }
     if (n == 3) {
       yMin += -100 - rad;
       showing[i] = new TriangleObstacle(myColor, yMin, rad);
-      generateMore(yMin);
+      generateMore(yMin, i);
       yMin += -rad;
     }
-    if (n == 4) {
+    /*if (n == 4) {
       yMin += -104;
       showing[i] = new BarObstacle(yMin);
       generateMore(yMin-20);
-      yMin += -8;
-    }
+      yMin += -4;
+    }*/
   }
 }
 
+
+// initializes first obstacles in random mode
 public void start() {
   if (mode=="random") {
     showing[0] = new CircleObstacle(200, 200, 200, 0.02, true);
-    showing[2] = new SquareObstacle(200, 200, -150, randomSpeed(), false);
-    showing[1] = new CircleObstacle(200, 200, -500, randomSpeed(), false);
-    showing[3] = new Star(200);
-    yMin = -350 - 200;
+    showingPows[0] = new Star(200);
+    showing[1] = new SquareObstacle(200, 200, -150, randomSpeed(), false);
+    showingPows[1] = new ColorChanger(-150);
+    showing[2] = new CircleObstacle(200, 200, -500, randomSpeed(), false);
+    showingPows[2] = new Star(-500);
+    showing[3] = new SquareObstacle(200, 200, -850, randomSpeed(), false);
+    showingPows[3] = new Star(-850);
+    yMin = -850;
   }
 }
 
 
-
+// shifts the obstacles down as the ball moves down
 public void obstacleShift() {
   if (main.getY()<300) {
     if (mode=="random") {
-      for ( Blockable b : showing ) {
-        b.move((300-main.y)/100);
+      for(int i=0; i<4; i++){
+        showing[i].move((300-main.y)/100);
+        showingPows[i].move((300-main.y)/100);
       }
     }
     if (mode=="challenge") {
@@ -332,11 +353,13 @@ public void obstacleShift() {
   }
 }
 
+
+// checks color on top and bottom of ball
 public void storeColor() {
   top = get(200, int(main.getY()-main.getDiameter()/2));
   bottom = get(200, int(main.getY()+main.getDiameter()/2));
 
-
+  // debugging 
   noStroke();
   fill(top);
   ellipse(40, 20, 10, 10);
@@ -344,24 +367,30 @@ public void storeColor() {
   ellipse(40, 60, 10, 10);
 }
 
+
+
 public void mousePressed() {
+  // pauses the game
   if (status=="play") {
     if (mouseX>=25 && mouseX<=55 && mouseY>=17 && mouseY<=47) {
       status = "pause";
     } else {
       main.toggleFalling(false);
     }
+    // resumes the game
   } else if (status == "pause") {
     if (mouseX>=25 && mouseX<=55 && mouseY>=17 && mouseY<=47) {
       status = "play";
     } else {
       status = "play";
     }
+    // starts the game
   } else if (status == "start") {
     status = "play";
     mode = "random";
     levelBuilder();
     start();
+    // restarts the gam
   } else if (status == "end") {
     setup();
     status = "play";
@@ -371,20 +400,25 @@ public void mousePressed() {
 
 public void keyPressed() {
   if (key == ' ') {
+    // starts the game
     if (status == "start") {
       status = "play";
       mode = "random";
       start();
+      // pauses the game
     } else if (status == "play") {
       main.toggleFalling(false);
+      // resumes the game
     } else if (status == "pause") {
       status = "play";
+      // restarts the game
     } else if (status == "end") {
       setup();
       status = "play";
       start();
     }
   }
+  // pauses/resumes the game
   if (key == 'x') {
     if (status == "play") {
       status = "pause";
@@ -394,6 +428,8 @@ public void keyPressed() {
   }
 }
 
+
+//checks for if the ball collides with obstacles
 public boolean doesCollide(int which) {
   color[] colors = new color[4];
   if (which==0) {
@@ -425,6 +461,7 @@ public boolean doesCollide(int which) {
 }
 
 
+// ends the game 
 public void end() {
   if (main.getBottom()>600) {
     status="end";
@@ -446,10 +483,13 @@ public void end() {
   }
 }
 
+// debugging
 public void printColor(color c) {
   System.out.println("(" + red(c) + "," + green(c) + "," + blue(c) + ")" );
 }
 
+
+// gets rid of powerups
 public void change(Blockable cc) {
   if (cc instanceof ColorChanger) {
     if (cc.status() && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))>0 && ((cc.getY()+10) - (main.getY() - main.getDiameter()/2))<20) {
@@ -467,6 +507,8 @@ public void change(Blockable cc) {
   }
 }
 
+
+// generates the start screen
 public void startScreen() {
   textSize(20);
   fill(255);
@@ -511,6 +553,9 @@ public void pauseScreen() {
   text("HINT: click 'x' to pause and unpause", 200, 400);
 }
 
+
+
+// generates end screen
 public void endScreen() {
   score=0;
   textSize(80);

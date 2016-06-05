@@ -15,7 +15,6 @@ public class CircleObstacle extends Blockable {
     super(dia, x, y, speed, clockwise);
   }
   
-  
 
   public void display() {
     strokeWeight(16);
@@ -34,6 +33,8 @@ public class CircleObstacle extends Blockable {
     stroke(yellow);
     arc(0, 0, diameter, diameter, 3*HALF_PI, 2*PI);
   }
+  
+  
 
   public void spin(){
     pushMatrix();

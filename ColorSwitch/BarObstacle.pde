@@ -1,4 +1,5 @@
 public class BarObstacle extends Blockable {
+  
   public BarObstacle() {
     diameter = 16;
     y = -diameter;
