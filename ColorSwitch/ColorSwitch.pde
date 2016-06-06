@@ -199,6 +199,16 @@ public void playInterface() {
   textSize(32);
   text(highest, 380, 45);
   textSize(26);
+  
+  fill(255);
+  rect(25, 550, 30, 30, 10);
+  fill(0);
+  textSize(35);
+  if(main.getNatural()){
+    text("↓", 40, 577);
+  }else{
+    text("↑", 40, 577);
+  }
 }
 
 
@@ -442,6 +452,9 @@ public void keyPressed() {
       status = "play";
     }
   }
+  if(key == 'g' && status == "play"){
+    main.toggleNatural();
+  }
 }
 
 
@@ -544,7 +557,7 @@ public void startScreen() {
 
 public void pauseButton() {
   fill(150, 150, 150, 200);
-  textSize(20);
+  textSize(25);
   rect(25, 17, 30, 30, 10);
   fill(0);
   text("||", 40, 40);
