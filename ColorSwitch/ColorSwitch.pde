@@ -163,7 +163,7 @@ public void draw() {
     playInterface();
     end();
 
-    text(yMin, 100, 100);
+    //text(yMin, 100, 100);
   }
 
   // paused game
@@ -379,7 +379,7 @@ public void mousePressed() {
   } else if (status == "pause") {
     if (mouseX>=25 && mouseX<=55 && mouseY>=17 && mouseY<=47) {
       status = "play";
-      start();
+      //start();
     }
     // starts the game
   } else if (status == "start") {
@@ -558,11 +558,20 @@ public void pauseScreen() {
   text("PAUSED", 200, 350);
 
   textSize(20);
+  fill(250);
   text("Score:", 150, 40);
   text("Score to Beat:", 300, 40);
 
   textAlign(CENTER);
-  text("HINT: click 'x' to pause and unpause", 200, 400);
+  text("HINT: click space to jump", 200, 400);
+  text("HINT: click 'x' to pause and unpause", 200, 430);
+  
+  fill(86, 199, 162);
+  rect(130,500,140,50,10);
+  fill(0);
+  textSize(25);
+  textAlign(CENTER);
+  text("Main Menu", 200, 530);
 }
 
 
