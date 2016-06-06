@@ -146,6 +146,7 @@ public void setup() {
   main = new Ball();
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
+  score=0;
 }
 
 
@@ -161,7 +162,7 @@ public void draw() {
   else if (status =="play") {
     play();
     playInterface();
-    end();
+    //end();
 
     //text(yMin, 100, 100);
   }
@@ -300,7 +301,7 @@ public void generateNewStuff(int i) {
     if (n == 2) {
       yMin += -100 - rad;
       showing[i] = new PlusObstacle(yMin, rad);
-      generateMore(yMin, i);
+      generateMore(yMin-20, i);
       yMin += -rad;
     }
     if (n == 3) {
@@ -338,16 +339,19 @@ public void obstacleShift() {
   if (main.getY()<300) {
     if (mode=="random") {
       for (int i=0; i<4; i++) {
-        showing[i].move((300-main.y)/100);
-        showingPows[i].move((300-main.y)/100);
+        //showing[i].move((300-main.y)/100);
+        //showingPows[i].move((300-main.y)/100);
+        showing[i].move(.9);
+        showingPows[i].move(.9);
       }
+      yMin+=.9+.75;
     }
     if (mode=="challenge") {
       for ( Blockable b : obs) {
-        b.move((300-main.y)/100);
+        //b.move((300-main.y)/100);
+        b.move(.9);
       }
     }
-    yMin+=((300-main.y)/100)+.75;
   }
 }
 
@@ -381,6 +385,10 @@ public void mousePressed() {
       status = "play";
       //start();
     }
+    if (mouseX>=130 && mouseY>=500 && mouseX<=130+140 && mouseY<=550) {
+      setup();
+      status = "start";
+    }
     // starts the game
   } else if (status == "start") {
     if (mouseX>=105 && mouseY>=400 && mouseX<=295 && mouseY<=450) {
@@ -388,13 +396,11 @@ public void mousePressed() {
       levelBuilder();
     } else {
       //if (mouseX>=125 && mouseY>=325 && mouseX<=275  && mouseY<=375) {
-        mode = "random";
-        start();
-        println("mode0: "+mode);
+      mode = "random";
+      start();
       //}
     }
     status = "play";
-    println("mode 1: " + mode);
     // restarts the gam
   } else if (status == "end") {
     setup();
@@ -565,9 +571,9 @@ public void pauseScreen() {
   textAlign(CENTER);
   text("HINT: click space to jump", 200, 400);
   text("HINT: click 'x' to pause and unpause", 200, 430);
-  
+
   fill(86, 199, 162);
-  rect(130,500,140,50,10);
+  rect(130, 500, 140, 50, 10);
   fill(0);
   textSize(25);
   textAlign(CENTER);
