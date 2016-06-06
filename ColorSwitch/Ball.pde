@@ -6,7 +6,7 @@ public class Ball {
   private float y;
   public static final float DEFAULT_BALL_DIAMETER = 20;
   private boolean isFalling;
-  private double gravity = 1.75;
+  private double gravity = 2.25;//1.75;
   private double upCount = 0;
 
   color purple = color(140,19,251);

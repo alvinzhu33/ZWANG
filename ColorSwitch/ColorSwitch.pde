@@ -7,7 +7,7 @@ color myColor;
 color bottom;
 color top;
 String status = "start";
-String mode = "random";
+String mode;
 String statusSave;
 float yMin;
 // ----------------------
@@ -158,21 +158,21 @@ public void draw() {
   }
 
   //-----playing game------
-  if (status =="play") {
+  else if (status =="play") {
     play();
     playInterface();
-    //end();
+    end();
 
     text(yMin, 100, 100);
   }
 
   // paused game
-  if (status == "pause") {
+  else if (status == "pause") {
     pauseScreen();
   }
 
   // when the game ends
-  if (status == "end") {
+  else if (status == "end") {
     endScreen();
     highest += score;
     String high = "" + highest + "";
@@ -208,7 +208,7 @@ public void play() {
   if (mode == "random") {
     // instructions for random mode
     playRandom();
-  } else {
+  } else if (mode == "challenge") {
     // instructions for challenge mode
     playChallenge();
   }
@@ -251,13 +251,13 @@ public void playChallenge() {
 public void generateMore(float ycor, int i) {
   int n = (int)(Math.random()*2 );
   //if (!isPUPres) {
-    if (n==0) {
-      showingPows[i] = new Star(ycor);
-      isPUPres = true;
-    } else {
-      showingPows[i] = new ColorChanger(ycor);
-      isPUPres = true;
-    }
+  if (n==0) {
+    showingPows[i] = new Star(ycor);
+    isPUPres = true;
+  } else {
+    showingPows[i] = new ColorChanger(ycor);
+    isPUPres = true;
+  }
   //}
 }
 
@@ -310,28 +310,26 @@ public void generateNewStuff(int i) {
       yMin += -rad;
     }
     /*if (n == 4) {
-      yMin += -104;
-      showing[i] = new BarObstacle(yMin);
-      generateMore(yMin-20);
-      yMin += -4;
-    }*/
+     yMin += -104;
+     showing[i] = new BarObstacle(yMin);
+     generateMore(yMin-20);
+     yMin += -4;
+     }*/
   }
 }
 
 
 // initializes first obstacles in random mode
 public void start() {
-  if (mode=="random") {
-    showing[0] = new CircleObstacle(200, 200, 200, 0.02, true);
-    showingPows[0] = new Star(200);
-    showing[1] = new SquareObstacle(200, 200, -150, randomSpeed(), false);
-    showingPows[1] = new ColorChanger(-150);
-    showing[2] = new CircleObstacle(200, 200, -500, randomSpeed(), false);
-    showingPows[2] = new Star(-500);
-    showing[3] = new SquareObstacle(200, 200, -850, randomSpeed(), false);
-    showingPows[3] = new Star(-850);
-    yMin = -850;
-  }
+  showing[0] = new CircleObstacle(200, 200, 200, 0.02, true);
+  showingPows[0] = new Star(200);
+  showing[1] = new SquareObstacle(200, 200, -150, randomSpeed(), false);
+  showingPows[1] = new ColorChanger(-150);
+  showing[2] = new CircleObstacle(200, 200, -500, randomSpeed(), false);
+  showingPows[2] = new Star(-500);
+  showing[3] = new SquareObstacle(200, 200, -850, randomSpeed(), false);
+  showingPows[3] = new Star(-850);
+  yMin = -850;
 }
 
 
@@ -339,7 +337,7 @@ public void start() {
 public void obstacleShift() {
   if (main.getY()<300) {
     if (mode=="random") {
-      for(int i=0; i<4; i++){
+      for (int i=0; i<4; i++) {
         showing[i].move((300-main.y)/100);
         showingPows[i].move((300-main.y)/100);
       }
@@ -381,20 +379,32 @@ public void mousePressed() {
   } else if (status == "pause") {
     if (mouseX>=25 && mouseX<=55 && mouseY>=17 && mouseY<=47) {
       status = "play";
-    } else {
-      status = "play";
+      start();
     }
     // starts the game
   } else if (status == "start") {
+    if (mouseX>=105 && mouseY>=400 && mouseX<=295 && mouseY<=450) {
+      mode = "challenge";
+      levelBuilder();
+    } else {
+      //if (mouseX>=125 && mouseY>=325 && mouseX<=275  && mouseY<=375) {
+        mode = "random";
+        start();
+        println("mode0: "+mode);
+      //}
+    }
     status = "play";
-    mode = "random";
-    levelBuilder();
-    start();
+    println("mode 1: " + mode);
     // restarts the gam
   } else if (status == "end") {
     setup();
     status = "play";
-    start();
+    if (mode == "random") {
+      start();
+    }
+    if (mode == "challenge") {
+      levelBuilder();
+    }
   }
 }
 
@@ -518,10 +528,12 @@ public void startScreen() {
   text("COLOR SWITCH", 200, 270);
 
   fill(86, 199, 162);
-  rect(150, 325, 100, 50, 10);
+  rect(125, 325, 150, 50, 10);
+  rect(105, 400, 190, 50, 10);
   textSize(30);
   fill(0);
-  text("PLAY", 200, 360);
+  text("RANDOM", 200, 360);
+  text("CHALLENGE", 200, 360+75);
 }
 
 public void pauseButton() {
