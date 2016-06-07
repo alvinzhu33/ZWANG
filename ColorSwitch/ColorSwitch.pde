@@ -1,4 +1,6 @@
-import java.util.Scanner; //<>// //<>//
+// newer //<>//
+
+import java.util.Scanner; //<>//
 import java.io.*;
 
 // ----game vars---------
@@ -37,133 +39,137 @@ int numObs;
 int numSets;
 // ----------------------
 
+//--reverse mode vars_____
+boolean antigravity;
+//------------------------
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
 
-/*private int[][] readConfig(String[] lines ) {
- int lineCount = lines.length;
- 
- int[][] configs = new int[lineCount][] ;
- 
- for ( int i = 0; i < lineCount; i++ )
- {
- String[] tokens = lines[i].split( " " );
- int tokenCount = tokens.length;
- println(tokenCount);
- int[] data = new int[tokenCount];
- for ( int j = 0; j < tokenCount-1; j++)
- {
- data[j] = Integer.parseInt(tokens[j]);
- }
- configs[i] = data;
- System.out.println (java.util.Arrays.toString(data));
- }  
- return configs;
- }  
- 
- public void levelBuilder() {
- //  try {
- 
- String lines[] = loadStrings("level01.txt");
- 
- println("there are " + lines.length + " lines");
- 
- 
- int[][] instructions = readConfig(lines);
- for (int r = 0; r < instructions.length; r++) {
- println("");
- for (int c = 0; c < instructions[r].length; c++) {
- print(instructions[r][c] + " ");
- }
- }
- 
- numObs = instructions[0][0];
- numSets = instructions[0][1];
- 
- obs = new Blockable[numObs];
- int xcor;
- int ycor;
- int obsCount = 0;
- Blockable b1, b2;
- for (int set = 1; set <= numSets; set++) {
- 
- xcor = instructions[set][0];
- ycor = instructions[set][1];
- println(xcor + " " + ycor);
- 
- int first = instructions[set][2];
- if (first != 0) {
- b1 = deepClone(obstacles[first]);
- b1.y = ycor;
- println("b1 y:" + b1.y);
- obs[obsCount] = b1;
- obsCount++;
- }
- 
- int second = instructions[set][3];
- if (second != 0) {
- b2 = deepClone(powerups[second]);
- b2.y = ycor;
- println("b2 y:" + b2.y);
- obs[obsCount] = b2;
- obsCount++;
- }
- }
- 
- int count = 0;
- for (Blockable b : obs) {
- println(count + " " + b.toString());
- count++;
- }
- println("count: " + count);
- }*/
+private int[][] readConfig(String[] lines ) {
+  int lineCount = lines.length;
 
-/*public void levelBuilder() {
-  print("hell");
-  String filename = "level01.txt";
-  File file;
-  try {
-    file = new File(filename);
-    s = new Scanner(file);
-  }
-  catch (FileNotFoundException e) {
-    println("nope");
-  }
-  numObs = s.nextInt();
-    numSets = s.nextInt();
-    obs = new Blockable[numObs];
-    print("ok");
-    
-    for(int i=0; i<numObs; i++){
-        int shape = s.nextInt();
-        float dia = s.nextInt();
-        float x = s.nextInt();
-        float y = s.nextInt();
-        float speed = s.nextFloat();
-        int powerUp = s.nextInt();
-        println(y);
-        
-        if(shape == 1){
-          obs[i]= new CircleObstacle(dia, x, y, speed, randomOri());
-        }else if(shape == 2){
-          obs[i]= new SquareObstacle(dia,x,y,speed,randomOri());
-        }else if(shape==3){
-          obs[i]= new PlusObstacle(dia,x,y,speed,randomOri());
-        }else if(shape==4){
-          obs[i]= new TriangleObstacle(myColor,dia,x,y,speed,randomOri());
-        }else if(shape==5){
-          obs[i]= new BarObstacle(y);
-        }
-        
-        if(powerUp==1){
-          obsP[i] = new Star(y);
-        }else if(powerUp==2){
-          obsP[i] = new ColorChanger(y);
-        }
+  int[][] configs = new int[lineCount][] ;
+
+  for ( int i = 0; i < lineCount; i++ )
+  {
+    String[] tokens = lines[i].split( " " );
+    int tokenCount = tokens.length;
+    println(tokenCount);
+    int[] data = new int[tokenCount];
+    for ( int j = 0; j < tokenCount-1; j++)
+    {
+      data[j] = Integer.parseInt(tokens[j]);
     }
-    
-    s.close();
+    configs[i] = data;
+    System.out.println (java.util.Arrays.toString(data));
+  }  
+  return configs;
+}  
+
+public void levelBuilder() {
+  //  try {
+
+  String lines[] = loadStrings("level01.txt");
+
+  println("there are " + lines.length + " lines");
+
+
+  int[][] instructions = readConfig(lines);
+  for (int r = 0; r < instructions.length; r++) {
+    println("");
+    for (int c = 0; c < instructions[r].length; c++) {
+      print(instructions[r][c] + " ");
+    }
+  }
+
+  numObs = instructions[0][0];
+  numSets = instructions[0][1];
+
+  obs = new Blockable[numObs];
+  int xcor;
+  int ycor;
+  int obsCount = 0;
+  Blockable b1, b2;
+  for (int set = 1; set <= numSets; set++) {
+
+    xcor = instructions[set][0];
+    ycor = instructions[set][1];
+    println(xcor + " " + ycor);
+
+    int first = instructions[set][2];
+    if (first != 0) {
+      b1 = deepClone(obstacles[first]);
+      b1.y = ycor;
+      println("b1 y:" + b1.y);
+      obs[obsCount] = b1;
+      obsCount++;
+    }
+
+    int second = instructions[set][3];
+    if (second != 0) {
+      b2 = deepClone(powerups[second]);
+      b2.y = ycor;
+      println("b2 y:" + b2.y);
+      obs[obsCount] = b2;
+      obsCount++;
+    }
+  }
+
+  int count = 0;
+  for (Blockable b : obs) {
+    println(count + " " + b.toString());
+    count++;
+  }
+  println("count: " + count);
 }
+
+
+//public void levelBuilder() {
+//  print("hell");
+//  String filename = "level01.txt";
+//  File file;
+//  try {
+//    file = new File(filename);
+//    s = new Scanner(file);
+//  }
+//  catch (FileNotFoundException e) {
+//    println("nope");
+//  }
+//  numObs = s.nextInt();
+//  numSets = s.nextInt();
+//  obs = new Blockable[numObs];
+//  print("ok");
+
+//  for (int i=0; i<numObs; i++) {
+//    int shape = s.nextInt();
+//    float dia = s.nextInt();
+//    float x = s.nextInt();
+//    float y = s.nextInt();
+//    float speed = s.nextFloat();
+//    int powerUp = s.nextInt();
+//    println(y);
+
+//    if (shape == 1) {
+//      obs[i]= new CircleObstacle(dia, x, y, speed, randomOri());
+//    } else if (shape == 2) {
+//      obs[i]= new SquareObstacle(dia, x, y, speed, randomOri());
+//    } else if (shape==3) {
+//      obs[i]= new PlusObstacle(dia, x, y, speed, randomOri());
+//    } else if (shape==4) {
+//      obs[i]= new TriangleObstacle(myColor, dia, x, y, speed, randomOri());
+//    } else if (shape==5) {
+//      obs[i]= new BarObstacle(y);
+//    }
+
+//    if (powerUp==1) {
+//      obsP[i] = new Star(y);
+//    } else if (powerUp==2) {
+//      obsP[i] = new ColorChanger(y);
+//    }
+//  }
+
+//  s.close();
+//}
 
 
 public Blockable deepClone(Blockable template) {
@@ -183,7 +189,7 @@ public Blockable deepClone(Blockable template) {
   b.clockwise = template.clockwise;
   b.exist = template.exist;
   return b;
-}*/
+}
 
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
@@ -192,10 +198,15 @@ public Blockable deepClone(Blockable template) {
 // sets up the world and initialized score
 public void setup() {
   size(400, 600);
-  main = new Ball();
+  if (antigravity){
+    main = new Ball(30);
+  }else{
+  main = new Ball(500);
+  }
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
   score=0;
+ 
 }
 
 
@@ -270,11 +281,11 @@ public void play() {
   if (mode == "random") {
     // instructions for random mode
     playRandom();
-  }/* else if (mode == "challenge") {
+  } else if (mode == "challenge") {
     // instructions for challenge mode
     levelBuilder();
     playChallenge();
-  }*/
+  }
   storeColor();
   obstacleShift();
   main.display();
@@ -372,41 +383,78 @@ public void generateNewStuff(int i) {
       generateMore(yMin, i);
       yMin += -rad;
     }
-    /*if (n == 4) {
-     yMin += -104;
-     showing[i] = new BarObstacle(yMin);
-     generateMore(yMin-20);
-     yMin += -4;
-     }*/
   }
 }
 
 
 // initializes first obstacles in random mode
 public void start() {
-  showing[0] = new CircleObstacle(200, 200, 200, 0.02, true);
-  showingPows[0] = new Star(200+175);
-  showing[1] = new SquareObstacle(200, 200, -170, randomSpeed(), true);
-  showingPows[1] = new ColorChanger(-170+175);
-  showing[2] = new CircleObstacle(200, 200, -540, randomSpeed(), false);
-  showingPows[2] = new Star(-540+175);
-  showing[3] = new SquareObstacle(200, 200, -910, randomSpeed(), false);
-  showingPows[3] = new Star(-910+175);
-  yMin = -910;
+  if (antigravity) {
+    showing[0] = new CircleObstacle(200, 200, 300, 0.02, true);
+    showingPows[0] = new Star(300+175);
+    showing[1] = new SquareObstacle(200, 200, 670, randomSpeed(), true);
+    showingPows[1] = new ColorChanger(670+175);
+    showing[2] = new CircleObstacle(200, 200, 1040, randomSpeed(), false);
+    showingPows[2] = new Star(1040+175);
+    showing[3] = new SquareObstacle(200, 200, 1410, randomSpeed(), false);
+    showingPows[3] = new Star(1410+175);
+    yMin = 1410;
+  } else {
+    showing[0] = new CircleObstacle(200, 200, 200, 0.02, true);
+    showingPows[0] = new Star(200+175);
+    showing[1] = new SquareObstacle(200, 200, -170, randomSpeed(), true);
+    showingPows[1] = new ColorChanger(-170+175);
+    showing[2] = new CircleObstacle(200, 200, -540, randomSpeed(), false);
+    showingPows[2] = new Star(-540+175);
+    showing[3] = new SquareObstacle(200, 200, -910, randomSpeed(), false);
+    showingPows[3] = new Star(-910+175);
+    yMin = -910;
+  }
 }
 
 
 // shifts the obstacles down as the ball moves down
 public void obstacleShift() {
+  if (antigravity){
+    if (main.getY()>200){
+      if (mode=="random") {
+      for (int i=0; i<4; i++) {
+        //showing[i].move((300-main.y)/100);
+        //showingPows[i].move((300-main.y)/100);
+        if (antigravity) {
+          showing[i].move(-.9);
+          showingPows[i].move(-.9);
+        } else {
+          showing[i].move(.9);
+          showingPows[i].move(.9);
+        }
+      }
+      if (antigravity) {
+        yMin+=.9+.75;
+      } else {
+        yMin+=.9+.75;
+      }
+    }
+    }
+  }
   if (main.getY()<300) {
     if (mode=="random") {
       for (int i=0; i<4; i++) {
         //showing[i].move((300-main.y)/100);
         //showingPows[i].move((300-main.y)/100);
-        showing[i].move(.9);
-        showingPows[i].move(.9);
+        if (antigravity) {
+          showing[i].move(-.9);
+          showingPows[i].move(-.9);
+        } else {
+          showing[i].move(.9);
+          showingPows[i].move(.9);
+        }
       }
-      yMin+=.9+.75;
+      if (antigravity) {
+        yMin-=.9+.75;
+      } else {
+        yMin+=.9+.75;
+      }
     }
     if (mode=="challenge") {
       for ( Blockable b : obs) {
@@ -453,15 +501,21 @@ public void mousePressed() {
     }
     // starts the game
   } else if (status == "start") {
-    //if (mouseX>=105 && mouseY>=400 && mouseX<=295 && mouseY<=450) {
-      //mode = "challenge";
-      //levelBuilder();
-    //} else {
-      //if (mouseX>=125 && mouseY>=325 && mouseX<=275  && mouseY<=375) {
-      mode = "random";
-      start();
-      //}
-    //}
+    if (mouseX>=105 && mouseY>=400 && mouseX<=295 && mouseY<=450) {
+      mode = "challenge";
+      levelBuilder();
+    } else {
+      if (mouseX>=125 && mouseY>=325 && mouseX<=275  && mouseY<=375) {
+        mode = "random";
+        start();
+      }
+      if (mouseX>=105 && mouseY>=475 && mouseX<=295 && mouseY<=525) {
+        mode = "random";
+        antigravity = true;
+
+        start();
+      }
+    }
     status = "play";
     // restarts the gam
   } else if (status == "end") {
@@ -470,9 +524,9 @@ public void mousePressed() {
     if (mode == "random") {
       start();
     }
-    /*if (mode == "challenge") {
+    if (mode == "challenge") {
       levelBuilder();
-    }*/
+    }
   }
 }
 
@@ -600,11 +654,13 @@ public void startScreen() {
 
   fill(86, 199, 162);
   rect(125, 325, 150, 50, 10);
-  //rect(105, 400, 190, 50, 10);
+//  rect(105, 400, 190, 50, 10);
+//  rect(105, 475, 190, 50, 10);
   textSize(30);
   fill(0);
   text("P L A Y", 200, 360);
-  //text("CHALLENGE", 200, 360+75);
+//  text("CHALLENGE", 200, 360+75);
+//  text("REVERSE", 200, 360+150);
 }
 
 public void pauseButton() {

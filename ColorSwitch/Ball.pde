@@ -23,13 +23,18 @@ public class Ball {
     falling=true;
   }
 
-  public Ball(float dia) {
-    setColor();
-    diameter=dia;
-
-    y=500;
-    falling=true;
+  Ball(float y){
+    this();
+    this.y = y;
   }
+  
+  //public Ball(float dia) {
+  //  setColor();
+  //  diameter=dia;
+
+  //  y=500;
+  //  falling=true;
+  //}
 
   public void toggleFalling(boolean flag) {
     falling=flag;
