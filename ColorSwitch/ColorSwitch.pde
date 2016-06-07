@@ -7,7 +7,7 @@ color myColor;
 color bottom;
 color top;
 String status = "start";
-String mode;
+String mode = "random";
 String statusSave;
 float yMin;
 // ----------------------
@@ -23,7 +23,6 @@ String[] starsString;
 // random mode vars------
 boolean isPUPres = false;
 Blockable[] showing = new Blockable[4];
-Blockable[] showingPows = new Blockable[4];
 // ----------------------
 
 
@@ -35,6 +34,9 @@ Scanner s;
 int numObs;
 int numSets;
 // ----------------------
+
+
+
 
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
@@ -146,7 +148,6 @@ public void setup() {
   main = new Ball();
   starsString = loadStrings("highscore.txt");
   highest = int(starsString[0]);
-  score=0;
 }
 
 
@@ -159,21 +160,21 @@ public void draw() {
   }
 
   //-----playing game------
-  else if (status =="play") {
+  if (status =="play") {
     play();
     playInterface();
     //end();
 
-    //text(yMin, 100, 100);
+    text(yMin, 100, 100);
   }
 
   // paused game
-  else if (status == "pause") {
+  if (status == "pause") {
     pauseScreen();
   }
 
   // when the game ends
-  else if (status == "end") {
+  if (status == "end") {
     endScreen();
     highest += score;
     String high = "" + highest + "";
@@ -199,16 +200,6 @@ public void playInterface() {
   textSize(32);
   text(highest, 380, 45);
   textSize(26);
-  
-  fill(255);
-  rect(25, 550, 30, 30, 10);
-  fill(0);
-  textSize(35);
-  if(main.getNatural()){
-    text("↓", 40, 577);
-  }else{
-    text("↑", 40, 577);
-  }
 }
 
 
@@ -219,7 +210,7 @@ public void play() {
   if (mode == "random") {
     // instructions for random mode
     playRandom();
-  } else if (mode == "challenge") {
+  } else {
     // instructions for challenge mode
     playChallenge();
   }
@@ -234,11 +225,9 @@ public void play() {
 // random mode instructions
 public void playRandom() {
 
-  for (int i=0; i<4; i++) {
+  for (int i=0; i<3; i++) {
     change(showing[i]);
-    change(showingPows[i]);
     showing[i].spin();
-    showingPows[i].spin();
     if (showing[i].y>400) {
       generateNewStuff(i);
     }
@@ -259,17 +248,17 @@ public void playChallenge() {
 
 
 // randomly generates new obstacles and powerups
-public void generateMore(float ycor, int i) {
+public void generateMore(float ycor) {
   int n = (int)(Math.random()*2 );
-  //if (!isPUPres) {
-  if (n==0) {
-    showingPows[i] = new Star(ycor);
-    isPUPres = true;
-  } else {
-    showingPows[i] = new ColorChanger(ycor);
-    isPUPres = true;
+  if (!isPUPres) {
+    if (n==0) {
+      showing[3] = new Star(ycor);
+      isPUPres = true;
+    } else {
+      showing[3] = new ColorChanger(ycor);
+      isPUPres = true;
+    }
   }
-  //}
 }
 
 // generates a random diameter
@@ -291,7 +280,7 @@ public boolean randomOri() {
 // generates new obstacles
 public void generateNewStuff(int i) {
   if (showing[i].y > 600+showing[i].diameter/2) {
-    float n = (int)(Math.random() * 4);
+    float n = (int)(Math.random() * 5);
     float rad = randomRadii();
     if (yMin > 0 ) {
       yMin = -rad;
@@ -299,48 +288,46 @@ public void generateNewStuff(int i) {
     if (n == 0) {
       yMin+= -100 - rad;
       showing[i] = new CircleObstacle(yMin, rad);
-      generateMore(yMin, i);
+      generateMore(yMin);
       yMin += - rad;
     }
     if (n == 1) {
       yMin+= -150 - rad;
       showing[i] = new SquareObstacle(yMin, rad);
-      generateMore(yMin, i);
+      generateMore(yMin);
       yMin += -rad;
     }
     if (n == 2) {
       yMin += -100 - rad;
       showing[i] = new PlusObstacle(yMin, rad);
-      generateMore(yMin-20, i);
+      generateMore(yMin);
       yMin += -rad;
     }
     if (n == 3) {
       yMin += -100 - rad;
       showing[i] = new TriangleObstacle(myColor, yMin, rad);
-      generateMore(yMin, i);
+      generateMore(yMin);
       yMin += -rad;
     }
-    /*if (n == 4) {
-     yMin += -104;
-     showing[i] = new BarObstacle(yMin);
-     generateMore(yMin-20);
-     yMin += -4;
-     }*/
+    if (n == 4) {
+      yMin += -104;
+      showing[i] = new BarObstacle(yMin);
+      generateMore(yMin-20);
+      yMin += -8;
+    }
   }
 }
 
 
 // initializes first obstacles in random mode
 public void start() {
-  showing[0] = new CircleObstacle(200, 200, 200, 0.02, true);
-  showingPows[0] = new Star(200);
-  showing[1] = new SquareObstacle(200, 200, -150, randomSpeed(), false);
-  showingPows[1] = new ColorChanger(-150);
-  showing[2] = new CircleObstacle(200, 200, -500, randomSpeed(), false);
-  showingPows[2] = new Star(-500);
-  showing[3] = new SquareObstacle(200, 200, -850, randomSpeed(), false);
-  showingPows[3] = new Star(-850);
-  yMin = -850;
+  if (mode=="random") {
+    showing[0] = new CircleObstacle(200, 200, 200, 0.02, true);
+    showing[2] = new SquareObstacle(200, 200, -150, randomSpeed(), false);
+    showing[1] = new CircleObstacle(200, 200, -500, randomSpeed(), false);
+    showing[3] = new Star(200);
+    yMin = -350 - 200;
+  }
 }
 
 
@@ -348,20 +335,16 @@ public void start() {
 public void obstacleShift() {
   if (main.getY()<300) {
     if (mode=="random") {
-      for (int i=0; i<4; i++) {
-        //showing[i].move((300-main.y)/100);
-        //showingPows[i].move((300-main.y)/100);
-        showing[i].move(.9);
-        showingPows[i].move(.9);
+      for ( Blockable b : showing ) {
+        b.move((300-main.y)/100);
       }
-      yMin+=.9+.75;
     }
     if (mode=="challenge") {
       for ( Blockable b : obs) {
-        //b.move((300-main.y)/100);
-        b.move(.9);
+        b.move((300-main.y)/100);
       }
     }
+    yMin+=((300-main.y)/100)+.75;
   }
 }
 
@@ -393,34 +376,20 @@ public void mousePressed() {
   } else if (status == "pause") {
     if (mouseX>=25 && mouseX<=55 && mouseY>=17 && mouseY<=47) {
       status = "play";
-      //start();
-    }
-    if (mouseX>=130 && mouseY>=500 && mouseX<=130+140 && mouseY<=550) {
-      setup();
-      status = "start";
+    } else {
+      status = "play";
     }
     // starts the game
   } else if (status == "start") {
-    if (mouseX>=105 && mouseY>=400 && mouseX<=295 && mouseY<=450) {
-      mode = "challenge";
-      levelBuilder();
-    } else {
-      //if (mouseX>=125 && mouseY>=325 && mouseX<=275  && mouseY<=375) {
-      mode = "random";
-      start();
-      //}
-    }
     status = "play";
+    mode = "random";
+    levelBuilder();
+    start();
     // restarts the gam
   } else if (status == "end") {
     setup();
     status = "play";
-    if (mode == "random") {
-      start();
-    }
-    if (mode == "challenge") {
-      levelBuilder();
-    }
+    start();
   }
 }
 
@@ -451,9 +420,6 @@ public void keyPressed() {
     } else if (status == "pause") {
       status = "play";
     }
-  }
-  if(key == 'g' && status == "play"){
-    main.toggleNatural();
   }
 }
 
@@ -547,17 +513,15 @@ public void startScreen() {
   text("COLOR SWITCH", 200, 270);
 
   fill(86, 199, 162);
-  rect(125, 325, 150, 50, 10);
-  rect(105, 400, 190, 50, 10);
+  rect(150, 325, 100, 50, 10);
   textSize(30);
   fill(0);
-  text("RANDOM", 200, 360);
-  text("CHALLENGE", 200, 360+75);
+  text("PLAY", 200, 360);
 }
 
 public void pauseButton() {
   fill(150, 150, 150, 200);
-  textSize(25);
+  textSize(20);
   rect(25, 17, 30, 30, 10);
   fill(0);
   text("||", 40, 40);
@@ -577,20 +541,11 @@ public void pauseScreen() {
   text("PAUSED", 200, 350);
 
   textSize(20);
-  fill(250);
   text("Score:", 150, 40);
   text("Score to Beat:", 300, 40);
 
   textAlign(CENTER);
-  text("HINT: click space to jump", 200, 400);
-  text("HINT: click 'x' to pause and unpause", 200, 430);
-
-  fill(86, 199, 162);
-  rect(130, 500, 140, 50, 10);
-  fill(0);
-  textSize(25);
-  textAlign(CENTER);
-  text("Main Menu", 200, 530);
+  text("HINT: click 'x' to pause and unpause", 200, 400);
 }
 
 

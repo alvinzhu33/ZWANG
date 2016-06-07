@@ -1,13 +1,13 @@
 public class Star extends Blockable {
-
+  
   // powerup that adds to the score
 
   int type = 3;
 
-  public Star() {
-    super();
+  public Star(){
+    super();  
   }
-
+  
   public Star(float y) {
     /*this.y = y;
      exist = true;*/
@@ -15,22 +15,20 @@ public class Star extends Blockable {
   }
 
   public void display() {
+    noStroke();
     if (exist) {
-      noStroke();
-      if (exist) {
-        fill(255);
-        for (int i=0; i<360; i+=72) {
-          pushMatrix();
-          translate(200, y);
-          rotate(radians(i));
+      fill(255);
+      for (int i=0; i<360; i+=72) {
+        pushMatrix();
+        translate(200, y);
+        rotate(radians(i));
 
-          beginShape();
-          triangle(-6, -8, 0, -18, 6, -8);
-          triangle(-6, -8, 0, 0, 6, -8);
-          endShape();
+        beginShape();
+        triangle(-6, -8, 0, -18, 6, -8);
+        triangle(-6, -8, 0, 0, 6, -8);
+        endShape();
 
-          popMatrix();
-        }
+        popMatrix();
       }
     }
   }
