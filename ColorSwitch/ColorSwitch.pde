@@ -29,7 +29,8 @@ Blockable[] showingPows = new Blockable[4];
 
 //--challenge mode vars---
 Blockable[] obs;
-Blockable[] obstacles = {null, new CircleObstacle()};
+Blockable[] obsP;
+Blockable[] obstacles = {null, new CircleObstacle(), new SquareObstacle(), new PlusObstacle(), new TriangleObstacle(myColor), new BarObstacle()};
 Blockable[] powerups = {null, new ColorChanger(), new Star()};
 Scanner s;
 int numObs;
@@ -39,81 +40,129 @@ int numSets;
 
 // ----------------------------LEVEL BUILDER CODE----------------------------------
 
-private int[][] readConfig(String[] lines ) {
-  int lineCount = lines.length;
+/*private int[][] readConfig(String[] lines ) {
+ int lineCount = lines.length;
+ 
+ int[][] configs = new int[lineCount][] ;
+ 
+ for ( int i = 0; i < lineCount; i++ )
+ {
+ String[] tokens = lines[i].split( " " );
+ int tokenCount = tokens.length;
+ println(tokenCount);
+ int[] data = new int[tokenCount];
+ for ( int j = 0; j < tokenCount-1; j++)
+ {
+ data[j] = Integer.parseInt(tokens[j]);
+ }
+ configs[i] = data;
+ System.out.println (java.util.Arrays.toString(data));
+ }  
+ return configs;
+ }  
+ 
+ public void levelBuilder() {
+ //  try {
+ 
+ String lines[] = loadStrings("level01.txt");
+ 
+ println("there are " + lines.length + " lines");
+ 
+ 
+ int[][] instructions = readConfig(lines);
+ for (int r = 0; r < instructions.length; r++) {
+ println("");
+ for (int c = 0; c < instructions[r].length; c++) {
+ print(instructions[r][c] + " ");
+ }
+ }
+ 
+ numObs = instructions[0][0];
+ numSets = instructions[0][1];
+ 
+ obs = new Blockable[numObs];
+ int xcor;
+ int ycor;
+ int obsCount = 0;
+ Blockable b1, b2;
+ for (int set = 1; set <= numSets; set++) {
+ 
+ xcor = instructions[set][0];
+ ycor = instructions[set][1];
+ println(xcor + " " + ycor);
+ 
+ int first = instructions[set][2];
+ if (first != 0) {
+ b1 = deepClone(obstacles[first]);
+ b1.y = ycor;
+ println("b1 y:" + b1.y);
+ obs[obsCount] = b1;
+ obsCount++;
+ }
+ 
+ int second = instructions[set][3];
+ if (second != 0) {
+ b2 = deepClone(powerups[second]);
+ b2.y = ycor;
+ println("b2 y:" + b2.y);
+ obs[obsCount] = b2;
+ obsCount++;
+ }
+ }
+ 
+ int count = 0;
+ for (Blockable b : obs) {
+ println(count + " " + b.toString());
+ count++;
+ }
+ println("count: " + count);
+ }*/
 
-  int[][] configs = new int[lineCount][] ;
-
-  for ( int i = 0; i < lineCount; i++ )
-  {
-    String[] tokens = lines[i].split( " " );
-    int tokenCount = tokens.length;
-    int[] data = new int[tokenCount];
-    for ( int j = 0; j < tokenCount; j++)
-    {
-      data[j] = Integer.parseInt(tokens[j]);
-    }
-    configs[i] = data;
-    System.out.println (java.util.Arrays.toString(data));
-  }  
-  return configs;
-}  
-
-public void levelBuilder() {
-  //  try {
-
-  String lines[] = loadStrings("level01.txt");
-
-  println("there are " + lines.length + " lines");
-
-
-  int[][] instructions = readConfig(lines);
-  for (int r = 0; r < instructions.length; r++) {
-    println("");
-    for (int c = 0; c < instructions[r].length; c++) {
-      print(instructions[r][c] + " ");
-    }
+/*public void levelBuilder() {
+  print("hell");
+  String filename = "level01.txt";
+  File file;
+  try {
+    file = new File(filename);
+    s = new Scanner(file);
   }
-
-  numObs = instructions[0][0];
-  numSets = instructions[0][1];
-
-  obs = new Blockable[numObs];
-  int xcor;
-  int ycor;
-  int obsCount = 0;
-  Blockable b1, b2;
-  for (int set = 1; set <= numSets; set++) {
-
-    xcor = instructions[set][0];
-    ycor = instructions[set][1];
-    println(xcor + " " + ycor);
-
-    int first = instructions[set][2];
-    if (first != 0) {
-      b1 = deepClone(obstacles[first]);
-      b1.y = ycor;
-      println("b1 y:" + b1.y);
-      obs[obsCount] = b1;
-      obsCount++;
-    }
-
-    int second = instructions[set][3];
-    if (second != 0) {
-      b2 = deepClone(powerups[second]);
-      b2.y = ycor;
-      println("b2 y:" + b2.y);
-      obs[obsCount] = b2;
-      obsCount++;
-    }
+  catch (FileNotFoundException e) {
+    println("nope");
   }
-
-  int count = 0;
-  for (Blockable b : obs) {
-    println(count + " " + b.toString());
-    count++;
-  }
-  println("count: " + count);
+  numObs = s.nextInt();
+    numSets = s.nextInt();
+    obs = new Blockable[numObs];
+    print("ok");
+    
+    for(int i=0; i<numObs; i++){
+        int shape = s.nextInt();
+        float dia = s.nextInt();
+        float x = s.nextInt();
+        float y = s.nextInt();
+        float speed = s.nextFloat();
+        int powerUp = s.nextInt();
+        println(y);
+        
+        if(shape == 1){
+          obs[i]= new CircleObstacle(dia, x, y, speed, randomOri());
+        }else if(shape == 2){
+          obs[i]= new SquareObstacle(dia,x,y,speed,randomOri());
+        }else if(shape==3){
+          obs[i]= new PlusObstacle(dia,x,y,speed,randomOri());
+        }else if(shape==4){
+          obs[i]= new TriangleObstacle(myColor,dia,x,y,speed,randomOri());
+        }else if(shape==5){
+          obs[i]= new BarObstacle(y);
+        }
+        
+        if(powerUp==1){
+          obsP[i] = new Star(y);
+        }else if(powerUp==2){
+          obsP[i] = new ColorChanger(y);
+        }
+    }
+    
+    s.close();
 }
 
 
@@ -134,7 +183,7 @@ public Blockable deepClone(Blockable template) {
   b.clockwise = template.clockwise;
   b.exist = template.exist;
   return b;
-}
+}*/
 
 
 // ----------------------END OF LEVEL BUILDER CODE---------------------------------
@@ -175,7 +224,7 @@ public void draw() {
   // when the game ends
   else if (status == "end") {
     endScreen();
-    if(score>highest){
+    if (score>highest) {
       highest=score;
     }
     String high = "" + highest + "";
@@ -201,14 +250,14 @@ public void playInterface() {
   textSize(32);
   text(highest, 380, 45);
   textSize(26);
-  
+
   fill(86, 199, 162);
   rect(25, 550, 30, 30, 10);
   fill(0);
   textSize(35);
-  if(main.getNatural()){
+  if (main.getNatural()) {
     text("↓", 40, 577);
-  }else{
+  } else {
     text("↑", 40, 577);
   }
 }
@@ -221,10 +270,11 @@ public void play() {
   if (mode == "random") {
     // instructions for random mode
     playRandom();
-  } else if (mode == "challenge") {
+  }/* else if (mode == "challenge") {
     // instructions for challenge mode
+    levelBuilder();
     playChallenge();
-  }
+  }*/
   storeColor();
   obstacleShift();
   main.display();
@@ -403,15 +453,15 @@ public void mousePressed() {
     }
     // starts the game
   } else if (status == "start") {
-    if (mouseX>=105 && mouseY>=400 && mouseX<=295 && mouseY<=450) {
-      mode = "challenge";
-      levelBuilder();
-    } else {
+    //if (mouseX>=105 && mouseY>=400 && mouseX<=295 && mouseY<=450) {
+      //mode = "challenge";
+      //levelBuilder();
+    //} else {
       //if (mouseX>=125 && mouseY>=325 && mouseX<=275  && mouseY<=375) {
       mode = "random";
       start();
       //}
-    }
+    //}
     status = "play";
     // restarts the gam
   } else if (status == "end") {
@@ -420,9 +470,9 @@ public void mousePressed() {
     if (mode == "random") {
       start();
     }
-    if (mode == "challenge") {
+    /*if (mode == "challenge") {
       levelBuilder();
-    }
+    }*/
   }
 }
 
@@ -454,7 +504,7 @@ public void keyPressed() {
       status = "play";
     }
   }
-  if(key == 'g' && status == "play"){
+  if (key == 'g' && status == "play") {
     main.toggleNatural();
   }
 }
@@ -550,15 +600,15 @@ public void startScreen() {
 
   fill(86, 199, 162);
   rect(125, 325, 150, 50, 10);
-  rect(105, 400, 190, 50, 10);
+  //rect(105, 400, 190, 50, 10);
   textSize(30);
   fill(0);
   text("RANDOM", 200, 360);
-  text("CHALLENGE", 200, 360+75);
+  //text("CHALLENGE", 200, 360+75);
 }
 
 public void pauseButton() {
-  fill(86, 199, 162,200);
+  fill(86, 199, 162, 200);
   textSize(25);
   rect(25, 17, 30, 30, 10);
   fill(0);
