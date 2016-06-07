@@ -603,7 +603,7 @@ public void startScreen() {
   //rect(105, 400, 190, 50, 10);
   textSize(30);
   fill(0);
-  text("RANDOM", 200, 360);
+  text("P L A Y", 200, 360);
   //text("CHALLENGE", 200, 360+75);
 }
 
@@ -636,6 +636,7 @@ public void pauseScreen() {
   textAlign(CENTER);
   text("HINT: click space to jump", 200, 400);
   text("HINT: click 'x' to pause and unpause", 200, 430);
+  text("HINT: click 'g' to toggle gravity", 200, 460);
 
   fill(86, 199, 162);
   rect(130, 500, 140, 50, 10);

@@ -38,6 +38,12 @@ We are going to remake the popular game Color Switch. Users must tap the ball ca
 
 6/2: Cleaned up code. Made a better randomize system so things go more smoothly.
 
+6/4: Commented out and reordered code.
+
+6/5: MUCH smoother randomize for both the obstacles and the powerups. Took out the bar obstacle. New intuitive start menu with clickable buttons and etc.
+
+6/6: Updated the interactive interface. Added more buttons and etc. Made the triangle obstacles less messed up. Added new antigravity mode!
+
 ##Outline
 ###Essentials:
 1. Moving ball (ball moves up when clicked, down when left alone)
