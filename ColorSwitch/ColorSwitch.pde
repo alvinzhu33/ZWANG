@@ -179,7 +179,7 @@ public void draw() {
       highest=score;
     }
     String high = "" + highest + "";
-    System.out.println(highest);
+    //System.out.println(highest);
 
     System.out.println("PREV HIGHEST SCORE:" + starsString[0]);
     starsString[0] = high;
@@ -202,7 +202,7 @@ public void playInterface() {
   text(highest, 380, 45);
   textSize(26);
   
-  fill(255);
+  fill(86, 199, 162);
   rect(25, 550, 30, 30, 10);
   fill(0);
   textSize(35);
@@ -485,7 +485,7 @@ public boolean doesCollide(int which) {
     colors[1]!=myColor && colors[1]!=color(0) && colors[1]!=color(255) &&
     colors[2]!=myColor && colors[2]!=color(0) && colors[2]!=color(255) &&
     colors[3]!=myColor && colors[3]!=color(0) && colors[0]!=color(255)) {
-    System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
+    //System.out.println("COLLIDED COLLIDED COLLIDED COLLIDED");
     return true;
   }
   return false;
@@ -498,18 +498,18 @@ public void end() {
     status="end";
   }
   if (top!=myColor && top!=color(0)) {
-    System.out.println("COLLIDED W");
-    printColor(top);
+    //System.out.println("COLLIDED W");
+    //printColor(top);
     if (doesCollide(0)) {
 
       status="end";
-      System.out.println("Top prob");
+      //System.out.println("Top prob");
     }
   }
   if (bottom!=myColor && bottom!=color(0)) {
     if (doesCollide(1)) {
       status="end";
-      System.out.println("Bot prob");
+      //System.out.println("Bot prob");
     }
   }
 }
@@ -558,7 +558,7 @@ public void startScreen() {
 }
 
 public void pauseButton() {
-  fill(150, 150, 150, 200);
+  fill(86, 199, 162,200);
   textSize(25);
   rect(25, 17, 30, 30, 10);
   fill(0);

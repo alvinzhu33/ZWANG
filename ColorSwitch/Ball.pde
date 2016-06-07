@@ -46,7 +46,7 @@ public class Ball {
       } else {
         y-=gravity*3;
         antiCount+=gravity*3;
-        if (antiCount>38) {
+        if (antiCount>40) {
           toggleFalling(true);
           antiCount=0;
         }
@@ -57,7 +57,7 @@ public class Ball {
       } else {
         y+=gravity*3;
         antiCount+=gravity*3;
-        if (antiCount>38) {
+        if (antiCount>40) {
           toggleFalling(true);
           antiCount=0;
         }
